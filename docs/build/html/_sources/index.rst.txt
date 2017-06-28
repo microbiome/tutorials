@@ -6,7 +6,7 @@
 Welcome to tutorial!
 ===============================================
 
-Link to <contribute.rst>__
+Link to <contribute.rst>_
 
 This too :ref:`Contribute`
 

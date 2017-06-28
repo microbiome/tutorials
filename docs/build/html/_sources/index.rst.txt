@@ -3,10 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to microbiome tutorial's documentation!
+Welcome to tutorial!
 ===============================================
 
-Link to `other doc <contributing>`_
+Link to <contribute.rst>__
+
+This too :ref:`Contribute`
 
 Contents:
 

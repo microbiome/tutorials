@@ -1,10 +1,5 @@
-<!--
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{microbiome tutorial - comparisons}
-  %\usepackage[utf8]{inputenc}
-  %\VignetteEncoding{UTF-8}  
--->
-### Contribute
+Contribute
+==========
 
 Contributions are very welcome:
 

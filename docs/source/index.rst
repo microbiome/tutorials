@@ -13,6 +13,7 @@ This too :ref:`Contribute`
 Contents:
 
 .. toctree::
+   :caption: Contents:
    :maxdepth: 2
 	      
    contributing

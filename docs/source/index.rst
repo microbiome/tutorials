@@ -8,9 +8,12 @@ Welcome to tutorial!
 
 Link to `contributions <contributing.html>`_
 
+Atlas `atlas <Atlas.md>`_
+
+Data `data <Data.html>`_
+
 This too :ref:`Contribute`
 
-Contents:
 
 .. toctree::
    :caption: Contents:

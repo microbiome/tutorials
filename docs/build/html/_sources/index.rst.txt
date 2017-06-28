@@ -6,7 +6,7 @@
 Welcome to tutorial!
 ===============================================
 
-Link to <contributing.rst>
+Link to `Link text <contributing.rst>`_
 
 This too :ref:`Contribute`
 

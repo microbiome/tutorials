@@ -6,6 +6,8 @@
 Welcome to microbiome tutorial's documentation!
 ===============================================
 
+Link to other doc :ref:`Contributing <Contribute>`
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

@@ -8,6 +8,8 @@ Welcome to tutorial!
 
 Link to `contributions <contributing.html>`_
 
+Link2 `contributions2 <_static/Data.html>`_
+
 This too :ref:`Contribute`
 
 

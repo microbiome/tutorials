@@ -6,18 +6,12 @@
 Welcome to tutorial!
 ===============================================
 
-Link to `contributions <contributing.html>`_
-
-Link2 `contributions2 <_static/Data.html>`_
-
-This too :ref:`Contribute`
-
-
 .. toctree::
    :caption: Contents:
    :maxdepth: 2
 	      
    contributing
+   `Microbiome tutorial <_static/index.html>`_
 	     
 
 Indices and tables

@@ -166,16 +166,16 @@ pseq.mothur &lt;-<span class="st"> </span><span class="kw">read_phyloseq</span>(
 <span class="kw">print</span>(pseq.biom) 
 
 <span class="co"># Filter the data to include only healthy subjects</span>
-pseq.<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(pseq.biom, ibd_subtype <span class="op">==</span><span class="st"> &quot;HC&quot;</span> <span class="op">&amp;</span><span class="st"> </span>timepoint <span class="op">==</span><span class="st"> &quot;1&quot;</span>) 
-<span class="kw">print</span>(pseq.<span class="dv">1</span>)
+pseq<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(pseq.biom, ibd_subtype <span class="op">==</span><span class="st"> &quot;HC&quot;</span> <span class="op">&amp;</span><span class="st"> </span>timepoint <span class="op">==</span><span class="st"> &quot;1&quot;</span>) 
+<span class="kw">print</span>(pseq<span class="fl">.1</span>)
 <span class="co"># keep only taxa with positive sums</span>
-pseq.<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(pseq.<span class="dv">1</span>) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, pseq.<span class="dv">1</span>)
+pseq<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(pseq<span class="fl">.1</span>) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, pseq<span class="fl">.1</span>)
 
-<span class="kw">print</span>(pseq.<span class="dv">2</span>)
+<span class="kw">print</span>(pseq<span class="fl">.2</span>)
 
 <span class="co"># Calculate compositional version of the data</span>
 <span class="co"># (relative abundances)</span>
-pseq.rel &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">transform</span>(pseq.<span class="dv">2</span>, <span class="st">&quot;compositional&quot;</span>)</code></pre></div>
+pseq.rel &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">transform</span>(pseq<span class="fl">.2</span>, <span class="st">&quot;compositional&quot;</span>)</code></pre></div>
 <div id="prevalence-of-taxonomic-groups" class="section level3">
 <h3>Prevalence of taxonomic groups</h3>
 <p>Relative population frequencies; at 1% compositional abundance threshold:</p>
@@ -188,7 +188,7 @@ pseq.rel &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span
 <p>If you only need the names of the core taxa, do as follows. This returns the taxa that exceed the given prevalence and detection thresholds.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">core.taxa.standard &lt;-<span class="st"> </span><span class="kw">core_members</span>(pseq.rel, <span class="dt">detection =</span> <span class="dv">0</span>, <span class="dt">prevalence =</span> <span class="dv">50</span><span class="op">/</span><span class="dv">100</span>)</code></pre></div>
 <p>A full phyloseq object of the core microbiota is obtained as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pseq.core &lt;-<span class="st"> </span><span class="kw">core</span>(pseq.rel, <span class="dt">detection =</span> <span class="dv">0</span>, <span class="dt">prevalence =</span> .<span class="dv">5</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pseq.core &lt;-<span class="st"> </span><span class="kw">core</span>(pseq.rel, <span class="dt">detection =</span> <span class="dv">0</span>, <span class="dt">prevalence =</span> <span class="fl">.5</span>)</code></pre></div>
 <p>Retrieving the associated taxa names from the phyloseq object:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">core.taxa &lt;-<span class="st"> </span><span class="kw">taxa</span>(pseq.core)
 <span class="kw">class</span>(core.taxa)
@@ -207,7 +207,7 @@ knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">he
 <div id="core-abundance-and-diversity" class="section level3">
 <h3>Core abundance and diversity</h3>
 <p>Total core abundance in each sample (sum of abundances of the core members):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">core.abundance &lt;-<span class="st"> </span><span class="kw">sample_sums</span>(<span class="kw">core</span>(pseq.rel, <span class="dt">detection =</span> .<span class="dv">001</span>, <span class="dt">prevalence =</span> .<span class="dv">95</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">core.abundance &lt;-<span class="st"> </span><span class="kw">sample_sums</span>(<span class="kw">core</span>(pseq.rel, <span class="dt">detection =</span> <span class="fl">.001</span>, <span class="dt">prevalence =</span> <span class="fl">.95</span>))</code></pre></div>
 </div>
 </div>
 <div id="core-visualization" class="section level2">
@@ -217,7 +217,7 @@ knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">he
 <p>Determine core microbiota across various abundance/prevalence thresholds with the blanket analysis <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1469-0691.2012.03855.x/abstract">(Salonen et al. CMI, 2012)</a> based on various signal and prevalences.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With compositional (relative) abundances</span>
 det &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">20</span>)<span class="op">/</span><span class="dv">100</span>
-prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, .<span class="dv">05</span>)
+prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="fl">.05</span>)
 <span class="kw">plot_core</span>(pseq.rel, <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> det, <span class="dt">plot.type =</span> <span class="st">&quot;lineplot&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Relative Abundance (%)&quot;</span>)</code></pre></div>
 </div>
 <div id="core-heatmaps" class="section level3">
@@ -225,13 +225,13 @@ prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span cla
 <p>This visualization method has been used for instance in <a href="https://academic.oup.com/femsre/article/doi/10.1093/femsre/fuw045/2979411/Intestinal-microbiome-landscaping-insight-in#58802539">Intestinal microbiome landscaping: Insight in community assemblage and implications for microbial modulation strategies</a>. Shetty et al. <em>FEMS Microbiology Reviews</em> fuw045, 2017.</p>
 <p>Note that you can order the taxa on the heatmap with the order.taxa argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Core with compositionals:</span>
-prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, .<span class="dv">05</span>)
+prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="fl">.05</span>)
 detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="fl">1e-5</span>), <span class="kw">log10</span>(.<span class="dv">2</span>), <span class="dt">length =</span> <span class="dv">10</span>)
 
 <span class="co"># Also define gray color palette</span>
 gray &lt;-<span class="st"> </span><span class="kw">gray</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">length=</span><span class="dv">5</span>))
 p &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq.rel, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, <span class="dt">colours =</span> gray,
-    <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> detections, <span class="dt">min.prevalence =</span> .<span class="dv">5</span>) <span class="op">+</span>
+    <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> detections, <span class="dt">min.prevalence =</span> <span class="fl">.5</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Detection Threshold (Relative Abundance (%))&quot;</span>)
 <span class="kw">print</span>(p)    
 
@@ -248,13 +248,13 @@ p &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq.rel, <spa
 <span class="kw">library</span>(knitr)
 <span class="co"># Core with absolute counts and vertical view:</span>
 <span class="co"># and minimum population prevalence (given as percentage)</span>
-detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="dv">1</span>), <span class="kw">log10</span>(<span class="kw">max</span>(<span class="kw">abundances</span>(pseq.<span class="dv">2</span>))<span class="op">/</span><span class="dv">10</span>), <span class="dt">length =</span> <span class="dv">10</span>)
+detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="dv">1</span>), <span class="kw">log10</span>(<span class="kw">max</span>(<span class="kw">abundances</span>(pseq<span class="fl">.2</span>))<span class="op">/</span><span class="dv">10</span>), <span class="dt">length =</span> <span class="dv">10</span>)
 
-healthycore &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq.<span class="dv">2</span>, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, 
+healthycore &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq<span class="fl">.2</span>, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, 
              <span class="dt">prevalences =</span> prevalences,
              <span class="dt">detections =</span> detections,
          <span class="dt">colours =</span> <span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">5</span>, <span class="st">&quot;Spectral&quot;</span>)),
-         <span class="dt">min.prevalence =</span> .<span class="dv">90</span>, <span class="dt">horizontal =</span> F)
+         <span class="dt">min.prevalence =</span> <span class="fl">.90</span>, <span class="dt">horizontal =</span> F)
 <span class="co"># get the data used for plotting </span>
 df &lt;-<span class="st"> </span>healthycore<span class="op">$</span>data 
 
@@ -265,7 +265,7 @@ list &lt;-<span class="st"> </span>df<span class="op">$</span>Taxa
 <span class="co"># print(list) </span>
 
 <span class="co"># get the taxonomy data</span>
-tax &lt;-<span class="st"> </span><span class="kw">tax_table</span>(pseq.<span class="dv">2</span>)
+tax &lt;-<span class="st"> </span><span class="kw">tax_table</span>(pseq<span class="fl">.2</span>)
 tax &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(tax)
 
 <span class="co"># add the OTus to last column</span>

@@ -123,7 +123,7 @@ pseq &lt;-<span class="st"> </span>pseq <span class="op">%&gt;%</span><span clas
 pseq &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)
 
 <span class="co"># Keep only the prevalent taxa to speed up examples</span>
-pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> .<span class="dv">1</span><span class="op">/</span><span class="dv">100</span>, <span class="dt">prevalence =</span> <span class="dv">99</span><span class="op">/</span><span class="dv">100</span>)
+pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> <span class="fl">.1</span><span class="op">/</span><span class="dv">100</span>, <span class="dt">prevalence =</span> <span class="dv">99</span><span class="op">/</span><span class="dv">100</span>)
 
 <span class="co"># For cross-sectional analysis, use only the baseline time point:</span>
 pseq0 &lt;-<span class="st"> </span><span class="kw">baseline</span>(pseq)</code></pre></div>
@@ -184,7 +184,7 @@ potential.minima &lt;-<span class="st"> </span><span class="kw">potential_analys
 tipping.point &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span>potential.minima
 
 <span class="kw">print</span>(tipping.point)</code></pre></div>
-<pre><code>## [1] 0.005588107</code></pre>
+<pre><code>## [1] 0.008201674</code></pre>
 </div>
 </div>
 

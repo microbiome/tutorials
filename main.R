@@ -1,8 +1,8 @@
 
-source('init.R')
+# source('init.R')
 library(microbiome)
 library(phyloseq)
-library(netresponse)
+# library(netresponse)
 library(MASS)
 library(dplyr)
 library(tidyr)
@@ -41,7 +41,8 @@ times <- c()
 namespaces0 <-  loadedNamespaces()
 
 #for (myfile in setdiff(fs, "Themes.Rmd")) {
-for (myfile in fs) {
+fix.these <- c("DMM.Rmd")
+for (myfile in setdiff(fs, fix.these)) {
 
     rmarkdown::render(myfile)
 

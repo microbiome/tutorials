@@ -11,7 +11,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 .bioc_packages <- c("dada2", "phyloseq",'SummarizedExperiment','Biobase', 
                     'BiocInstaller', "DECIPHER",'IRanges','BiocGenerics', "phangorn",
                     'BiocStyle', "microbiome", "DESeq2", 'DirichletMultinomial',
-                    'netresponse','microbiomeutilities','')
+                    'netresponse')
 
 # package.version("microbiome")
 #[1] "1.5.31"
@@ -31,6 +31,7 @@ if(any(!.inst)) {
   biocLite(.bioc_packages[!.inst], ask = F)
 }
 install_github('antagomir/netresponse')
+install_github('microsud/microbiomeutilities')
 
 # Load packages into session, and print package version
 sapply(c(.cran_packages, .bioc_packages, 'SpiecEasi', 'ggnet' ), require, character.only = TRUE)

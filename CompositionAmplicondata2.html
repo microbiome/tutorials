@@ -172,7 +172,7 @@ ps2 =<span class="st"> </span><span class="kw">prune_samples</span>(<span class=
 
 <span class="co"># To speed up the example we will use only those OTUs that are detected 100 times and present in 50% of the samples.</span>
 
-pseq2 &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">core</span>(ps2, <span class="dt">detection =</span> <span class="dv">100</span>, <span class="dt">prevalence =</span> .<span class="dv">5</span>)
+pseq2 &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">core</span>(ps2, <span class="dt">detection =</span> <span class="dv">100</span>, <span class="dt">prevalence =</span> <span class="fl">.5</span>)
 
 <span class="co"># Improve the plotting</span>
 <span class="kw">tax_table</span>(pseq2)[<span class="kw">tax_table</span>(pseq2)[,<span class="st">&quot;Family&quot;</span>]<span class="op">==</span><span class="st"> &quot;f__&quot;</span>, <span class="st">&quot;Family&quot;</span> ] &lt;-<span class="st"> &quot;f__Unclassified Family&quot;</span>

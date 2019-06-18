@@ -58,11 +58,11 @@ net <- spiec.easi(t(otu), method='mb', lambda.min.ratio=1e-2, nlambda=5, icov.se
 
 ## Create graph object
 n <- net$refit
-colnames(n) <- rownames(n) <- rownames(otu)
+#colnames(n) <- rownames(n) <- rownames(otu)
 
 # Network format
 library(network)
-netw <- network(as.matrix(n), directed = FALSE)
+#netw <- network(as.matrix(n), directed = FALSE)
 
 # igraph format
 library(igraph)
@@ -82,9 +82,8 @@ library(igraph)
 Investigate degree distribution with the following:
 
 ```{r degree, warning=FALSE, message=FALSE, fig.width=10, fig.height=7, eval=FALSE}
-dd <- degree.distribution(ig)
-plot(0:(length(dd)-1), dd, ylim = c(0,.35), type = 'b', 
-      ylab = "Frequency", xlab = "Degree", main = "Degree Distributions")
+#dd <- degree.distribution(ig)
+#plot(0:(length(dd)-1), dd, ylim = c(0,.35), type = 'b',  ylab = "Frequency", xlab = "Degree", main = "Degree Distributions")
 ```
 
 
@@ -102,8 +101,8 @@ phyla <- map_levels(rownames(otu),
            from = "Genus", to = "Phylum",
            tax_table(pseq))
 
-netw %v% "Phylum" <- phyla
-p <- ggnet2(netw, color = "Phylum", label = TRUE, label.size = 2)
+#netw %v% "Phylum" <- phyla
+#p <- ggnet2(netw, color = "Phylum", label = TRUE, label.size = 2)
 print(p)
 ```
 

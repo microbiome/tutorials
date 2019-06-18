@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-05-09" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-06-18" />
 
 
 <title>Microbiome stability analysis</title>
@@ -123,7 +123,7 @@ pseq &lt;-<span class="st"> </span>pseq <span class="op">%&gt;%</span><span clas
 pseq &lt;-<span class="st"> </span>microbiome<span class="op">::</span><span class="kw">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)
 
 <span class="co"># Keep only the prevalent taxa to speed up examples</span>
-pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> <span class="fl">.1</span><span class="op">/</span><span class="dv">100</span>, <span class="dt">prevalence =</span> <span class="dv">99</span><span class="op">/</span><span class="dv">100</span>)
+pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> .<span class="dv">1</span><span class="op">/</span><span class="dv">100</span>, <span class="dt">prevalence =</span> <span class="dv">99</span><span class="op">/</span><span class="dv">100</span>)
 
 <span class="co"># For cross-sectional analysis, use only the baseline time point:</span>
 pseq0 &lt;-<span class="st"> </span><span class="kw">baseline</span>(pseq)</code></pre></div>
@@ -192,7 +192,7 @@ tipping.point &lt;-<span class="st"> </span><span class="dv">10</span><span clas
 </div>
 
 <div id="postamble" data-toggle="wy-nav-shift" class="status">
-<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-05-09</p>
+<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-06-18</p>
 </div>
 
 

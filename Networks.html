@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-05-09" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-06-18" />
 
 
 <title>Taxonomic network visualization</title>
@@ -123,11 +123,11 @@ net &lt;-<span class="st"> </span><span class="kw">spiec.easi</span>(<span class
 
 ## Create graph object
 n &lt;-<span class="st"> </span>net<span class="op">$</span>refit
-<span class="kw">colnames</span>(n) &lt;-<span class="st"> </span><span class="kw">rownames</span>(n) &lt;-<span class="st"> </span><span class="kw">rownames</span>(otu)
+<span class="co">#colnames(n) &lt;- rownames(n) &lt;- rownames(otu)</span>
 
 <span class="co"># Network format</span>
 <span class="kw">library</span>(network)
-netw &lt;-<span class="st"> </span><span class="kw">network</span>(<span class="kw">as.matrix</span>(n), <span class="dt">directed =</span> <span class="ot">FALSE</span>)
+<span class="co">#netw &lt;- network(as.matrix(n), directed = FALSE)</span>
 
 <span class="co"># igraph format</span>
 <span class="kw">library</span>(igraph)
@@ -142,9 +142,8 @@ netw &lt;-<span class="st"> </span><span class="kw">network</span>(<span class="
 <span class="co"># Visualize the network</span>
 <span class="co"># print(plot(ig, layout = coord, vertex.size = vsize, vertex.label = names(vsize)))</span></code></pre></div>
 <p>Investigate degree distribution with the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dd &lt;-<span class="st"> </span><span class="kw">degree.distribution</span>(ig)
-<span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span>(<span class="kw">length</span>(dd)<span class="op">-</span><span class="dv">1</span>), dd, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,.<span class="dv">35</span>), <span class="dt">type =</span> <span class="st">'b'</span>, 
-      <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Degree&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Degree Distributions&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#dd &lt;- degree.distribution(ig)</span>
+<span class="co">#plot(0:(length(dd)-1), dd, ylim = c(0,.35), type = 'b',  ylab = &quot;Frequency&quot;, xlab = &quot;Degree&quot;, main = &quot;Degree Distributions&quot;)</span></code></pre></div>
 <p>Visualize the network with <a href="https://briatte.github.io/ggnet">ggnet2</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(GGally)
 <span class="kw">library</span>(ggnet)
@@ -157,8 +156,8 @@ phyla &lt;-<span class="st"> </span><span class="kw">map_levels</span>(<span cla
            <span class="dt">from =</span> <span class="st">&quot;Genus&quot;</span>, <span class="dt">to =</span> <span class="st">&quot;Phylum&quot;</span>,
            <span class="kw">tax_table</span>(pseq))
 
-netw <span class="op">%v%</span><span class="st"> &quot;Phylum&quot;</span> &lt;-<span class="st"> </span>phyla
-p &lt;-<span class="st"> </span><span class="kw">ggnet2</span>(netw, <span class="dt">color =</span> <span class="st">&quot;Phylum&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">label.size =</span> <span class="dv">2</span>)
+<span class="co">#netw %v% &quot;Phylum&quot; &lt;- phyla</span>
+<span class="co">#p &lt;- ggnet2(netw, color = &quot;Phylum&quot;, label = TRUE, label.size = 2)</span>
 <span class="kw">print</span>(p)</code></pre></div>
 </div>
 </div>
@@ -167,7 +166,7 @@ p &lt;-<span class="st"> </span><span class="kw">ggnet2</span>(netw, <span class
 </div>
 
 <div id="postamble" data-toggle="wy-nav-shift" class="status">
-<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-05-09</p>
+<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-06-18</p>
 </div>
 
 

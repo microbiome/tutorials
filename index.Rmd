@@ -91,7 +91,11 @@ Tools for microbiome analysis; with multiple example data sets from published st
 
 # Tutorial workflows  
 
-* [HITChip Atlas](Tutorial.html)  
+* [HITChip Atlas](Tutorial.html)
+
+# Developers
+
+* [Rendering information](info.html)  
 
   
 # Development  

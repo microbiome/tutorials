@@ -30,6 +30,7 @@ Let us load example data.
 ```{r DMM0, fig.width=6, fig.height=5, warning=FALSE, message=FALSE}
 library(microbiome)
 library(DirichletMultinomial)
+library(reshape2)
 
 # Load example data
 data(dietswap)
@@ -71,7 +72,7 @@ bic  <- sapply(fit, BIC) # AIC / BIC / Laplace
 Pick the optimal model
 
 ```{r DMM3, fig.width=6, fig.height=5, warning=FALSE, message=FALSE}
-#best <- fit[[which.min(lplc)]]
+best <- fit[[which.min(lplc)]]
 ```
 
 Mixture parameters pi and theta

@@ -21,7 +21,7 @@ output:
 ## Execution times
 
 
-```{r exectime, fig.width=10, fig.height=10, warning=FALSE, message=FALSE}
+```{r exectime, fig.width=10, fig.height=10, warning=FALSE, message=FALSE, out.width="100%"}
 theme_set(theme_bw(20))
 df <- as.data.frame(t(sapply(times, identity)))
 df$file <- rownames(df)

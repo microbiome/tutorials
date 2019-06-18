@@ -56,6 +56,6 @@ for (myfile in setdiff(fs, fix.these)) {
 #system("git add *.Rmd")
 system("git add *.html")
 system("git commit -a -m'homepage update'")
-system("git push origin gh-pages")
+system("git push origin master")
 #system("rm -rf cache")
 #system("rm -rf figure")

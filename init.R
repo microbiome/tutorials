@@ -6,7 +6,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
                     'tidyverse', 'readxl', 'vegan','knitcitations', 'reshape', 'reshape2',
                     'magrittr', 'vegan', 'IRanges','glue','stringr','devtools','captioner', 'rstan','rstanarm',
                     'hrbrthemes', 'gcookbook','GGally', 'rvg','ggiraph','network',
-                    'ggnet','intergraph', 'rmdformats')
+                    'ggnet','intergraph', 'rmdformats', 'FD', 'hrbrthemes')
 
 .bioc_packages <- c("dada2", "phyloseq",'SummarizedExperiment','Biobase', 
                     'BiocInstaller', "DECIPHER",'IRanges','BiocGenerics', "phangorn",

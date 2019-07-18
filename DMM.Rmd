@@ -31,7 +31,8 @@ Let us load example data.
 library(microbiome)
 library(DirichletMultinomial)
 library(reshape2)
-
+library(magrittr)
+library(dplyr)
 # Load example data
 data(dietswap)
 pseq <- dietswap

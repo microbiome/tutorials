@@ -5,12 +5,13 @@ bibliography:
 - bibliography.bib
 output:
   rmdformats::readthedown:
-    self_contained: true
+    self_contained: false
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
     highlight: haddock
+    mathjax: local
 ---
 <!--
   %\VignetteEngine{knitr::rmarkdown}
@@ -99,6 +100,9 @@ thresholds with the blanket analysis [(Salonen et al. CMI, 2012)](http://onlinel
 # With compositional (relative) abundances
 det <- c(0, 0.1, 0.5, 2, 5, 20)/100
 prevalences <- seq(.05, 1, .05)
+ #ggplot(d) + geom_point(aes(x, y)) + scale_x_continuous(trans="log10", limits=c(NA,1))
+
+
 plot_core(pseq.rel, prevalences = prevalences, detections = det, plot.type = "lineplot") + xlab("Relative Abundance (%)")
 ```
 

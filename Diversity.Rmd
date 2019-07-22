@@ -5,14 +5,13 @@ bibliography:
 - bibliography.bib
 output:
   rmdformats::readthedown:
-    #self_contained: true
+    self_contained: true
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
     highlight: haddock
-    mathjax: local
-    self_contained: false
+    
 ---
 <!--
   %\VignetteEngine{knitr::rmarkdown}

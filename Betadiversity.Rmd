@@ -5,12 +5,13 @@ bibliography:
 - bibliography.bib
 output:
   rmdformats::readthedown:
-    self_contained: true
+    self_contained: false
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
     highlight: haddock
+    mathjax: local
     
 ---
 <!--
@@ -128,5 +129,3 @@ p <- ggplot(beta, aes(x = time, y = beta)) +
        geom_point() + geom_line()
 print(p)       
 ```
-
-

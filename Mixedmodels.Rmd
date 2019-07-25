@@ -5,13 +5,12 @@ bibliography:
 - bibliography.bib
 output:
   rmdformats::readthedown:
-    self_contained: false
+    self_contained: true
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
     highlight: haddock
-    mathjax: local
 ---
 <!--
   %\VignetteEngine{knitr::rmarkdown}
@@ -31,6 +30,7 @@ Load example data:
 library(microbiome)
 library(ggplot2)
 library(dplyr)
+library(IRanges)
 
 # Probiotics intervention example data 
 data(peerj32) # Source: https://peerj.com/articles/32/

@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="2019-07-15" />
+<meta name="author" content="2019-07-26" />
 
 
 <title>Dirichlet Multinomial Mixtures</title>
@@ -1554,16 +1554,16 @@ $(document).ready(function () {
 ##   Expectation Maximization
 ##   Hessian
 ##   Soft kmeans
-##     iteration 10 change 0.000070
+##     iteration 10 change 0.000034
 ##   Expectation Maximization setup
 ##   Expectation Maximization
 ##     iteration 10 change 0.000000
 ##   Hessian
 ##   Soft kmeans
-##     iteration 10 change 0.000011
+##     iteration 10 change 0.000016
 ##   Expectation Maximization setup
 ##   Expectation Maximization
-##     iteration 10 change 0.000065
+##     iteration 10 change 0.000063
 ##   Hessian</code></pre>
 <p>Check model fit with different number of mixture components using standard information criteria</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">lplc &lt;-<span class="st"> </span><span class="kw">sapply</span>(fit, laplace) <span class="co"># AIC / BIC / Laplace</span></a>
@@ -1577,9 +1577,9 @@ $(document).ready(function () {
 <p>Mixture parameters pi and theta</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">mixturewt</span>(best)</a></code></pre></div>
 <pre><code>##          pi     theta
-## 1 0.3738028 159.10440
-## 2 0.3188888  81.91181
-## 3 0.3073084  64.24707</code></pre>
+## 1 0.3738026 159.10506
+## 2 0.3188926  81.91174
+## 3 0.3073048  64.24773</code></pre>
 <p>Sample-component assignments</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">ass &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">mixture</span>(best), <span class="dv">1</span>, which.max)</a></code></pre></div>
 <p>Contribution of each taxonomic group to each component</p>
@@ -1607,7 +1607,7 @@ $(document).ready(function () {
 </div>
 
 <div id="postamble" data-toggle="wy-nav-shift" class="status">
-<p class="author"><span class="glyphicon glyphicon-user"></span> 2019-07-15</p>
+<p class="author"><span class="glyphicon glyphicon-user"></span> 2019-07-26</p>
 </div>
 
 

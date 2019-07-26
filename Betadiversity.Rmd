@@ -11,7 +11,7 @@ output:
     gallery: true
     use_bookdown: false
     highlight: haddock
-    mathjax: NULL
+    
     
 ---
 <!--

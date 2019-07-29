@@ -41,6 +41,7 @@ library(BiocManager)
 #useDevel()
 BiocManager::install(version='devel')
 BiocManager::install("microbiome")
+
 ```
 
 Alternatively, to install the bleeding edge (potentially unstable)

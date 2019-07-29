@@ -20,7 +20,7 @@ welcome.
 
 ### Installation and use
 
-See the package [tutorial](http://microbiome.github.io/microbiome/).
+See the package [tutorial](http://microbiome.github.io/tutorials/).
 
 
 ### Contribute

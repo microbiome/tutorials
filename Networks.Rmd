@@ -91,7 +91,7 @@ Visualize the network with [ggnet2](https://briatte.github.io/ggnet):
 
 ```{r networks5, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = FALSE}
 library(GGally)
-library(ggnet)
+#library(ggnet)
 library(network)
 library(sna)
 library(ggplot2)

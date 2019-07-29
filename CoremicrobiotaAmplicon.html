@@ -1637,81 +1637,83 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># With compositional (relative) abundances</span></a>
 <a class="sourceLine" id="cb11-2" title="2">det &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">20</span>)<span class="op">/</span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb11-3" title="3">prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="fl">.05</span>)</a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="kw">plot_core</span>(pseq.rel, <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> det, <span class="dt">plot.type =</span> <span class="st">&quot;lineplot&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Relative Abundance (%)&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb11-4" title="4">p&lt;-<span class="kw">plot_core</span>(pseq.rel, <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> det, <span class="dt">plot.type =</span> <span class="st">&quot;lineplot&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Relative Abundance (%)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">print</span>(p)</a></code></pre></div>
 </div>
 <div id="core-heatmaps" class="section level3">
 <h3>Core heatmaps</h3>
 <p>This visualization method has been used for instance in <a href="https://academic.oup.com/femsre/article/doi/10.1093/femsre/fuw045/2979411/Intestinal-microbiome-landscaping-insight-in#58802539">Intestinal microbiome landscaping: Insight in community assemblage and implications for microbial modulation strategies</a>. Shetty et al. <em>FEMS Microbiology Reviews</em> fuw045, 2017.</p>
 <p>Note that you can order the taxa on the heatmap with the order.taxa argument.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Core with compositionals:</span></a>
-<a class="sourceLine" id="cb12-2" title="2">prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="fl">.05</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3">detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="fl">1e-5</span>), <span class="kw">log10</span>(.<span class="dv">2</span>), <span class="dt">length =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb12-4" title="4"></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="co"># Also define gray color palette</span></a>
-<a class="sourceLine" id="cb12-6" title="6">gray &lt;-<span class="st"> </span><span class="kw">gray</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">length=</span><span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb12-7" title="7">p &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq.rel, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, <span class="dt">colours =</span> gray,</a>
-<a class="sourceLine" id="cb12-8" title="8">    <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> detections, <span class="dt">min.prevalence =</span> <span class="fl">.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-9" title="9"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Detection Threshold (Relative Abundance (%))&quot;</span>)</a>
-<a class="sourceLine" id="cb12-10" title="10"><span class="kw">print</span>(p)    </a>
-<a class="sourceLine" id="cb12-11" title="11"></a>
-<a class="sourceLine" id="cb12-12" title="12"></a>
-<a class="sourceLine" id="cb12-13" title="13"><span class="co"># Same with the viridis color palette</span></a>
-<a class="sourceLine" id="cb12-14" title="14"><span class="co"># color-blind friendly and uniform</span></a>
-<a class="sourceLine" id="cb12-15" title="15"><span class="co"># options: viridis, magma, plasma, inferno</span></a>
-<a class="sourceLine" id="cb12-16" title="16"><span class="co"># https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html</span></a>
-<a class="sourceLine" id="cb12-17" title="17"><span class="co"># Also discrete=TRUE versions available</span></a>
-<a class="sourceLine" id="cb12-18" title="18"><span class="kw">library</span>(viridis)</a>
-<a class="sourceLine" id="cb12-19" title="19"><span class="kw">print</span>(p <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># Core with compositionals:</span></a>
+<a class="sourceLine" id="cb13-2" title="2">prevalences &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb13-3" title="3">detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="fl">1e-5</span>), <span class="kw">log10</span>(.<span class="dv">2</span>), <span class="dt">length =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb13-4" title="4"></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="co"># Also define gray color palette</span></a>
+<a class="sourceLine" id="cb13-6" title="6">gray &lt;-<span class="st"> </span><span class="kw">gray</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">length=</span><span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb13-7" title="7">p1 &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq.rel, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, <span class="dt">colours =</span> gray,</a>
+<a class="sourceLine" id="cb13-8" title="8">    <span class="dt">prevalences =</span> prevalences, <span class="dt">detections =</span> detections, <span class="dt">min.prevalence =</span> <span class="fl">.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Detection Threshold (Relative Abundance (%))&quot;</span>)</a>
+<a class="sourceLine" id="cb13-10" title="10"></a>
+<a class="sourceLine" id="cb13-11" title="11"></a>
+<a class="sourceLine" id="cb13-12" title="12"></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co"># Same with the viridis color palette</span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co"># color-blind friendly and uniform</span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co"># options: viridis, magma, plasma, inferno</span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co"># https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html</span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co"># Also discrete=TRUE versions available</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">print</span>(p1)</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="kw">library</span>(viridis)</a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="kw">print</span>(p1 <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis</span>())</a></code></pre></div>
 <p>As it can be seen, we see only OTu IDs and this may not be useful to interpret the data. We need to repreoccess this figure to include taxonomic information. We can do this as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">library</span>(RColorBrewer)</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="co"># Core with absolute counts and vertical view:</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="co"># and minimum population prevalence (given as percentage)</span></a>
-<a class="sourceLine" id="cb13-5" title="5">detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="dv">1</span>), <span class="kw">log10</span>(<span class="kw">max</span>(<span class="kw">abundances</span>(pseq<span class="fl">.2</span>))<span class="op">/</span><span class="dv">10</span>), <span class="dt">length =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb13-6" title="6"></a>
-<a class="sourceLine" id="cb13-7" title="7">healthycore &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq<span class="fl">.2</span>, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, </a>
-<a class="sourceLine" id="cb13-8" title="8">             <span class="dt">prevalences =</span> prevalences,</a>
-<a class="sourceLine" id="cb13-9" title="9">             <span class="dt">detections =</span> detections,</a>
-<a class="sourceLine" id="cb13-10" title="10">         <span class="dt">colours =</span> <span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">5</span>, <span class="st">&quot;Spectral&quot;</span>)),</a>
-<a class="sourceLine" id="cb13-11" title="11">         <span class="dt">min.prevalence =</span> <span class="fl">.90</span>, <span class="dt">horizontal =</span> F)</a>
-<a class="sourceLine" id="cb13-12" title="12"><span class="co"># get the data used for plotting </span></a>
-<a class="sourceLine" id="cb13-13" title="13">df &lt;-<span class="st"> </span>healthycore<span class="op">$</span>data </a>
-<a class="sourceLine" id="cb13-14" title="14"></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="co"># get the list of OTUs</span></a>
-<a class="sourceLine" id="cb13-16" title="16">list &lt;-<span class="st"> </span>df<span class="op">$</span>Taxa </a>
-<a class="sourceLine" id="cb13-17" title="17"></a>
-<a class="sourceLine" id="cb13-18" title="18"><span class="co"># check the OTU ids</span></a>
-<a class="sourceLine" id="cb13-19" title="19"><span class="co"># print(list) </span></a>
-<a class="sourceLine" id="cb13-20" title="20"></a>
-<a class="sourceLine" id="cb13-21" title="21"><span class="co"># get the taxonomy data</span></a>
-<a class="sourceLine" id="cb13-22" title="22">tax &lt;-<span class="st"> </span><span class="kw">tax_table</span>(pseq<span class="fl">.2</span>)</a>
-<a class="sourceLine" id="cb13-23" title="23">tax &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(tax)</a>
-<a class="sourceLine" id="cb13-24" title="24"></a>
-<a class="sourceLine" id="cb13-25" title="25"><span class="co"># add the OTus to last column</span></a>
-<a class="sourceLine" id="cb13-26" title="26">tax<span class="op">$</span>OTU &lt;-<span class="st"> </span><span class="kw">rownames</span>(tax)</a>
-<a class="sourceLine" id="cb13-27" title="27"></a>
-<a class="sourceLine" id="cb13-28" title="28"><span class="co"># select taxonomy of only </span></a>
-<a class="sourceLine" id="cb13-29" title="29"><span class="co"># those OTUs that are used in the plot</span></a>
-<a class="sourceLine" id="cb13-30" title="30">tax2 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(tax, <span class="kw">rownames</span>(tax) <span class="op">%in%</span><span class="st"> </span>list) </a>
-<a class="sourceLine" id="cb13-31" title="31"></a>
-<a class="sourceLine" id="cb13-32" title="32"><span class="co"># head(tax2)</span></a>
-<a class="sourceLine" id="cb13-33" title="33"></a>
-<a class="sourceLine" id="cb13-34" title="34"><span class="co"># We will merege all the column into one except the Doamin as all is bacteria in this case</span></a>
-<a class="sourceLine" id="cb13-35" title="35">tax.unit &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">unite</span>(tax2, Taxa_level,<span class="kw">c</span>(<span class="st">&quot;Domain&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>, <span class="st">&quot;OTU&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_;&quot;</span>, <span class="dt">remove =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb13-36" title="36"></a>
-<a class="sourceLine" id="cb13-37" title="37">tax.unit<span class="op">$</span>Taxa_level &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="dt">pattern=</span><span class="st">&quot;[a-z]__&quot;</span>,<span class="dt">replacement=</span><span class="st">&quot;&quot;</span>, tax.unit<span class="op">$</span>Taxa_level)</a>
-<a class="sourceLine" id="cb13-38" title="38"></a>
-<a class="sourceLine" id="cb13-39" title="39"><span class="co"># add this new information into the plot data df</span></a>
-<a class="sourceLine" id="cb13-40" title="40"></a>
-<a class="sourceLine" id="cb13-41" title="41">df<span class="op">$</span>Taxa &lt;-<span class="st"> </span>tax.unit<span class="op">$</span>Taxa_level</a>
-<a class="sourceLine" id="cb13-42" title="42"></a>
-<a class="sourceLine" id="cb13-43" title="43"><span class="co"># you can see now we have the taxonomic information</span></a>
-<a class="sourceLine" id="cb13-44" title="44">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(df))</a>
-<a class="sourceLine" id="cb13-45" title="45"></a>
-<a class="sourceLine" id="cb13-46" title="46"><span class="co"># replace the data in the plot object</span></a>
-<a class="sourceLine" id="cb13-47" title="47">healthycore<span class="op">$</span>data &lt;-<span class="st"> </span>df</a>
-<a class="sourceLine" id="cb13-48" title="48"></a>
-<a class="sourceLine" id="cb13-49" title="49"><span class="kw">plot</span>(healthycore <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">library</span>(RColorBrewer)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co"># Core with absolute counts and vertical view:</span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co"># and minimum population prevalence (given as percentage)</span></a>
+<a class="sourceLine" id="cb15-5" title="5">detections &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="kw">log10</span>(<span class="dv">1</span>), <span class="kw">log10</span>(<span class="kw">max</span>(<span class="kw">abundances</span>(pseq<span class="fl">.2</span>))<span class="op">/</span><span class="dv">10</span>), <span class="dt">length =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb15-6" title="6"></a>
+<a class="sourceLine" id="cb15-7" title="7">healthycore &lt;-<span class="st"> </span><span class="kw">plot_core</span>(pseq<span class="fl">.2</span>, <span class="dt">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>, </a>
+<a class="sourceLine" id="cb15-8" title="8">             <span class="dt">prevalences =</span> prevalences,</a>
+<a class="sourceLine" id="cb15-9" title="9">             <span class="dt">detections =</span> detections,</a>
+<a class="sourceLine" id="cb15-10" title="10">         <span class="dt">colours =</span> <span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dv">5</span>, <span class="st">&quot;Spectral&quot;</span>)),</a>
+<a class="sourceLine" id="cb15-11" title="11">         <span class="dt">min.prevalence =</span> <span class="fl">.90</span>, <span class="dt">horizontal =</span> F)</a>
+<a class="sourceLine" id="cb15-12" title="12"><span class="co"># get the data used for plotting </span></a>
+<a class="sourceLine" id="cb15-13" title="13">df &lt;-<span class="st"> </span>healthycore<span class="op">$</span>data </a>
+<a class="sourceLine" id="cb15-14" title="14"></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="co"># get the list of OTUs</span></a>
+<a class="sourceLine" id="cb15-16" title="16">list &lt;-<span class="st"> </span>df<span class="op">$</span>Taxa </a>
+<a class="sourceLine" id="cb15-17" title="17"></a>
+<a class="sourceLine" id="cb15-18" title="18"><span class="co"># check the OTU ids</span></a>
+<a class="sourceLine" id="cb15-19" title="19"><span class="co"># print(list) </span></a>
+<a class="sourceLine" id="cb15-20" title="20"></a>
+<a class="sourceLine" id="cb15-21" title="21"><span class="co"># get the taxonomy data</span></a>
+<a class="sourceLine" id="cb15-22" title="22">tax &lt;-<span class="st"> </span><span class="kw">tax_table</span>(pseq<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb15-23" title="23">tax &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(tax)</a>
+<a class="sourceLine" id="cb15-24" title="24"></a>
+<a class="sourceLine" id="cb15-25" title="25"><span class="co"># add the OTus to last column</span></a>
+<a class="sourceLine" id="cb15-26" title="26">tax<span class="op">$</span>OTU &lt;-<span class="st"> </span><span class="kw">rownames</span>(tax)</a>
+<a class="sourceLine" id="cb15-27" title="27"></a>
+<a class="sourceLine" id="cb15-28" title="28"><span class="co"># select taxonomy of only </span></a>
+<a class="sourceLine" id="cb15-29" title="29"><span class="co"># those OTUs that are used in the plot</span></a>
+<a class="sourceLine" id="cb15-30" title="30">tax2 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(tax, <span class="kw">rownames</span>(tax) <span class="op">%in%</span><span class="st"> </span>list) </a>
+<a class="sourceLine" id="cb15-31" title="31"></a>
+<a class="sourceLine" id="cb15-32" title="32"><span class="co"># head(tax2)</span></a>
+<a class="sourceLine" id="cb15-33" title="33"></a>
+<a class="sourceLine" id="cb15-34" title="34"><span class="co"># We will merege all the column into one except the Doamin as all is bacteria in this case</span></a>
+<a class="sourceLine" id="cb15-35" title="35">tax.unit &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">unite</span>(tax2, Taxa_level,<span class="kw">c</span>(<span class="st">&quot;Domain&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>, <span class="st">&quot;OTU&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_;&quot;</span>, <span class="dt">remove =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-36" title="36"></a>
+<a class="sourceLine" id="cb15-37" title="37">tax.unit<span class="op">$</span>Taxa_level &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="dt">pattern=</span><span class="st">&quot;[a-z]__&quot;</span>,<span class="dt">replacement=</span><span class="st">&quot;&quot;</span>, tax.unit<span class="op">$</span>Taxa_level)</a>
+<a class="sourceLine" id="cb15-38" title="38"></a>
+<a class="sourceLine" id="cb15-39" title="39"><span class="co"># add this new information into the plot data df</span></a>
+<a class="sourceLine" id="cb15-40" title="40"></a>
+<a class="sourceLine" id="cb15-41" title="41">df<span class="op">$</span>Taxa &lt;-<span class="st"> </span>tax.unit<span class="op">$</span>Taxa_level</a>
+<a class="sourceLine" id="cb15-42" title="42"></a>
+<a class="sourceLine" id="cb15-43" title="43"><span class="co"># you can see now we have the taxonomic information</span></a>
+<a class="sourceLine" id="cb15-44" title="44">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(df))</a>
+<a class="sourceLine" id="cb15-45" title="45"></a>
+<a class="sourceLine" id="cb15-46" title="46"><span class="co"># replace the data in the plot object</span></a>
+<a class="sourceLine" id="cb15-47" title="47">healthycore<span class="op">$</span>data &lt;-<span class="st"> </span>df</a>
+<a class="sourceLine" id="cb15-48" title="48"></a>
+<a class="sourceLine" id="cb15-49" title="49"><span class="kw">plot</span>(healthycore <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>)))</a></code></pre></div>
 </div>
 </div>
 </div>

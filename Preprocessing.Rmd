@@ -285,7 +285,7 @@ merge_phyloseq(pseqA, pseqB)
 ```
 
 
-## Rarification
+## Rarefaction
 
 ```{r preprocess-rarify, warning=FALSE, message=FALSE, eval=FALSE}
 pseq.rarified <- rarefy_even_depth(pseq)

@@ -30,7 +30,8 @@ Load example data:
 # Load libraries
 library(microbiome)
 library(ggplot2)
-
+library(magrittr)
+library(dplyr)
 # Probiotics intervention example data 
 data(dietswap) 
 
@@ -45,7 +46,8 @@ Toy example, to be polished:
 library(phyloseq)
 library(reshape2)
 library(DESeq2)
-
+library(knitr)
+library(magrittr)
 # Running the DESeq2 analysis
 ds2 <- phyloseq_to_deseq2(pseq, ~ nationality)
 dds <- DESeq(ds2)
@@ -84,7 +86,7 @@ p<- p + geom_point()
 #plot(xlim=log10(df$padj), log10(ano$padj), type = 'l', xlim = "DESeq2 adjusted p-value",  ylim("ANOVA adjusted p-value"))
 ```
 
-```{r venn_plot, echo=F, message=F, error=F}
+```{r plot_for_ven, echo=F, message=F, error=F}
 venn( list(ANOVA = taxa.anova,DESeq2 = taxa.deseq))
 ```
 

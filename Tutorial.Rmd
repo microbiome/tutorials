@@ -32,7 +32,7 @@ The tutorial slides are available [here](https://github.com/antagomir/antagomir.
 
 # Installation
 
-Launch R/RStudio and install the microbiome R package (see [installation instructions](http://microbiome.github.io/microbiome/Installation.html)).
+Launch R/RStudio and install the microbiome R package (see [installation instructions](http://microbiome.github.io/tutorials/Installation.html)).
 
 To initiate reproducible documentation, do the following in RStudio:
 
@@ -132,6 +132,6 @@ print(p)
 
 # Other tools
 
-Explore further tools in [microbiome tutorial](http://microbiome.github.io/microbiome/).
+Explore further tools in [microbiome tutorial](http://microbiome.github.io/tutorials/).
 
 

@@ -1,13 +1,13 @@
-library(BiocManager)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
+library(BiocManager)
 
 
-.cran_packages <- c("ggplot2", "gridExtra",'ape', 'dplyr','ggpubr', 'knitr','Cairo','devtools','data.table','splitstackshape', 'rmarkdown',
-                    'tidyverse', 'readxl', 'vegan','knitcitations', 'reshape', 'reshape2',
-                    'magrittr', 'vegan', 'IRanges','glue','stringr','devtools','captioner', 'rstan','rstanarm',
+.cran_packages <- c("ggplot2", "gridExtra",'ape', 'dplyr','ggpubr', 'knitr','Cairo','devtools','data.table', 
+                    'splitstackshape', 'rmarkdown', 'tidyverse', 'readxl', 'vegan','knitcitations', 'reshape', 'reshape2', 
+                    'magrittr', 'vegan', 'glue','stringr','devtools','captioner', 'rstan','rstanarm',
                     'hrbrthemes', 'gcookbook','GGally', 'rvg','ggiraph','network', 'gplots',
-                    'ggnet','intergraph', 'rmdformats', 'FD', 'hrbrthemes', 'GGally', 'lattice')
+                    'intergraph', 'rmdformats', 'FD', 'hrbrthemes', 'GGally', 'lattice')
 
 .bioc_packages <- c("dada2", "phyloseq",'SummarizedExperiment','Biobase', 
                    "DECIPHER",'IRanges','BiocGenerics', "phangorn",
@@ -19,6 +19,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 if(any(!.inst)) {
   install.packages(.cran_packages[!.inst])
 }
+sapply(.cran_packages, require, character.only = TRUE)
+
 
 library('devtools')
 install_github('zdk123/SpiecEasi')

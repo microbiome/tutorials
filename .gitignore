@@ -13,7 +13,6 @@ cache/
 figure/
 *~
 *.md
-LICENSE
-NAMESPACE
-tmp
-misc
+LICENSE.txt
+NAMESPACE.txt
+tmp.rmd

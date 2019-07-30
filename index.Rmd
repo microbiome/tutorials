@@ -89,9 +89,12 @@ Tools for microbiome analysis; with multiple example data sets from published st
 * [Community comparisons](Comparisons.html) ([limma](limma.html), [PERMANOVA](PERMANOVA.html), [mixed models](Mixedmodels.html), [negative binomial](Negativebinomial.html)  etc)
 * [Experimental tools](Experimental.html)
 
+
 # Tutorial workflows  
 
 * [HITChip Atlas](Tutorial.html)
+* [Univariate tests for two-group comparison](all.html)
+
 
 # Developers
 

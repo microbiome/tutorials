@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-07-18" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-07-30" />
 
 
 <title>Experimental methods</title>
@@ -1585,9 +1585,8 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb2-5" title="5">m &lt;-<span class="st"> </span><span class="kw">mixture.model</span>(x, <span class="dt">mixture.method =</span> <span class="st">&quot;vdp&quot;</span>, <span class="dt">max.responses =</span> <span class="dv">10</span>) </a>
 <a class="sourceLine" id="cb2-6" title="6"></a>
 <a class="sourceLine" id="cb2-7" title="7"><span class="co"># Plot the data and estimated modes</span></a>
-<a class="sourceLine" id="cb2-8" title="8">p &lt;-<span class="st"> </span><span class="kw">PlotMixtureUnivariate</span>(x, <span class="dt">means =</span> m<span class="op">$</span>mu, <span class="dt">sds =</span> m<span class="op">$</span>sd, <span class="dt">ws =</span> m<span class="op">$</span>w, <span class="dt">binwidth =</span> <span class="fl">0.1</span>, <span class="dt">qofz =</span> m<span class="op">$</span>qofz)</a>
-<a class="sourceLine" id="cb2-9" title="9"></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="kw">print</span>(p)</a></code></pre></div>
+<a class="sourceLine" id="cb2-8" title="8">p1 &lt;-<span class="st"> </span><span class="kw">PlotMixtureUnivariate</span>(x, <span class="dt">means =</span> m<span class="op">$</span>mu, <span class="dt">sds =</span> m<span class="op">$</span>sd, <span class="dt">ws =</span> m<span class="op">$</span>w, <span class="dt">binwidth =</span> <span class="fl">0.1</span>, <span class="dt">qofz =</span> m<span class="op">$</span>qofz)</a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="kw">print</span>(p1)</a></code></pre></div>
 </div>
 <div id="clustering-samples-with-mixed-variables" class="section level2">
 <h2>Clustering samples with mixed variables</h2>
@@ -1597,8 +1596,7 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb3-3" title="3"></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="kw">library</span>(FD)</a>
 <a class="sourceLine" id="cb3-5" title="5">d &lt;-<span class="st"> </span><span class="kw">gowdis</span>(<span class="kw">as</span>(<span class="kw">sample_data</span>(dietswap), <span class="st">&quot;data.frame&quot;</span>))</a>
-<a class="sourceLine" id="cb3-6" title="6"></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="kw">plot</span>(<span class="kw">hclust</span>(d))</a></code></pre></div>
+<a class="sourceLine" id="cb3-6" title="6"><span class="kw">plot</span>(<span class="kw">hclust</span>(d))</a></code></pre></div>
 </div>
 </div>
 <div id="interactive-plots" class="section level1">
@@ -1629,7 +1627,9 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb4-24" title="24"><span class="st">    </span><span class="kw">geom_point_interactive</span>(<span class="dt">size=</span><span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb4-25" title="25"></a>
 <a class="sourceLine" id="cb4-26" title="26"><span class="co"># htmlwidget call</span></a>
-<a class="sourceLine" id="cb4-27" title="27"><span class="kw">ggiraph</span>(<span class="dt">code =</span> {<span class="kw">print</span>(gg_point_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>mytheme_main)}, <span class="dt">width =</span> <span class="dv">7</span>, <span class="dt">height =</span> <span class="dv">6</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co"># original code</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co">#ggiraph(code = {print(gg_point_1 + mytheme_main)}, width = 7, height = 6)</span></a>
+<a class="sourceLine" id="cb5-2" title="2">ggiraph<span class="op">::</span><span class="kw">ggiraph</span>(<span class="dt">code =</span> {<span class="kw">print</span>(gg_point_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>mytheme_main)}, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">height =</span> <span class="dv">6</span>)</a></code></pre></div>
 </div>
 <div id="phylogenetic-microarrays" class="section level1">
 <h1>Phylogenetic microarrays</h1>
@@ -1641,138 +1641,138 @@ $(document).ready(function () {
 <div id="importing-hitchip-data-to-phyloseq-format" class="section level2">
 <h2>Importing HITChip data to phyloseq format</h2>
 <p>Define the data folder.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Define example data path (replace here data.directory with your own path)</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">library</span>(microbiome)</a>
-<a class="sourceLine" id="cb5-3" title="3">data.directory &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>)</a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="kw">print</span>(data.directory)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Define example data path (replace here data.directory with your own path)</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">library</span>(microbiome)</a>
+<a class="sourceLine" id="cb6-3" title="3">data.directory &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>)</a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#print(data.directory)</span></a></code></pre></div>
 </div>
 <div id="installing-hitchipdb-package" class="section level2">
 <h2>Installing HITChipDB package</h2>
 <p>The HITChipDB package contains additional routines to fetch and preprocess HITChip (or MIT/PITChip) data from the MySQL database. Note that this package is <strong>not needed by most users</strong> and the data is protected by password/IP combinations. Ask details from admins. Install the package in R with:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">library</span>(microbiome)</a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Install additional dependencies</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">source</span>(<span class="st">&quot;http://www.bioconductor.org/biocLite.R&quot;</span>)</a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="kw">biocLite</span>(<span class="st">&quot;DBI&quot;</span>)</a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="kw">biocLite</span>(<span class="st">&quot;RPA&quot;</span>)</a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="kw">biocLite</span>(<span class="st">&quot;svDialogs&quot;</span>)</a>
-<a class="sourceLine" id="cb7-7" title="7"></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="kw">library</span>(devtools) <span class="co"># Load the devtools package</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="kw">install_github</span>(<span class="st">&quot;microbiome/HITChipDB&quot;</span>) <span class="co"># Install the package</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co"># Also install RMySQL, multicore and tcltk !</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="kw">source</span>(<span class="st">&quot;http://www.bioconductor.org/biocLite.R&quot;</span>)</a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="kw">biocLite</span>(<span class="st">&quot;RMySQL&quot;</span>) <span class="co"># multicore, tcltk?</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co"># Test installation by loading the microbiome package in R</span></a>
-<a class="sourceLine" id="cb7-14" title="14"><span class="kw">library</span>(<span class="st">&quot;HITChipDB&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(microbiome)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># Install additional dependencies</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#source(&quot;http://www.bioconductor.org&quot;)</span></a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;DBI&quot;</span>)</a>
+<a class="sourceLine" id="cb8-5" title="5">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;RPA&quot;</span>)</a>
+<a class="sourceLine" id="cb8-6" title="6">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;svDialogs&quot;</span>)</a>
+<a class="sourceLine" id="cb8-7" title="7"></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="kw">library</span>(devtools) <span class="co"># Load the devtools package</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="kw">install_github</span>(<span class="st">&quot;microbiome/HITChipDB&quot;</span>) <span class="co"># Install the package</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co"># Also install RMySQL, multicore and tcltk !</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#source(&quot;http://www.bioconductor.org&quot;)</span></a>
+<a class="sourceLine" id="cb8-12" title="12">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;RMySQL&quot;</span>) <span class="co"># multicore, tcltk?</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co"># Test installation by loading the microbiome package in R</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="kw">library</span>(<span class="st">&quot;HITChipDB&quot;</span>)</a></code></pre></div>
 <p>With HITChip, <a href="http://www.computer.org/csdl/trans/tb/2011/01/ttb2011010217-abs.html">fRPA</a> is the recommended preprocessing method. You can add new metadata fields in the template metadata file in your HITChip data folder and exporting it again to tab-separated .tab format. Some standard, self-explanatory field names include ‘sample’, ‘time’, ‘subject’, ‘group’, ‘gender’, ‘diet’, ‘age’. You can leave these out or include further fields. Import HITChip phylotype-level data in <a href="https://github.com/joey711/phyloseq">phyloseq</a> format (note: the precalculated matrices are calculated with detection = 0):</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">library</span>(HITChipDB)</a>
-<a class="sourceLine" id="cb8-2" title="2">pseq &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>pseq</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">library</span>(HITChipDB)</a>
+<a class="sourceLine" id="cb9-2" title="2">pseq &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>pseq</a></code></pre></div>
 <p>Get higher taxonomic levels, use (on HITChip we use L1/L2 instead of Phylum/Genus):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">pseq.L2 &lt;-<span class="st"> </span><span class="kw">aggregate_taxa</span>(pseq, <span class="dt">level =</span> <span class="st">&quot;L2&quot;</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2">pseq.L1 &lt;-<span class="st"> </span><span class="kw">aggregate_taxa</span>(pseq, <span class="dt">level =</span> <span class="st">&quot;L1&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">pseq.L2 &lt;-<span class="st"> </span><span class="kw">aggregate_taxa</span>(pseq, <span class="dt">level =</span> <span class="st">&quot;L2&quot;</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">pseq.L1 &lt;-<span class="st"> </span><span class="kw">aggregate_taxa</span>(pseq, <span class="dt">level =</span> <span class="st">&quot;L1&quot;</span>)</a></code></pre></div>
 <p>Importing HITChip probe-level data and taxonomy from HITChip output directory (these are not available in the phyloseq object):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">probedata &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>probedata</a>
-<a class="sourceLine" id="cb10-2" title="2">taxonomy.full &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>taxonomy.full</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">probedata &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>probedata</a>
+<a class="sourceLine" id="cb11-2" title="2">taxonomy.full &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">read_hitchip</span>(data.directory, <span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>)<span class="op">$</span>taxonomy.full</a></code></pre></div>
 <p>Convert your own data into phyloseq format as follows:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># We need to choose the HITChip data level to be used in the analyses</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="co"># In this example use HITChip L2 data (note: this is in absolute scale)</span></a>
-<a class="sourceLine" id="cb11-3" title="3">res &lt;-<span class="st"> </span><span class="kw">read_hitchip</span>(<span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>, <span class="dt">data.dir =</span> data.directory)</a>
-<a class="sourceLine" id="cb11-4" title="4"></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="co"># Species-level data matrix</span></a>
-<a class="sourceLine" id="cb11-6" title="6">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(res<span class="op">$</span>pseq)<span class="op">@</span>.Data </a>
-<a class="sourceLine" id="cb11-7" title="7"></a>
-<a class="sourceLine" id="cb11-8" title="8"><span class="co"># Corresponding sample metadata</span></a>
-<a class="sourceLine" id="cb11-9" title="9">meta &lt;-<span class="st"> </span>res<span class="op">$</span>meta</a>
-<a class="sourceLine" id="cb11-10" title="10"></a>
-<a class="sourceLine" id="cb11-11" title="11"><span class="co"># Taxonomy</span></a>
-<a class="sourceLine" id="cb11-12" title="12"><span class="co"># First get an experimental function from the microbiome package</span></a>
-<a class="sourceLine" id="cb11-13" title="13">f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;inst/extdata/get_hitchip_taxonomy.R&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>)</a>
-<a class="sourceLine" id="cb11-14" title="14"><span class="kw">source</span>(f)</a>
-<a class="sourceLine" id="cb11-15" title="15">taxonomy &lt;-<span class="st"> </span><span class="kw">get_hitchip_taxonomy</span>(<span class="st">&quot;HITChip&quot;</span>, <span class="st">&quot;filtered&quot;</span>)</a>
-<a class="sourceLine" id="cb11-16" title="16">taxonomy &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">as.data.frame</span>(taxonomy[, <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;L2&quot;</span>, <span class="st">&quot;species&quot;</span>)]))</a>
-<a class="sourceLine" id="cb11-17" title="17"><span class="kw">rownames</span>(taxonomy) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(taxonomy[, <span class="st">&quot;species&quot;</span>])</a>
-<a class="sourceLine" id="cb11-18" title="18"></a>
-<a class="sourceLine" id="cb11-19" title="19"><span class="co"># Merging data matrices into phyloseq format:</span></a>
-<a class="sourceLine" id="cb11-20" title="20">pseq &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">hitchip2physeq</span>(<span class="kw">t</span>(otu), meta, taxonomy)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># We need to choose the HITChip data level to be used in the analyses</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co"># In this example use HITChip L2 data (note: this is in absolute scale)</span></a>
+<a class="sourceLine" id="cb12-3" title="3">res &lt;-<span class="st"> </span><span class="kw">read_hitchip</span>(<span class="dt">method =</span> <span class="st">&quot;frpa&quot;</span>, <span class="dt">data.dir =</span> data.directory)</a>
+<a class="sourceLine" id="cb12-4" title="4"></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co"># Species-level data matrix</span></a>
+<a class="sourceLine" id="cb12-6" title="6">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(res<span class="op">$</span>pseq)<span class="op">@</span>.Data </a>
+<a class="sourceLine" id="cb12-7" title="7"></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="co"># Corresponding sample metadata</span></a>
+<a class="sourceLine" id="cb12-9" title="9">meta &lt;-<span class="st"> </span>res<span class="op">$</span>meta</a>
+<a class="sourceLine" id="cb12-10" title="10"></a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="co"># Taxonomy</span></a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="co"># First get an experimental function from the microbiome package</span></a>
+<a class="sourceLine" id="cb12-13" title="13">f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;inst/extdata/get_hitchip_taxonomy.R&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>)</a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="kw">source</span>(f)</a>
+<a class="sourceLine" id="cb12-15" title="15">taxonomy &lt;-<span class="st"> </span><span class="kw">get_hitchip_taxonomy</span>(<span class="st">&quot;HITChip&quot;</span>, <span class="st">&quot;filtered&quot;</span>)</a>
+<a class="sourceLine" id="cb12-16" title="16">taxonomy &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">as.data.frame</span>(taxonomy[, <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;L2&quot;</span>, <span class="st">&quot;species&quot;</span>)]))</a>
+<a class="sourceLine" id="cb12-17" title="17"><span class="kw">rownames</span>(taxonomy) &lt;-<span class="st"> </span><span class="kw">as.vector</span>(taxonomy[, <span class="st">&quot;species&quot;</span>])</a>
+<a class="sourceLine" id="cb12-18" title="18"></a>
+<a class="sourceLine" id="cb12-19" title="19"><span class="co"># Merging data matrices into phyloseq format:</span></a>
+<a class="sourceLine" id="cb12-20" title="20">pseq &lt;-<span class="st"> </span>HITChipDB<span class="op">::</span><span class="kw">hitchip2physeq</span>(<span class="kw">t</span>(otu), meta, taxonomy)</a></code></pre></div>
 </div>
 </div>
 <div id="potential-analysis" class="section level1">
 <h1>Potential analysis</h1>
 <p>Potential analysis (following <a href="http://www.sciencemag.org/content/334/6053/232.long">Hirota et al. Science, 334, 232-235.</a>) provides tools to assess how states of an indicator variable vary with respect to a given background variable.</p>
 <p>Load example data:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">library</span>(microbiome)</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">data</span>(atlas1006) <span class="co"># From http://doi.org/10.5061/dryad.pk75d</span></a>
-<a class="sourceLine" id="cb12-3" title="3">pseq &lt;-<span class="st"> </span>atlas1006 </a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">library</span>(microbiome)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw">data</span>(atlas1006) <span class="co"># From http://doi.org/10.5061/dryad.pk75d</span></a>
+<a class="sourceLine" id="cb13-3" title="3">pseq &lt;-<span class="st"> </span>atlas1006 </a></code></pre></div>
 <p>Assess the relationship between age and microbiome diversity:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># Pick diversity and age</span></a>
-<a class="sourceLine" id="cb13-2" title="2">diversity &lt;-<span class="st"> </span><span class="kw">exp</span>(microbiome<span class="op">::</span><span class="kw">diversities</span>(pseq)<span class="op">$</span>shannon)</a>
-<a class="sourceLine" id="cb13-3" title="3">age &lt;-<span class="st"> </span><span class="kw">meta</span>(pseq)<span class="op">$</span>age</a>
-<a class="sourceLine" id="cb13-4" title="4"></a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="co"># Run potential analysis</span></a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="kw">library</span>(earlywarnings)</a>
-<a class="sourceLine" id="cb13-7" title="7">res &lt;-<span class="st"> </span><span class="kw">movpotential_ews</span>(diversity, age)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># Pick diversity and age</span></a>
+<a class="sourceLine" id="cb14-2" title="2">diversity &lt;-<span class="st"> </span><span class="kw">exp</span>(microbiome<span class="op">::</span><span class="kw">alpha</span>(pseq)<span class="op">$</span>shannon)</a>
+<a class="sourceLine" id="cb14-3" title="3"> age &lt;-<span class="st"> </span><span class="kw">meta</span>(pseq)<span class="op">$</span>age</a>
+<a class="sourceLine" id="cb14-4" title="4"></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co"># Run potential analysis</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="kw">library</span>(earlywarnings)</a>
+<a class="sourceLine" id="cb14-7" title="7">res &lt;-<span class="st"> </span><span class="kw">movpotential_ews</span>(diversity, age)</a></code></pre></div>
 <p>Visualize</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">p &lt;-<span class="st"> </span><span class="kw">plot_potential</span>(res<span class="op">$</span>res) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Diversity&quot;</span>)</a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="kw">print</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">p &lt;-<span class="st"> </span><span class="kw">plot_potential</span>(res<span class="op">$</span>res) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Diversity&quot;</span>)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="kw">print</span>(p)</a></code></pre></div>
 </div>
 <div id="rda-analysis-and-visualization." class="section level1">
 <h1>RDA analysis and visualization.</h1>
 <p>NOTE: These functions have unresolved issues and many dependencies. They will require thorough revision before inclusion to the package is possible.</p>
 <p>Load the package and example data:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">library</span>(microbiome)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">data</span>(peerj32) <span class="co"># Data from https://peerj.com/articles/32/</span></a>
-<a class="sourceLine" id="cb15-3" title="3">pseq &lt;-<span class="st"> </span>peerj32<span class="op">$</span>phyloseq <span class="co"># phyloseq data</span></a>
-<a class="sourceLine" id="cb15-4" title="4"></a>
-<a class="sourceLine" id="cb15-5" title="5"><span class="co"># Only check the core taxa to speed up examples</span></a>
-<a class="sourceLine" id="cb15-6" title="6">pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">prevalence =</span> <span class="dv">95</span><span class="op">/</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb15-7" title="7"></a>
-<a class="sourceLine" id="cb15-8" title="8">pseq.trans &lt;-<span class="st"> </span><span class="kw">transform</span>(pseq, <span class="st">&quot;hell&quot;</span>) <span class="co"># Hellinger transform</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">library</span>(microbiome)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">data</span>(peerj32) <span class="co"># Data from https://peerj.com/articles/32/</span></a>
+<a class="sourceLine" id="cb16-3" title="3">pseq &lt;-<span class="st"> </span>peerj32<span class="op">$</span>phyloseq <span class="co"># phyloseq data</span></a>
+<a class="sourceLine" id="cb16-4" title="4"></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co"># Only check the core taxa to speed up examples</span></a>
+<a class="sourceLine" id="cb16-6" title="6">pseq &lt;-<span class="st"> </span><span class="kw">core</span>(pseq, <span class="dt">detection =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">prevalence =</span> <span class="dv">95</span><span class="op">/</span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb16-7" title="7"></a>
+<a class="sourceLine" id="cb16-8" title="8">pseq.trans &lt;-<span class="st"> </span><span class="kw">transform</span>(pseq, <span class="st">&quot;hell&quot;</span>) <span class="co"># Hellinger transform</span></a></code></pre></div>
 <div id="bagged-rda" class="section level2">
 <h2>Bagged RDA</h2>
 <p>Bagged RDA provides added robustness in the analysis compared to the standard RDA. Fit bagged (bootstrap aggregated) RDA on a phyloseq object (alternatively you could apply it to the abundance matrix and covariates directly):</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># In any real study, use bs.iter = 100 or higher</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="co"># to achieve meaningful benefits from the bagged version.</span></a>
-<a class="sourceLine" id="cb16-3" title="3"><span class="co"># In this example we use bs.iter = 2 just to speed up the</span></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="co"># example code for educational purposes</span></a>
-<a class="sourceLine" id="cb16-5" title="5">res &lt;-<span class="st"> </span><span class="kw">rda_bagged</span>(pseq.trans, <span class="st">&quot;group&quot;</span>, <span class="dt">bs.iter=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># In any real study, use bs.iter = 100 or higher</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co"># to achieve meaningful benefits from the bagged version.</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co"># In this example we use bs.iter = 2 just to speed up the</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="co"># example code for educational purposes</span></a>
+<a class="sourceLine" id="cb17-5" title="5">res &lt;-<span class="st"> </span><span class="kw">rda_bagged</span>(pseq.trans, <span class="st">&quot;group&quot;</span>, <span class="dt">bs.iter=</span><span class="dv">2</span>)</a></code></pre></div>
 <p>Visualizing bagged RDA:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">plot_rda_bagged</span>(res)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">plot_rda_bagged</span>(res)</a></code></pre></div>
 </div>
 <div id="standard-rda" class="section level2">
 <h2>Standard RDA</h2>
 <p>Standard RDA for microbiota profiles versus the given (here ‘time’) variable from sample metadata (see also the RDA method in phyloseq::ordinate)</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">x &lt;-<span class="st"> </span>pseq.trans</a>
-<a class="sourceLine" id="cb18-2" title="2">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(x)</a>
-<a class="sourceLine" id="cb18-3" title="3">metadata &lt;-<span class="st"> </span><span class="kw">meta</span>(x)</a>
-<a class="sourceLine" id="cb18-4" title="4"></a>
-<a class="sourceLine" id="cb18-5" title="5"><span class="kw">library</span>(vegan)</a>
-<a class="sourceLine" id="cb18-6" title="6">rda.result &lt;-<span class="st"> </span>vegan<span class="op">::</span><span class="kw">rda</span>(<span class="kw">t</span>(otu) <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>time),</a>
-<a class="sourceLine" id="cb18-7" title="7">                         <span class="dt">na.action =</span> na.fail, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">x &lt;-<span class="st"> </span>pseq.trans</a>
+<a class="sourceLine" id="cb19-2" title="2">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(x)</a>
+<a class="sourceLine" id="cb19-3" title="3">metadata &lt;-<span class="st"> </span><span class="kw">meta</span>(x)</a>
+<a class="sourceLine" id="cb19-4" title="4"></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="kw">library</span>(vegan)</a>
+<a class="sourceLine" id="cb19-6" title="6">rda.result &lt;-<span class="st"> </span>vegan<span class="op">::</span><span class="kw">rda</span>(<span class="kw">t</span>(otu) <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>time),</a>
+<a class="sourceLine" id="cb19-7" title="7">                         <span class="dt">na.action =</span> na.fail, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Proportion explained by the given factor</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">summary</span>(rda.result)<span class="op">$</span>constr.chi<span class="op">/</span><span class="kw">summary</span>(rda.result)<span class="op">$</span>tot.chi</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">summary</span>(rda.result)<span class="op">$</span>constr.chi<span class="op">/</span><span class="kw">summary</span>(rda.result)<span class="op">$</span>tot.chi</a></code></pre></div>
 </div>
 <div id="rda-visualization" class="section level2">
 <h2>RDA visualization</h2>
 <p>Visualize the standard RDA output.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">plot</span>(rda.result, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">type =</span> <span class="st">&quot;points&quot;</span>, <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">col =</span> metadata<span class="op">$</span>time)</a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="kw">points</span>(rda.result, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">col =</span> metadata<span class="op">$</span>time)</a>
-<a class="sourceLine" id="cb20-3" title="3">pl &lt;-<span class="st"> </span><span class="kw">ordihull</span>(rda.result, metadata<span class="op">$</span>time, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">plot</span>(rda.result, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">type =</span> <span class="st">&quot;points&quot;</span>, <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">col =</span> metadata<span class="op">$</span>time)</a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="kw">points</span>(rda.result, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">col =</span> metadata<span class="op">$</span>time)</a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="kw">ordihull</span>(rda.result, metadata<span class="op">$</span>time, <span class="dt">scaling =</span> <span class="dv">3</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="rda-significance-test" class="section level2">
 <h2>RDA significance test</h2>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">permutest</span>(rda.result) </a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">permutest</span>(rda.result) </a></code></pre></div>
 </div>
 <div id="rda-with-confounding-variables" class="section level2">
 <h2>RDA with confounding variables</h2>
 <p>For more complex RDA scenarios, use the standard RDA available via the vegan R package.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co"># Pick microbiota profiling data from the phyloseq object</span></a>
-<a class="sourceLine" id="cb22-2" title="2">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(pseq.trans)</a>
-<a class="sourceLine" id="cb22-3" title="3"></a>
-<a class="sourceLine" id="cb22-4" title="4"><span class="co"># Sample annotations</span></a>
-<a class="sourceLine" id="cb22-5" title="5">metadata &lt;-<span class="st"> </span><span class="kw">meta</span>(pseq.trans)</a>
-<a class="sourceLine" id="cb22-6" title="6"></a>
-<a class="sourceLine" id="cb22-7" title="7"><span class="co"># RDA with confounders using the vegan function</span></a>
-<a class="sourceLine" id="cb22-8" title="8">rda.result2 &lt;-<span class="st"> </span>vegan<span class="op">::</span><span class="kw">rda</span>(<span class="kw">t</span>(otu) <span class="op">~</span><span class="st"> </span>metadata<span class="op">$</span>time <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(metadata<span class="op">$</span>subject <span class="op">+</span><span class="st"> </span>metadata<span class="op">$</span>gender))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># Pick microbiota profiling data from the phyloseq object</span></a>
+<a class="sourceLine" id="cb23-2" title="2">otu &lt;-<span class="st"> </span><span class="kw">abundances</span>(pseq.trans)</a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co"># Sample annotations</span></a>
+<a class="sourceLine" id="cb23-5" title="5">metadata &lt;-<span class="st"> </span><span class="kw">meta</span>(pseq.trans)</a>
+<a class="sourceLine" id="cb23-6" title="6"></a>
+<a class="sourceLine" id="cb23-7" title="7"><span class="co"># RDA with confounders using the vegan function</span></a>
+<a class="sourceLine" id="cb23-8" title="8">rda.result2 &lt;-<span class="st"> </span>vegan<span class="op">::</span><span class="kw">rda</span>(<span class="kw">t</span>(otu) <span class="op">~</span><span class="st"> </span>metadata<span class="op">$</span>time <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(metadata<span class="op">$</span>subject <span class="op">+</span><span class="st"> </span>metadata<span class="op">$</span>gender))</a></code></pre></div>
 </div>
 </div>
 <div id="experimental-functions-visualisation" class="section level1">
@@ -1782,9 +1782,9 @@ $(document).ready(function () {
 </ul>
 <div id="time-series-for-individual-subjects" class="section level2">
 <h2>Time series for individual subjects</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">source</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/plot_longitudinal.R&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>))</a>
-<a class="sourceLine" id="cb23-2" title="2">p &lt;-<span class="st"> </span><span class="kw">plot_longitudinal</span>(pseq, <span class="st">&quot;Dialister&quot;</span>, <span class="dt">subject =</span> <span class="st">&quot;831&quot;</span>, <span class="dt">tipping.point =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="kw">print</span>(p)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">source</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/plot_longitudinal.R&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;microbiome&quot;</span>))</a>
+<a class="sourceLine" id="cb24-2" title="2">p &lt;-<span class="st"> </span><span class="kw">plot_longitudinal</span>(pseq, <span class="st">&quot;Dialister&quot;</span>, <span class="dt">subject =</span> <span class="st">&quot;831&quot;</span>, <span class="dt">tipping.point =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="kw">print</span>(p)</a></code></pre></div>
 </div>
 </div>
 </div>
@@ -1793,7 +1793,7 @@ $(document).ready(function () {
 </div>
 
 <div id="postamble" data-toggle="wy-nav-shift" class="status">
-<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-07-18</p>
+<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-07-30</p>
 </div>
 
 

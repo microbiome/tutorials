@@ -103,6 +103,10 @@ phyla <- map_levels(rownames(otu),
 
 #netw %v% "Phylum" <- phyla
 #p <- ggnet2(netw, color = "Phylum", label = TRUE, label.size = 2)
+```
+
+
+```{r networks5_plot, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = FALSE}
 print(p)
 ```
 

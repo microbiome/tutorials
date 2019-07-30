@@ -53,6 +53,7 @@ m <- mixture.model(D, mixture.method = "vdp", pca.basis = FALSE)
 p <- PlotMixtureMultivariate(D, means = m$mu, sds = m$sd, ws = m$w, modes = apply(m$qofz,1,which.max))
 ```
 
+
 ## Univariate (infinite) Gaussian mixture model
 
 Fit and visualize Variational Dirichlet process univariate infinite Gaussian mixture. Kindly cite [this article](http://bioinformatics.oxfordjournals.org/content/26/21/2713.short) for the code.
@@ -65,10 +66,10 @@ x <- c(rnorm(200), rnorm(200, mean = 5))
 m <- mixture.model(x, mixture.method = "vdp", max.responses = 10) 
 
 # Plot the data and estimated modes
-p <- PlotMixtureUnivariate(x, means = m$mu, sds = m$sd, ws = m$w, binwidth = 0.1, qofz = m$qofz)
-
-print(p)
+p1 <- PlotMixtureUnivariate(x, means = m$mu, sds = m$sd, ws = m$w, binwidth = 0.1, qofz = m$qofz)
+print(p1)
 ```
+
 
 ## Clustering samples with mixed variables
 
@@ -80,7 +81,6 @@ data("dietswap")
 
 library(FD)
 d <- gowdis(as(sample_data(dietswap), "data.frame"))
-
 plot(hclust(d))
 ```
 
@@ -115,7 +115,14 @@ gg_point_1 <- ggplot(df, aes(x = Prevotella, y = Dialister,
     geom_point_interactive(size=3)
 
 # htmlwidget call
-ggiraph(code = {print(gg_point_1 + mytheme_main)}, width = 7, height = 6)
+# original code
+```
+
+
+```{r interactive-example-plot, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, eval = FALSE}
+#ggiraph(code = {print(gg_point_1 + mytheme_main)}, width = 7, height = 6)
+ggiraph::ggiraph(code = {print(gg_point_1 + mytheme_main)}, width = 1, height = 6)
+
 ```
 
 
@@ -136,7 +143,7 @@ Define the data folder.
 # Define example data path (replace here data.directory with your own path)
 library(microbiome)
 data.directory <- system.file("extdata", package = "microbiome")
-print(data.directory)
+#print(data.directory)
 ```
 
 
@@ -154,17 +161,17 @@ library(microbiome)
 
 ```{r HITChipDBinstall, message=FALSE, warning=FALSE, eval=FALSE}
 # Install additional dependencies
-source("http://www.bioconductor.org/biocLite.R")
+#source("http://www.bioconductor.org")
 
-biocLite("DBI")
-biocLite("RPA")
-biocLite("svDialogs")
+BiocManager::install("DBI")
+BiocManager::install("RPA")
+BiocManager::install("svDialogs")
 
 library(devtools) # Load the devtools package
 install_github("microbiome/HITChipDB") # Install the package
 # Also install RMySQL, multicore and tcltk !
-source("http://www.bioconductor.org/biocLite.R")
-biocLite("RMySQL") # multicore, tcltk?
+#source("http://www.bioconductor.org")
+BiocManager::install("RMySQL") # multicore, tcltk?
 # Test installation by loading the microbiome package in R
 library("HITChipDB")
 ```
@@ -245,8 +252,8 @@ Assess the relationship between age and microbiome diversity:
 
 ```{r movpotential2, message=FALSE, warning=FALSE, fig.width=5, fig.height=5, eval=FALSE}
 # Pick diversity and age
-diversity <- exp(microbiome::diversities(pseq)$shannon)
-age <- meta(pseq)$age
+diversity <- exp(microbiome::alpha(pseq)$shannon)
+ age <- meta(pseq)$age
 
 # Run potential analysis
 library(earlywarnings)
@@ -333,8 +340,9 @@ Visualize the standard RDA output.
 ```{r rda4, warning=FALSE, message=FALSE, fig.width=8, fig.height=8, eval=FALSE}
 plot(rda.result, choices = c(1,2), type = "points", pch = 15, scaling = 3, cex = 0.7, col = metadata$time)
 points(rda.result, choices = c(1,2), pch = 15, scaling = 3, cex = 0.7, col = metadata$time)
-pl <- ordihull(rda.result, metadata$time, scaling = 3, label = TRUE)
+ordihull(rda.result, metadata$time, scaling = 3, label = TRUE)
 ```
+
 
 
 ## RDA significance test

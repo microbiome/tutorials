@@ -42,7 +42,7 @@ meta <- meta(pseq)
 
 ## Linear models with limma
 
-Identify most significantly different taxa between males and females using the limma method. See [limma homepage](http://bioinf.wehi.edu.au/limma/) and [limma User's guide](http://www.lcg.unam.mx/~lcollado/R/resources/limma-usersguide.pdf) for details. For discussion on why limma is preferred over t-test, see [this
+Identify most significantly different taxa between males and females using the limma method. See [limma homepage](http://bioinf.wehi.edu.au/limma/) and [limma User's guide](https://www.bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf) for details. For discussion on why limma is preferred over t-test, see [this
 article](http://www.plosone.org/article/info:doi/10.1371/journal.pone.0012336).
 
 ```{r limma-example, warning=FALSE, fig.width=8, fig.height=8, out.width="300px"}

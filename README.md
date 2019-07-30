@@ -35,12 +35,13 @@ Contributions are very welcome:
 
 **Kindly cite this work** as follows: "Leo Lahti [et
 al.](https://github.com/microbiome/microbiome/graphs/contributors)
-(2017). Tools for microbiome analysis in R. Microbiome package version .
-URL: <http://microbiome.github.com/microbiome>, and the relevant
-references listed in the manual page of each function. The list of
-publications is not exhaustive. Let us know if you know of further
-publications using the microbiome package; we are collecting these on
-the website.
+(2017). Tools for microbiome analysis in R. Microbiome package version
+1.6.0. URL:
+[http://microbiome.github.com/microbiome](https://microbiome.github.io/tutorials),
+and the relevant references listed in the manual page of each function.
+The list of publications is not exhaustive. Let us know if you know of
+further publications using the microbiome package; we are collecting
+these on the website.
 
 [Intestinal microbiome landscaping: Insight in community assemblage and
 implications for microbial modulation
@@ -84,8 +85,10 @@ Main developer: [Leo Lahti](https://github.com/antagomir/)
 
 Co-authors: Jarkko Salojärvi, Sudarshan Shetty.
 
-Contributors: Tineka Blake and [other
-contributors](https://github.com/microbiome/microbiome/graphs/contributors).
+Contributors: Tineka Blake and [other contributors to microbiome R
+package](https://github.com/microbiome/microbiome/graphs/contributors)
+[& microbiome
+tutorial](https://github.com/microbiome/tutorials/graphs/contributors).
 
 Financial support has been provided by the following bodies:
 

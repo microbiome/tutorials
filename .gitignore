@@ -13,3 +13,7 @@ cache/
 figure/
 *~
 *.md
+LICENSE
+NAMESPACE
+tmp
+misc

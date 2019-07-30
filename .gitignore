@@ -13,6 +13,6 @@ cache/
 figure/
 *~
 *.md
-LICENSE.txt
-NAMESPACE.txt
-tmp.rmd
+*.Rproj
+docs/*
+Temp/*

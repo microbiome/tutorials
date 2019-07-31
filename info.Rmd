@@ -3,13 +3,13 @@ title: "Rendering statistics"
 author: "`r Sys.Date()`"
 output:
   rmdformats::readthedown:
-    self_contained: false
+    self_contained: true
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
     highlight: haddock
-    mathjax: local
+    
 
 ---
 <!--
@@ -25,6 +25,7 @@ output:
 This visualization shows the rendering times for the tutorial pages for possible optimization purposes.
 
 ```{r exectime, echo=FALSE, fig.width=20, fig.height=20, warning=FALSE, message=FALSE, out.width="100%"}
+library(knitr)
 theme_set(theme_bw(40))
 df <- as.data.frame(t(sapply(times, identity)))
 df$file <- rownames(df)

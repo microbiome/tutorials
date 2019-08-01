@@ -60,7 +60,7 @@ Once the package has been installed, load it in R
 library(microbiome)  
 ```
 
-For a brief overview, see the [package vignette](https://bioconductor.org/packages/devel/bioc/vignettes/microbiome/inst/doc/vignette.html) and the more extensive [on-line tutorial](http://microbiome.github.io/microbiome/).
+For a brief overview, see the [package vignette](https://bioconductor.org/packages/devel/bioc/vignettes/microbiome/inst/doc/vignette.html) and the more extensive [on-line tutorial](http://microbiome.github.io/tutorials/).
 
 
 

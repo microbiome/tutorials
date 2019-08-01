@@ -58,7 +58,6 @@ Tools for microbiome analysis; with multiple example data sets from published st
 
 * [Overview (vignette)](https://bioconductor.org/packages/devel/bioc/vignettes/microbiome/inst/doc/vignette.html)
 * [Installation](Installation.html)
-* [Support](Contributing.Rmd)
 * [Example data](Data.html)
 * [Data operations](Preprocessing.html) (subsetting, transformations etc.)
 
@@ -87,7 +86,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 * [Association analysis](Heatmap.html)
 * [Bimodality](Bimodality.html)
 * [Community comparisons](Comparisons.html) ([limma](limma.html), [PERMANOVA](PERMANOVA.html), [mixed models](Mixedmodels.html), [negative binomial](Negativebinomial.html)  etc)
-* [Experimental tools](Experimental.html)
+
 
 
 # Tutorial workflows  
@@ -99,6 +98,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 # Developers
 
 * [Rendering information](info.html)  
+* [Experimental tools](Experimental.html)
 
   
 # Development  

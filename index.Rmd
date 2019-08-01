@@ -91,7 +91,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 
 # Tutorial workflows  
 
-* [HITChip Atlas](Tutorial.html)
+* [Analysis of gut microbiota in 1006 western adults](Tutorial.html)
 * [Univariate tests for two-group comparison](all.html)
 
 

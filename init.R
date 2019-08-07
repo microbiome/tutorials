@@ -38,7 +38,7 @@ install_github('microsud/microbiomeutilities')
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
-BiocManager::install(c("SummarizedExperiment", 'DelayedArray'))
+BiocManager::install(c(.bioc_packages,"SummarizedExperiment", 'DelayedArray'))
 # Load packages into session, and print package version
-sapply(c(.cran_packages, .bioc_packages, 'SpiecEasi', 'ggnet' ), require, character.only = TRUE)
+sapply(c(.cran_packages, .bioc_packages), require, character.only = TRUE)
 

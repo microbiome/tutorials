@@ -94,7 +94,7 @@ p1 <- ggviolin(ps1.meta, x = "bmi_group", y = "Shannon",
  add = "boxplot", fill = "bmi_group", palette = c("#a6cee3", "#b2df8a", "#fdbf6f")) 
 print(p1)
 ```
-
+![violin for comparison](Rplotvio1.jpeg)
 
 ## Statistics  
 
@@ -104,6 +104,8 @@ Pairwise comparision using non-parametric test (Wilcoxon test).
 p1 <- p1 + stat_compare_means(comparisons = bmi.pairs) 
 print(p1)
 ```
+![violin for comparison](Rplotvio2.jpeg)
+
 
 For more information and useful tips and suggestions check the [Statistical tools for high-throughput data analysis](http://www.sthda.com/english/rpkgs/ggpubr/).  
 

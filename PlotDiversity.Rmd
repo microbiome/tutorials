@@ -94,7 +94,7 @@ p1 <- ggviolin(ps1.meta, x = "bmi_group", y = "Shannon",
  add = "boxplot", fill = "bmi_group", palette = c("#a6cee3", "#b2df8a", "#fdbf6f")) 
 print(p1)
 ```
-![violin for comparison](Rplotvio1.jpeg)
+![violin plot](Rplotvio1.jpeg)
 
 ## Statistics  
 

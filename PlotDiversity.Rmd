@@ -91,11 +91,7 @@ Using `ggpubr` a violin plot will be created
 ```{r Ad-plot5, warning=FALSE, message=FALSE, fig.width=8, fig.height=6, eval=FALSE}
 #ps1.meta$'' <- alpha(ps1, index = 'shannon')
 p1 <- ggviolin(ps1.meta, x = "bmi_group", y = "Shannon",
- add = "boxplot", fill = "bmi_group", palette = c("#a6cee3", "#b2df8a", "#fdbf6f"))
-```
-
-
-```{r Ad-plot6, echo=F, warning=FALSE, message=FALSE, fig.width=8, fig.height=6, eval=FALSE}
+ add = "boxplot", fill = "bmi_group", palette = c("#a6cee3", "#b2df8a", "#fdbf6f")) 
 print(p1)
 ```
 
@@ -104,12 +100,8 @@ print(p1)
 
 Pairwise comparision using non-parametric test (Wilcoxon test).
 
-```{r Ad-plot6a, warning=FALSE, message=FALSE, eval=FALSE}
-p1 <- p1 + stat_compare_means(comparisons = bmi.pairs)
-```
-
-
-```{r Ad-plot7,echo=F ,warning=FALSE, message=FALSE, eval=FALSE}
+```{r Ad-plot6, warning=FALSE, message=FALSE, eval=FALSE}
+p1 <- p1 + stat_compare_means(comparisons = bmi.pairs) 
 print(p1)
 ```
 

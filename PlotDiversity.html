@@ -1847,12 +1847,14 @@ $(document).ready(function () {
 <p>Using <code>ggpubr</code> a violin plot will be created</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#ps1.meta$&#39;&#39; &lt;- alpha(ps1, index = &#39;shannon&#39;)</span></a>
 <a class="sourceLine" id="cb7-2" title="2">p1 &lt;-<span class="st"> </span><span class="kw">ggviolin</span>(ps1.meta, <span class="dt">x =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Shannon&quot;</span>,</a>
-<a class="sourceLine" id="cb7-3" title="3"> <span class="dt">add =</span> <span class="st">&quot;boxplot&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">palette =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#fdbf6f&quot;</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb7-3" title="3"> <span class="dt">add =</span> <span class="st">&quot;boxplot&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">palette =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#fdbf6f&quot;</span>)) </a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw">print</span>(p1)</a></code></pre></div>
 </div>
 <div id="statistics" class="section level2">
 <h2>Statistics</h2>
 <p>Pairwise comparision using non-parametric test (Wilcoxon test).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">stat_compare_means</span>(<span class="dt">comparisons =</span> bmi.pairs)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">stat_compare_means</span>(<span class="dt">comparisons =</span> bmi.pairs) </a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">print</span>(p1)</a></code></pre></div>
 <p>For more information and useful tips and suggestions check the <a href="http://www.sthda.com/english/rpkgs/ggpubr/">Statistical tools for high-throughput data analysis</a>.</p>
 </div>
 </div>

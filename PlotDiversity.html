@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-07-18" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-08-30" />
 
 
 <title>Plot alpha diversity</title>
@@ -1823,8 +1823,8 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p>Add the diversity table to metadata</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">ps1.meta<span class="op">$</span>Shannon &lt;-<span class="st"> </span>tab<span class="op">$</span>shannon </a>
-<a class="sourceLine" id="cb4-2" title="2">ps1.meta<span class="op">$</span>InverseSimpson &lt;-<span class="st"> </span>tab<span class="op">$</span>inverse_simpson</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">ps1.meta<span class="op">$</span>Shannon &lt;-<span class="st"> </span>tab<span class="op">$</span>diversity_shannon </a>
+<a class="sourceLine" id="cb4-2" title="2">ps1.meta<span class="op">$</span>InverseSimpson &lt;-<span class="st"> </span>tab<span class="op">$</span>diversity_inverse_simpson</a></code></pre></div>
 <p>Let’s say we want to compare differences in Shannon index between bmi group of the study subjects.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># create a list of pairwise comaprisons</span></a>
 <a class="sourceLine" id="cb5-2" title="2">bmi &lt;-<span class="st"> </span><span class="kw">levels</span>(ps1.meta<span class="op">$</span>bmi_group) <span class="co"># get the variables</span></a>
@@ -1845,9 +1845,10 @@ $(document).ready(function () {
 <div id="violin-plot" class="section level2">
 <h2>Violin plot</h2>
 <p>Using <code>ggpubr</code> a violin plot will be created</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">p1 &lt;-<span class="st"> </span><span class="kw">ggviolin</span>(ps1.meta, <span class="dt">x =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Shannon&quot;</span>,</a>
-<a class="sourceLine" id="cb7-2" title="2"> <span class="dt">add =</span> <span class="st">&quot;boxplot&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">palette =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#fdbf6f&quot;</span>)) </a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="kw">print</span>(p1)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#ps1.meta$&#39;&#39; &lt;- alpha(ps1, index = &#39;shannon&#39;)</span></a>
+<a class="sourceLine" id="cb7-2" title="2">p1 &lt;-<span class="st"> </span><span class="kw">ggviolin</span>(ps1.meta, <span class="dt">x =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Shannon&quot;</span>,</a>
+<a class="sourceLine" id="cb7-3" title="3"> <span class="dt">add =</span> <span class="st">&quot;boxplot&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;bmi_group&quot;</span>, <span class="dt">palette =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#fdbf6f&quot;</span>)) </a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw">print</span>(p1)</a></code></pre></div>
 </div>
 <div id="statistics" class="section level2">
 <h2>Statistics</h2>
@@ -1862,7 +1863,7 @@ $(document).ready(function () {
 </div>
 
 <div id="postamble" data-toggle="wy-nav-shift" class="status">
-<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-07-18</p>
+<p class="author"><span class="glyphicon glyphicon-user"></span> Leo Lahti, Sudarshan Shetty et al. 2019-08-30</p>
 </div>
 
 

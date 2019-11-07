@@ -158,7 +158,9 @@ data(dietswap)
 x <- dietswap
 # Compositional data 
 x2 <- microbiome::transform(x, "compositional")
+```
 
+```{r data10bb, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
 # library(zCompositions)
 # This would be recommended for compositional zero-inflated data:
 # KMSS replacement for zero-inflated compositional values

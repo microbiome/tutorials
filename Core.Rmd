@@ -135,7 +135,7 @@ p <- plot_core(pseq, plot.type = "heatmap",
        		 prevalences = prevalences,
        		 detections = detections,
 		 colours = rev(brewer.pal(5, "Spectral")),
-		 min.prevalence = .2) + coord_flip()
+		 min.prevalence = .2, horizontal = TRUE) 
 print(p)
 ```
 

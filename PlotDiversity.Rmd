@@ -46,7 +46,7 @@ This returns a table with selected diversity indicators. Check a separate page o
 
 ps1 <- prune_taxa(taxa_sums(pseq) > 0, pseq)
 
-tab <- alpha(ps1, index = "all")
+tab <- microbiome::alpha(ps1, index = "all")
 kable(head(tab))
 
 ```

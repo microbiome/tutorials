@@ -323,7 +323,7 @@ detections <- 10^seq(log10(1e-5), log10(.2), length = 10)
 gray <- gray(seq(0,1,length=5))
 p <- plot_core(pseq.rel, plot.type = "heatmap", colours = gray,
     prevalences = prevalences, detections = detections, min.prevalence = .5) +
-    xlab("Detection Threshold (Relative Abundance (%))")
+    labs(x = "Detection Threshold (Relative Abundance (%))")
 print(p)    
 
 
@@ -335,60 +335,4 @@ print(p)
 library(viridis)
 print(p + scale_fill_viridis())
 ```
-
-As it can be seen, we see only OTu IDs and this may not be useful to interpret the data. We need to repreoccess this figure to include taxonomic information. We can do this as follows:  
-
-```{r,core-example4, fig.width=14, fig.heigth=18, fig.show='hold', out.width = '200px', warning=FALSE, eval=FALSE}
-library(RColorBrewer)
-library(knitr)
-# Core with absolute counts and vertical view:
-# and minimum population prevalence (given as percentage)
-detections <- 10^seq(log10(1), log10(max(abundances(pseq.2))/10), length = 10)
-
-healthycore <- plot_core(pseq.2, plot.type = "heatmap", 
-       		 prevalences = prevalences,
-       		 detections = detections,
-		 colours = rev(brewer.pal(5, "Spectral")),
-		 min.prevalence = .9)
-# get the data used for plotting 
-df <- healthycore$data 
-
-# get the list of OTUs
-list <- df$Taxa 
-
-# check the OTU ids
-# print(list) 
-
-# get the taxonomy data
-tax <- tax_table(pseq.2)
-tax <- as.data.frame(tax)
-
-# add the OTus to last column
-tax$OTU <- rownames(tax)
-
-# select taxonomy of only 
-# those OTUs that are used in the plot
-tax2 <- dplyr::filter(tax, rownames(tax) %in% list) 
-
-# head(tax2)
-
-# We will merege all the column into one except the Doamin as all is bacteria in this case
-tax.unit <- tidyr::unite(tax2, Taxa_level,c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU"), sep = "_;", remove = TRUE)
-
-tax.unit$Taxa_level <- gsub(pattern="[a-z]__",replacement="", tax.unit$Taxa_level)
-
-# add this new information into the plot data df
-
-df$Taxa <- tax.unit$Taxa_level
-
-# you can see now we have the taxonomic information
-knitr::kable(head(df))
-
-# replace the data in the plot object
-healthycore$data <- df
-
-plot(healthycore + theme(axis.text.y = element_text(face="italic")))
-```
-
-
 

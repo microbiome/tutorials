@@ -18,6 +18,10 @@ List of issues to improve the package and tutorials:
 * Lay out overall project roadmap
 * Consider package/tutorial collection instead of a single package
 
+### Missing examples
+
+ * is_compositional
+
 ### Related work
 
  * [metagenomeSeq](https://bioconductor.org/packages/release/bioc/html/metagenomeSeq.html)

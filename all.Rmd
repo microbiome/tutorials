@@ -318,6 +318,7 @@ Long tails of rare taxa:
 
 ```{r tail, warning=FALSE, message=print, fig.width=16, fig.height=8, out.width="200px"}
 medians <- apply(abundances(d),1,median)/1e3
+library(reshape2)
 A <- melt(abundances(d))
 A$Var1 <- factor(A$Var1, levels = rev(names(sort(medians))))
 p <- ggplot(A, aes(x = Var1, y = value)) +

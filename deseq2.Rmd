@@ -32,6 +32,7 @@ library(microbiome)
 library(ggplot2)
 library(magrittr)
 library(dplyr)
+library(venn)
 # Probiotics intervention example data 
 data(dietswap) 
 

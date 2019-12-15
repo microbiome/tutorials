@@ -22,6 +22,14 @@ output:
 
 See also related functions for the analysis of rare and variable taxa (rare_members; rare_abundance; rare_members; rare_abundance; low_abundance).  
 
+
+```{r setup, message = FALSE, warning = FALSE, results = 'hide'}
+library("devtools")
+install_github("microbiome/microbiome")
+```
+
+
+
 # HITChip Data
 
 Load example data:
@@ -121,10 +129,9 @@ detections <- 10^seq(log10(1e-3), log10(.2), length = 10)
 # Also define gray color palette
 gray <- gray(seq(0,1,length=5))
 p <- plot_core(pseq.rel, plot.type = "heatmap", colours = gray,
-    prevalences = prevalences, detections = detections) +
-    xlab("Detection Threshold (Relative Abundance (%))")
+       prevalences = prevalences, detections = detections) +
+    labs(x = "Detection Threshold (Relative Abundance (%))")
 print(p)    
-
 
 # Core with absolute counts and horizontal view:
 # and minimum population prevalence (given as percentage)

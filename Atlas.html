@@ -380,8 +380,7 @@ summary {
 library(microbiome)
 data(atlas1006)</code></pre>
 <p>Estimate ecosystem alpha diversity and related indicators for this data set:</p>
-<pre class="r"><code>tab &lt;- alpha(atlas1006, index = c(&quot;shannon&quot;, &quot;invsimpson&quot;))
-
+<pre class="r"><code>tab &lt;- microbiome::alpha(atlas1006, index = c(&quot;shannon&quot;, &quot;invsimpson&quot;))
 library(knitr)
 kable(head(tab))</code></pre>
 <table>

@@ -82,11 +82,12 @@ Community divergence within individual often tends to increase over time with re
 ```{r homogeneity-example2d, message=FALSE, warning=FALSE, out.width="300px"}
 library(MicrobeDS)
 library(microbiome)
+library(dplyr)
+library(vegan)
 data(MovingPictures)
 
 # Pick the metadata for this subject and sort the
 # samples by time
-library(dplyr)
 
 # Pick the data and modify variable names
 pseq <- MovingPictures

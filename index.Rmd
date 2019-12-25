@@ -99,12 +99,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 * [Univariate tests for two-group comparison](all.html)
 
 
-# Developers
 
-* [Rendering information](info.html)  
-* [Experimental tools](Experimental.html)
-
-  
 # Development  
 
 New examples, tutorial pages, and other contributions are [welcome](Contributing.html). The material can be freely used, modified and distributed under the [Two-clause FreeBSD license](http://en.wikipedia.org/wiki/BSD\_licenses). For source code, see the [Github page](https://github.com/microbiome/microbiome/).  
@@ -112,7 +107,7 @@ New examples, tutorial pages, and other contributions are [welcome](Contributing
 
 # Contribute  
 
-Contributions are very welcome:
+Contributions are welcome:
 
   * [Issue Tracker](https://github.com/microbiome/microbiome/issues) 
   * [Pull requests](https://github.com/microbiome/microbiome/)

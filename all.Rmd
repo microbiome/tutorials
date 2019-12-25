@@ -33,6 +33,7 @@ require(bookdown)
 bib <- read.bibtex("bibliography.bib")
 #opts_chunk$set(fig.width=4, fig.height=3, par=TRUE, out.width='2in', fig.pos='H')
 library(knitr)
+library(ggplot2)
 knitr::opts_chunk$set(fig.path = "figure/", dev="CairoPNG")
 theme_set(theme_bw(20))
 ```

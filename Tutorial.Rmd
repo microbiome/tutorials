@@ -69,6 +69,7 @@ Explore the phyloseq data format. See [examples on microbiome data processing](P
 Explore the estimation and analysis of various [diversity indices](Diversity.html) and [taxonomic composition](Composition.html).
 
 ```{r global, message=FALSE, warning=FALSE}
+alpha <- microbiome::alpha
 tab <- alpha(pseq, index = "all")
 kable(head(tab))
 ```

@@ -36,8 +36,7 @@ data(atlas1006)
 Estimate ecosystem alpha diversity and related indicators for this data set: 
 
 ```{r div-example, warning=FALSE, message=FALSE}
-tab <- alpha(atlas1006, index = c("shannon", "invsimpson"))
-
+tab <- microbiome::alpha(atlas1006, index = c("shannon", "invsimpson"))
 library(knitr)
 kable(head(tab))
 ```

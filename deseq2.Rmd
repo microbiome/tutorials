@@ -36,7 +36,6 @@ library(microbiome)
 library(ggplot2)
 library(magrittr)
 library(dplyr)
-library(venn)
 # Probiotics intervention example data 
 data(dietswap) 
 
@@ -81,21 +80,19 @@ taxa.deseq <- subset(res, padj < 0.01 & abs(log2FoldChange) > log2(2))$taxon
 # Check overlap
 # Most DESEq2 taxa are confirmed with ANOVA
 library(gplots)
-#venn( list(ANOVA = taxa.anova,DESeq2 = taxa.deseq) )
 
 # Also the est p-values are well correlated (higher not so)
-mf<-data.frame(df$padj, ano$padj)
-p<-ggplot(mf, aes(x = log10(df$padj), y = log10(ano$padj))) + xlab('DESeq2 adjusted p-value') + ylab('ANOVA adjusted p-value')
-p<- p + geom_point()
-
-#plot(xlim=log10(df$padj), log10(ano$padj), type = 'l', xlim = "DESeq2 adjusted p-value",  ylim("ANOVA adjusted p-value"))
+mf <- data.frame(df$padj, ano$padj)
+p <- ggplot(mf, aes(x = log10(df$padj), y = log10(ano$padj))) +
+       labs(x = 'DESeq2 adjusted p-value', y = 'ANOVA adjusted p-value') +
+       geom_point()
+print(p)
 ```
 
-```{r plot_for_ven, echo=F, message=F, error=F}
+
+```{r plot_for_ven, echo=F, message=F, error=F, eval=FALSE}
+library(venn) # Check UpSet plot instead
 venn( list(ANOVA = taxa.anova,DESeq2 = taxa.deseq))
 ```
 
-```{r validate_plot, echo=F, message=F, error=F}
-print(p)
-```
 

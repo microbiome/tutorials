@@ -1,0 +1,44 @@
+---
+title: "Rendering statistics"
+author: "`r Sys.Date()`"
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock    
+---
+<!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - DMM}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}  
+-->
+
+
+## Execution times
+
+This visualization shows the rendering times for the tutorial pages for possible optimization purposes.
+
+```{r exectime, echo=FALSE, fig.width=20, fig.height=20, warning=FALSE, message=FALSE, out.width="100%"}
+library(knitr)
+theme_set(theme_bw(40))
+df <- as.data.frame(t(sapply(times, identity)))
+df$file <- rownames(df)
+dfm <- as_tibble(melt(df, id = "file")) %>%
+         filter(variable %in% c("user.self", "elapsed")) %>%
+	 arrange(value) %>%
+	 mutate(file = factor(file, levels = unique(file)))
+p <- ggplot(dfm, aes(x = file, fill = variable, y = value)) +
+       geom_bar(stat = "identity", position = "dodge", color = "black") +
+       coord_flip() + labs(x = "", y = "Time (s)")
+print(p)
+```
+
+

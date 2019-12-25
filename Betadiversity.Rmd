@@ -23,11 +23,14 @@ output:
 
 
 
-## Beta diversity 
+## Beta diversity
 
-Some examples on calculating beta diversity and using it to quantify community divergence within a given sample set.
+Beta diversity quantifies dissimilarity in community composition between samples. Dissimilarity can be also quantified by _distance_ or _divergence_. These measures have a broad use in statistical data analysis.
 
-See [Community comparisons](Comparisons.html) page for examples on group-level comparisons based on beta diversity measures, including [limma](limma.html), [PERMANOVA](PERMANOVA.html), [mixed models](Mixedmodels.html), and [negative binomial](Negativebinomial.html).
+The [vegan R package](https://cran.r-project.org/web/packages/vegan/index.html) and the [phyloseq R package](https://bioconductor.org/packages/release/bioc/html/phyloseq.html) implement a number of standard ecological dissimilarity measures implemented in the 'vegdist' function.
+
+Here, we show brief examples on how to compare sample heterogeneity between groups and over time. 
+
 
 Load example data
 
@@ -38,37 +41,15 @@ data(peerj32)
 pseq <- peerj32$phyloseq
 ```
 
-
-## Quantifying group divergence / spread 
-
-Divergence of a given sample set can be quantified as the average dissimilarity of each sample from the group mean; the dissimilarity can be quantified by beta diversity, for instance. This was applied in group-level comparisons for instance in [Salonen et al. ISME J 2014](http://www.nature.com/ismej/journal/v8/n11/full/ismej201463a.html) (they focused on homogeneity using inverse correlation, whereas here we focus on divergence using correlation but the measure is essentially the same). 
-
-Calculate group divergences within the LGG (probiotic) and Placebo groups
-
-```{r divergence-example2bb, message=FALSE}
-b.pla <- divergence(subset_samples(pseq, group == "Placebo"))
-b.lgg <- divergence(subset_samples(pseq, group == "LGG"))
-```
-
-Use these to compare microbiota divergence within each group. The LGG group tends to have smaller values, indicating that the samples are more similar to the group mean, and the LGG group is less heterogeneous (has smaller spread / is more homogeneous):
-
-```{r divergence-example2bbb, message=FALSE, out.width="300px"}
-boxplot(list(LGG = b.lgg, Placebo = b.pla))
-```
-
-The **inter- and intra-invididual stability** (or homogeneity) measures are obtained as 1-b where b is the group divergence with the anticorrelation method ([Salonen et al. ISME J 2014](http://www.nature.com/ismej/journal/v8/n11/full/ismej201463a.html)). 
-
-
-
 ## Intra-individual divergence 
 
-Quantify beta diversity within subjects over time (as in [Salonen et al. ISME J 2014](http://www.nature.com/ismej/journal/v8/n11/full/ismej201463a.html) for intra-individual stability)
+Divergence within subjects may increase following intervention.
 
-```{r homogeneity-example2c, message=FALSE, warning=FALSE, out.width="300px"}
+```{r divergence2c, message=FALSE, warning=FALSE, out.width="300px"}
 betas <- list()
 groups <- as.character(unique(meta(pseq)$group))
 for (g in groups) {
-  #df <- meta(subset_samples(pseq, group == g))
+
   df <- subset(meta(pseq), group == g)
   beta <- c()
 
@@ -80,9 +61,9 @@ for (g in groups) {
       s <- as.character(dfs$sample)
       # Here with just two samples we can calculate the
       # beta diversity directly
-      beta[[subj]] <- 1-cor(abundances(pseq)[, s[[1]]],
+      beta[[subj]] <- divergence(abundances(pseq)[, s[[1]]],
       		            abundances(pseq)[, s[[2]]],
-			    method = "spearman")
+			    method = "bray")
     }
   }
   betas[[g]] <- beta
@@ -92,40 +73,89 @@ boxplot(betas)
 ```
 
 
-## Beta diversity within individual over time
+## Divergence within individual over time
 
-Calculate change in beta diversity (community dissimilarity) over time within a single individual
+Community divergence within individual often tends to increase over time with respect to the baseline sample.
 
 ```{r homogeneity-example2d, message=FALSE, warning=FALSE, out.width="300px"}
-data(atlas1006)
-pseq <- atlas1006
-
-# Identify subject with the longest time series (most time points)
-s <- names(which.max(sapply(split(meta(pseq)$time, meta(pseq)$subject), function (x) {length(unique(x))})))
+library(MicrobeDS)
+library(microbiome)
+data(MovingPictures)
 
 # Pick the metadata for this subject and sort the
 # samples by time
 library(dplyr)
-df <- meta(pseq) %>% filter(subject == s) %>% arrange(time)
+
+# Pick the data and modify variable names
+pseq <- MovingPictures
+s <- "F4" # Selected subject
+b <- "UBERON:feces" # Selected body site
+
+# Let us pick a subset
+pseq <- subset_samples(MovingPictures, host_subject_id == s & body_site == b) 
+
+# Rename variables
+sample_data(pseq)$subject <- sample_data(pseq)$host_subject_id
+sample_data(pseq)$sample <- sample_data(pseq)$X.SampleID
+
+# Tidy up the time point information (convert from dates to days)
+sample_data(pseq)$time <- as.numeric(as.Date(gsub(" 0:00", "", as.character(sample_data(pseq)$collection_timestamp)), "%m/%d/%Y") - as.Date("10/21/08", "%m/%d/%Y"))
+
+# Order the entries by time
+df <- meta(pseq) %>% arrange(time)
 
 # Calculate the beta diversity between each time point and
 # the baseline (first) time point
-beta <- c(0, 0) # Baseline similarity
+beta <- c() # Baseline similarity
 s0 <- subset(df, time == 0)$sample
+# Let us transform to relative abundance for Bray-Curtis calculations
+a <- abundances(transform(pseq, "compositional")) 
 for (tp in df$time[-1]) {
   # Pick the samples for this subject
   # If the same time point has more than one sample,
   # pick one at random
   st <- sample(subset(df, time == tp)$sample, 1)
-  a <- abundances(pseq)
-  b <- 1 - cor(a[, s0], a[, st], method = "spearman")
+  # Beta diversity between the current time point and baseline
+  b <- vegdist(rbind(a[, s0], a[, st]), method = "bray")
+  # Add to the list
   beta <- rbind(beta, c(tp, b))
 }
 colnames(beta) <- c("time", "beta")
 beta <- as.data.frame(beta)
 
+theme_set(theme_bw(20))
 library(ggplot2)
 p <- ggplot(beta, aes(x = time, y = beta)) +
-       geom_point() + geom_line()
-print(p)       
+       geom_point() +
+       geom_line() +
+       geom_smooth() +
+       labs(x = "Time (Days)", y = "Beta diversity (Bray-Curtis)")
+print(p)
 ```
+
+
+## Inter-individual divergence / spread 
+
+Divergence within a sample set quantifies the overall heterogeneity in community composition across samples or individuals. This is sometimes quantified as the average dissimilarity of each sample from the group mean; the dissimilarity can be quantified by beta diversity as in [Salonen et al. ISME J 2014](http://www.nature.com/ismej/journal/v8/n11/full/ismej201463a.html) (they focused on homogeneity using inverse divergence but the measure is essentially the same). 
+
+Calculate divergences within the LGG (probiotic) and Placebo groups with respect to the median profile within each group.
+
+```{r divergence-example2bb, message=FALSE}
+pseq <- peerj32$phyloseq
+
+b.pla <- divergence(subset_samples(pseq, group == "Placebo"),
+   apply(abundances(subset_samples(pseq, group == "Placebo")), 1, median))
+
+b.lgg <- divergence(subset_samples(pseq, group == "LGG"),
+   apply(abundances(subset_samples(pseq, group == "LGG")), 1, median))
+```
+
+
+The group with larger values has a more heterogeneous community composition. 
+
+```{r divergence-example2bbb, message=FALSE, out.width="300px"}
+boxplot(list(LGG = b.lgg, Placebo = b.pla))
+```
+
+See [Community comparisons](Comparisons.html) for examples on group-level comparisons based on beta diversity.
+

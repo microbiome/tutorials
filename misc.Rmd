@@ -1,3 +1,7 @@
+
+
+
+
 As it can be seen, we see only OTu IDs and this may not be useful to interpret the data. We need to reprccess this figure to include taxonomic information. We can do this as follows:  
 
 ```{r,core-example4, fig.width=14, fig.heigth=18, fig.show='hold', out.width = '200px', warning=FALSE, eval=FALSE}

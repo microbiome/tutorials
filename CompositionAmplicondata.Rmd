@@ -3,7 +3,11 @@ title: "Microbiome composition"
 bibliography: 
 - bibliography.bib
 output:
-  rmdformats::readthedown:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
     self_contained: true
     thumbnails: true
     lightbox: true

@@ -4,15 +4,17 @@ author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
 bibliography: 
 - bibliography.bib
 output:
-  rmdformats::readthedown:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
     self_contained: true
     thumbnails: true
     lightbox: true
     gallery: true
     use_bookdown: false
-    highlight: haddock
-    
-    
+    highlight: haddock    
 ---
 <!--
   %\VignetteEngine{knitr::rmarkdown}

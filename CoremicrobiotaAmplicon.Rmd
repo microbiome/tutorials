@@ -10,6 +10,13 @@ output:
     lightbox: true
     gallery: true
     use_bookdown: false
+    highlight: haddockoutput:
+  rmdformats::readthedown:
+    self_contained: true
+    thumbnails: false
+    lightbox: true
+    gallery: true
+    use_bookdown: false
     highlight: haddock
 ---
 <!--

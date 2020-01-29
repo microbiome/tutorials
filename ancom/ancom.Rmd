@@ -27,7 +27,7 @@ kable(tab)
 ```
 
 
-Illustration of the significant genera. CLR transformed abundances.
+Illustration of the significant genera. CLR transformed abundances (just first 3 shown).
 
 ```{r tops, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width = "20%", fig.height=6, fig.width=5}
 library(ggbeeswarm)
@@ -35,7 +35,7 @@ theme_set(theme_bw(20))
 df <- meta(pseq)
 ps <- transform(pseq, "clr")
 tab <- subset(res.ancom, pval.ancom < 0.05) %>% arrange(desc(abs(log10FC)))
-for (i in 1:nrow(tab)) {
+for (i in 1:min(nrow(tab), 3)) {
   tax <- as.character(res.ancom[i, "OTU"])
   group <- as.character(res.ancom[i, "Grouping"]    )
   df <- meta(ps)

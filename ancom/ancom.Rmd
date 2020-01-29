@@ -32,8 +32,8 @@ Illustration of the significant genera. CLR transformed abundances.
 ```{r tops, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width = "20%", fig.height=6, fig.width=5}
 library(ggbeeswarm)
 theme_set(theme_bw(20))
-df <- meta(phy)
-ps <- transform(phy, "clr")
+df <- meta(pseq)
+ps <- transform(pseq, "clr")
 tab <- subset(res.ancom, pval.ancom < 0.05) %>% arrange(desc(abs(log10FC)))
 for (i in 1:nrow(tab)) {
   tax <- as.character(res.ancom[i, "OTU"])

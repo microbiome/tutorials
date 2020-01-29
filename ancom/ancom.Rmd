@@ -6,6 +6,7 @@ output: md_document
 ---
 
 ```{r init, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
 theme_set(theme_bw(20))
 opts_chunk$set(fig.width=10, fig.height=10, message=FALSE, warning=FALSE)
 opts_chunk$set(dev="CairoPNG")

@@ -1,0 +1,60 @@
+---
+title: "Group comparisons at the level of individual taxonomic groups"
+author: "Author"
+date: "`r date()`"
+output: md_document
+---
+
+```{r init, echo=FALSE, warning=FALSE, message=FALSE}
+theme_set(theme_bw(20))
+opts_chunk$set(fig.width=10, fig.height=10, message=FALSE, warning=FALSE)
+opts_chunk$set(dev="CairoPNG")
+padj.th <- 0.25
+```
+
+# ANCOM analysis
+
+Significant taxa (regarding the grouping). Only the hits with adjusted p<`r padj.th` are shown. Adjustment is done per group based on ANCOM defaults.
+
+The log10 fold changes have been calculated from CLR-transformed abundances.
+
+```{r deseq2, echo=FALSE, warning=FALSE, message=FALSE}
+tab <- subset(res.ancom, pval.ancom < 0.05) %>% arrange(desc(abs(log10FC)))
+tab$relab.cond <- round(tab$relab.cond, 2)
+tab$relab.control <- round(tab$relab.control, 2)
+kable(tab)
+```
+
+
+Illustration of the significant genera. CLR transformed abundances.
+
+```{r tops, echo=FALSE, warning=FALSE, message=FALSE, fig.show="hold", out.width = "20%", fig.height=6, fig.width=5}
+library(ggbeeswarm)
+theme_set(theme_bw(20))
+df <- meta(phy)
+ps <- transform(phy, "clr")
+tab <- subset(res.ancom, pval.ancom < 0.05) %>% arrange(desc(abs(log10FC)))
+for (i in 1:nrow(tab)) {
+  tax <- as.character(res.ancom[i, "OTU"])
+  group <- as.character(res.ancom[i, "Grouping"]    )
+  df <- meta(ps)
+  df$Group <- as.factor(df[, gsub("/", "\\.", group)])
+  df$Abundance <- abundances(ps)[tax, ]
+  df <- subset(df, !is.na(Group))
+  p <- ggplot(df, aes(x = Group, y = Abundance)) +
+         #geom_boxplot() +
+	 geom_beeswarm() +
+	 #geom_jitter(width = 0.25, alpha = 0.5) + 	 
+	 # scale_y_log10() +
+	 #coord_flip() +
+	 theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) + 
+	 labs(x = "",
+	      y = "Abundance (CLR)",
+	      title = paste(tax),
+	      subtitle = group)
+  print(p)
+}
+```
+
+
+

@@ -83,8 +83,13 @@ A full phyloseq object of the core microbiota is obtained as follows:
 pseq.core <- core(pseq.rel, detection = 0, prevalence = .5)
 ```
 
+We can also collapse the rare taxa into an "Other" category
 
-Retrieving the associated taxa names from the phyloseq object:
+```{r core_aggregate_rare, message=FALSE, warning=FALSE}
+pseq.core2 <- aggregate_rare(pseq.rel, "Genus", detection = 0, prevalence = .5)
+```
+
+Retrieving the core taxa names from the phyloseq object:
 
 ```{r core-taxa, message=FALSE, warning=FALSE}
 core.taxa <- taxa(pseq.core)

@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-12-25" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2020-03-31" />
 
 
 <title>Core microbiome analysis for Amplicon data</title>
@@ -363,7 +363,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Core microbiome analysis for Amplicon data</h1>
-<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2019-12-25</h4>
+<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2020-03-31</h4>
 
 </div>
 
@@ -383,13 +383,13 @@ summary {
 
 otu.file &lt;-
     system.file(&quot;extdata/qiita1629_otu_table.csv&quot;,
-        package='microbiome')
+        package=&#39;microbiome&#39;)
 
 tax.file &lt;- system.file(&quot;extdata/qiita1629_taxonomy_table.csv&quot;,
-        package='microbiome')
+        package=&#39;microbiome&#39;)
 
 meta.file &lt;- system.file(&quot;extdata/qiita1629_mapping_subset.csv&quot;,
-        package='microbiome')
+        package=&#39;microbiome&#39;)
 
 pseq.csv &lt;- read_phyloseq(
           otu.file=otu.file, 
@@ -412,15 +412,15 @@ pseq.biom &lt;- read_phyloseq(otu.file = biom.file,
 <p>Mothur shared OTUs and Consensus Taxonomy:</p>
 <pre class="r"><code>otu.file &lt;- system.file(
  &quot;extdata/Baxter_FITs_Microbiome_2016_fit.final.tx.1.subsample.shared&quot;,
-    package='microbiome')
+    package=&#39;microbiome&#39;)
 
 tax.file &lt;- system.file(
  &quot;extdata/Baxter_FITs_Microbiome_2016_fit.final.tx.1.cons.taxonomy&quot;,
-    package='microbiome')
+    package=&#39;microbiome&#39;)
 
 meta.file &lt;- system.file(
  &quot;extdata/Baxter_FITs_Microbiome_2016_mapping.csv&quot;,
-    package='microbiome')
+    package=&#39;microbiome&#39;)
  
 pseq.mothur &lt;- read_phyloseq(otu.file=otu.file,
         taxonomy.file =tax.file,
@@ -492,7 +492,7 @@ p&lt;-plot_core(pseq.rel, prevalences = prevalences, detections = det, plot.type
 </div>
 <div id="core-heatmaps" class="section level3">
 <h3>Core heatmaps</h3>
-<p>This visualization method has been used for instance in <a href="https://academic.oup.com/femsre/article/doi/10.1093/femsre/fuw045/2979411/Intestinal-microbiome-landscaping-insight-in#58802539">Intestinal microbiome landscaping: Insight in community assemblage and implications for microbial modulation strategies</a>. Shetty et al. <em>FEMS Microbiology Reviews</em> fuw045, 2017.</p>
+<p>This visualization method has been used for instance in <a href="https://academic.oup.com/femsre/article/doi/10.1093/femsre/fuw045/2979411/Intestinal-microbiome-landscaping-insight-in#58802539">Intestinal microbiome landscaping: Insight in community assemblage and implications for microbial modulation strategies</a>. Shetty et al. <em>FEMS Microbiology Reviews</em> fuw045, 2017.</p>
 <p>Note that you can order the taxa on the heatmap with the order.taxa argument.</p>
 <pre class="r"><code># Core with compositionals:
 prevalences &lt;- seq(.05, 1, .05)

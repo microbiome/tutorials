@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-12-25" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2020-03-31" />
 
 
 <title>Taxonomic network visualization</title>
@@ -363,7 +363,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Taxonomic network visualization</h1>
-<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2019-12-25</h4>
+<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2020-03-31</h4>
 
 </div>
 
@@ -392,7 +392,7 @@ otu &lt;- abundances(pseq)</code></pre>
 <pre class="r"><code># SPIEC-EASI network reconstruction
 # In practice, use more repetitions
 library(SpiecEasi) #install_github(&quot;zdk123/SpiecEasi&quot;)
-net &lt;- spiec.easi(t(otu), method='mb', lambda.min.ratio=1e-2, nlambda=5, icov.select.params=list(rep.num=1))
+net &lt;- spiec.easi(t(otu), method=&#39;mb&#39;, lambda.min.ratio=1e-2, nlambda=5, icov.select.params=list(rep.num=1))
 
 ## Create graph object
 n &lt;- net$refit
@@ -404,7 +404,7 @@ library(network)
 
 # igraph format
 library(igraph)
-# ig &lt;- graph.adjacency(n, mode='undirected', add.rownames = TRUE)
+# ig &lt;- graph.adjacency(n, mode=&#39;undirected&#39;, add.rownames = TRUE)
 
 # Network layout
 # coord &lt;- layout.fruchterman.reingold(ig)
@@ -416,7 +416,7 @@ library(igraph)
 # print(plot(ig, layout = coord, vertex.size = vsize, vertex.label = names(vsize)))</code></pre>
 <p>Investigate degree distribution with the following:</p>
 <pre class="r"><code>#dd &lt;- degree.distribution(ig)
-#plot(0:(length(dd)-1), dd, ylim = c(0,.35), type = 'b',  ylab = &quot;Frequency&quot;, xlab = &quot;Degree&quot;, main = &quot;Degree Distributions&quot;)</code></pre>
+#plot(0:(length(dd)-1), dd, ylim = c(0,.35), type = &#39;b&#39;,  ylab = &quot;Frequency&quot;, xlab = &quot;Degree&quot;, main = &quot;Degree Distributions&quot;)</code></pre>
 <p>Visualize the network with <a href="https://briatte.github.io/ggnet">ggnet2</a>:</p>
 <pre class="r"><code>library(GGally)
 #library(ggnet)

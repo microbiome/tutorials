@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2019-12-25" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2020-03-31" />
 
 
 <title>Plot alpha diversity</title>
@@ -363,7 +363,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Plot alpha diversity</h1>
-<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2019-12-25</h4>
+<h4 class="author">Leo Lahti, Sudarshan Shetty et al. 2020-03-31</h4>
 
 </div>
 
@@ -686,7 +686,7 @@ print(bmi.pairs)</code></pre>
 <div id="violin-plot" class="section level2">
 <h2>Violin plot</h2>
 <p>Using <code>ggpubr</code> a violin plot will be created</p>
-<pre class="r"><code>#ps1.meta$'' &lt;- alpha(ps1, index = 'shannon')
+<pre class="r"><code>#ps1.meta$&#39;&#39; &lt;- alpha(ps1, index = &#39;shannon&#39;)
 p1 &lt;- ggviolin(ps1.meta, x = &quot;bmi_group&quot;, y = &quot;Shannon&quot;,
  add = &quot;boxplot&quot;, fill = &quot;bmi_group&quot;, palette = c(&quot;#a6cee3&quot;, &quot;#b2df8a&quot;, &quot;#fdbf6f&quot;)) 
 print(p1)</code></pre>

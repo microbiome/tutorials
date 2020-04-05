@@ -38,6 +38,7 @@ install_github("microbiome/microbiome")
 
 Load example data:
 
+
 ```{r core-prevalence, warning=FALSE, message=FALSE}
 # Load data
 library(microbiome)

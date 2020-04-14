@@ -73,6 +73,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 * [Community composition](Composition.html)
 * [Core microbiota](Core.html)
 * [Dirichlet Multinomial Mixtures (DMM) for community typing](DMM.html)
+* [Dissimilarity-Overlap Analysis (DOC)](DOC.html)
 * [Landscapes](Landscaping.html) (population density analysis)
 * [Stability and tipping elements](Stability.html)
 

@@ -1,6 +1,6 @@
 ---
 title: "Differential abundance testing"
-author: "`r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
 bibliography: 
 - bibliography.bib
 output:

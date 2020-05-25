@@ -29,7 +29,7 @@ See also related functions for the analysis of rare and variable taxa (rare_memb
 
 ```{r setup, message = FALSE, warning = FALSE, results = 'hide'}
 library("devtools")
-install_github("microbiome/microbiome")
+#install_github("microbiome/microbiome")
 ```
 
 

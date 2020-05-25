@@ -77,7 +77,7 @@ available.
 Multimodality score using [potential analysis with bootstrap](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html)
 
 
-```{r bimodality2, message=FALSE, warning=FALSE}
+```{r bimodality2, message=FALSE, warning=FALSE, eval=FALSE}
 # Bimodality is better estimated from log10 abundances
 pseq0.log10 <- microbiome::transform(pseq0, "log10")
 

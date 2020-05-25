@@ -16,3 +16,4 @@ figure/
 *.Rproj
 docs/*
 Temp/*
+.Rproj.user

@@ -9,9 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2020-05-25" />
+<meta name="author" content="Leo Lahti, Sudarshan Shetty et al. 2020-05-27" />
 
-<meta name="date" content="2020-05-25" />
+<meta name="date" content="2020-05-27" />
 
 <title>Negative binomial</title>
 
@@ -1912,8 +1912,8 @@ function toggle_visibility(id1) {
 
 
 <h1 class="title toc-ignore">Negative binomial</h1>
-<p class="author-name">Leo Lahti, Sudarshan Shetty et al. 2020-05-25</p>
-<h4 class="date">25 May 2020</h4>
+<p class="author-name">Leo Lahti, Sudarshan Shetty et al. 2020-05-27</p>
+<h4 class="date">27 May 2020</h4>
 
 </div>
 
@@ -1937,22 +1937,23 @@ function toggle_visibility(id1) {
 <a class="sourceLine" id="cb1-7" title="7"><span class="kw">data</span>(peerj32) <span class="co"># Source: https://peerj.com/articles/32/</span></a>
 <a class="sourceLine" id="cb1-8" title="8">pseq &lt;-<span class="st"> </span>peerj32<span class="op">$</span>phyloseq <span class="co"># Rename the example data</span></a></code></pre></div>
 <p>Visually compare Akkermansia abundance between genders</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">p &lt;-<span class="st"> </span><span class="kw">boxplot_abundance</span>(pseq, <span class="dt">x =</span> <span class="st">&quot;time&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Akkermansia&quot;</span>, <span class="dt">line =</span> <span class="st">&quot;subject&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gender&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">p &lt;-<span class="st"> </span><span class="kw">boxplot_abundance</span>(pseq, <span class="dt">x =</span> <span class="st">&quot;time&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Akkermansia&quot;</span>, <span class="dt">line =</span> <span class="st">&quot;subject&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw">print</span>(p)</a></code></pre></div>
 <p>Test statistical significance with negative binomial:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(MASS)</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co"># Analyse specific taxa</span></a>
-<a class="sourceLine" id="cb3-4" title="4">tax &lt;-<span class="st"> &quot;Akkermansia&quot;</span></a>
-<a class="sourceLine" id="cb3-5" title="5"></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co"># Pick the signal (abundance) for this tax</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="kw">sample_data</span>(pseq)<span class="op">$</span>signal &lt;-<span class="st"> </span><span class="kw">get_sample</span>(pseq, tax)</a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co"># Negative binomial test with group and gender included</span></a>
-<a class="sourceLine" id="cb3-10" title="10">res &lt;-<span class="st"> </span><span class="kw">glm.nb</span>(signal <span class="op">~</span><span class="st"> </span>group <span class="op">+</span><span class="st"> </span>gender, <span class="dt">data =</span> <span class="kw">meta</span>(pseq))</a>
-<a class="sourceLine" id="cb3-11" title="11"></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co"># Show the results</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="kw">print</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(res)))</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">library</span>(tidyr)</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co"># Analyse specific taxa</span></a>
+<a class="sourceLine" id="cb3-5" title="5">tax &lt;-<span class="st"> &quot;Akkermansia&quot;</span></a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co"># Pick the signal (abundance) for this tax</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="kw">sample_data</span>(pseq)<span class="op">$</span>signal &lt;-<span class="st"> </span><span class="kw">get_sample</span>(pseq, tax)</a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co"># Negative binomial test with group and gender included</span></a>
+<a class="sourceLine" id="cb3-11" title="11">res &lt;-<span class="st"> </span><span class="kw">glm.nb</span>(signal <span class="op">~</span><span class="st"> </span>group <span class="op">+</span><span class="st"> </span>sex, <span class="dt">data =</span> <span class="kw">meta</span>(pseq))</a>
+<a class="sourceLine" id="cb3-12" title="12"></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co"># Show the results</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="kw">print</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(res)))</a></code></pre></div>
 </div>
 
 

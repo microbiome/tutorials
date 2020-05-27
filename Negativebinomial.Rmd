@@ -45,7 +45,7 @@ pseq <- peerj32$phyloseq # Rename the example data
 Visually compare Akkermansia abundance between genders
 
 ```{r boxplot2, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, out.width="300px", eval=FALSE}
-p <- boxplot_abundance(pseq, x = "time", y = "Akkermansia", line = "subject", color = "gender") + scale_y_log10()
+p <- boxplot_abundance(pseq, x = "time", y = "Akkermansia", line = "subject") + scale_y_log10()
 print(p)
 ```
 
@@ -53,6 +53,7 @@ Test statistical significance with negative binomial:
 
 ```{r comparisons2b, eval=FALSE}
 library(MASS)
+library(tidyr)
 
 # Analyse specific taxa
 tax <- "Akkermansia"
@@ -61,7 +62,7 @@ tax <- "Akkermansia"
 sample_data(pseq)$signal <- get_sample(pseq, tax)
 
 # Negative binomial test with group and gender included
-res <- glm.nb(signal ~ group + gender, data = meta(pseq))
+res <- glm.nb(signal ~ group + sex, data = meta(pseq))
 
 # Show the results
 print(coef(summary(res)))

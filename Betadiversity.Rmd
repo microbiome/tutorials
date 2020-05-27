@@ -63,15 +63,23 @@ for (g in groups) {
       s <- as.character(dfs$sample)
       # Here with just two samples we can calculate the
       # beta diversity directly
-      beta[[subj]] <- divergence(abundances(pseq)[, s[[1]]],
-      		            abundances(pseq)[, s[[2]]],
-			    method = "bray")
+      beta[[subj]] <- divergence(abundances(pseq)[, s[[1]]],abundances(pseq)[, s[[2]]],method = "bray")
     }
   }
   betas[[g]] <- beta
 }
+# boxplot
+df <- as.data.frame(unlist(betas))
+s<- rownames(df)
+si<- as.data.frame(s)
+si<- separate(si, s, into = c('names','s'))
+df1<- bind_cols(df, si)
+rownames(df1)<- df1$s ; df1$s<- NULL
 
-boxplot(betas)
+p<- ggplot(df1, aes(x = names, y = `unlist(betas)`))+ geom_boxplot() + ylab('') + xlab('')
+
+plot(p) 
+
 ```
 
 

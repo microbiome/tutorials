@@ -49,6 +49,7 @@ m <- mixture.model(D, mixture.method = "vdp", pca.basis = FALSE)
 # on diagonal covariance matrices, so the ellipsoidal axes of the 
 # Gaussian modes are parallel to the coordinate axes.)
 p <- PlotMixtureMultivariate(D, means = m$mu, sds = m$sd, ws = m$w, modes = apply(m$qofz,1,which.max))
+plot(p)
 ```
 
 ## Univariate (infinite) Gaussian mixture model
@@ -65,7 +66,7 @@ m <- mixture.model(x, mixture.method = "vdp", max.responses = 10)
 # Plot the data and estimated modes
 p <- PlotMixtureUnivariate(x, means = m$mu, sds = m$sd, ws = m$w, binwidth = 0.1, qofz = m$qofz)
 
-print(p)
+plot(p)
 ```
 
 ## Clustering samples with mixed variables

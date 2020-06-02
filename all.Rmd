@@ -1,6 +1,6 @@
 ---
 title: "Differential abundance testing"
-author: "`r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -168,21 +168,24 @@ pvalues <- data.frame(taxon = test.taxa,
 # We must correct the p-values.
 # let us apply the standard Benjamini-Hochberg False Discovery Rate (FDR)
 # correction
-pvalues$pvalue.ttest.adjusted <- p.adjust(pvalues$pvalue.ttest)
-pvalues$pvalue.wilcoxon.adjusted <- p.adjust(pvalues$pvalue.wilcoxon)
+pvalues$pvalue.ttest.adjusted <- p.adjust(pvalue.ttest)
+#pvalues$pvalue.ttest.adjusted <- p.adjust(pvalues$pvalue.ttest)
+pvalues$pvalue.wilcoxon.adjusted <- p.adjust(pvalue.wilcoxon)
 ```
 
 
 Compare the p-value histograms between raw and adjusteed p-values.
 
 ```{r univariate5, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
-p1 <- ggplot(pvalues, aes(x = pvalue.wilcoxon)) +
-        geom_histogram() +
+library(reshape2)
+library(tidyverse)
+pvalues$pvalue.wilcoxon<- as.numeric(pvalue.wilcoxon)
+p1 <- ggplot(pvalues, aes(x = pvalue.wilcoxon)) + geom_histogram(bins = 50, binwidth = .03)+
         labs(title = "Raw p-values") +
 	ylim(c(0, 80))
 
 p2 <- ggplot(pvalues, aes(x = pvalue.wilcoxon.adjusted)) +
-        geom_histogram() +
+        geom_histogram(bins = 50, binwidth = .03) +
         labs(title = "Adjusted p-values") +
 	ylim(c(0, 80))	
 

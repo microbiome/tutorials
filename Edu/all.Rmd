@@ -24,6 +24,7 @@ output:
 # Handle citations
 require(knitcitations)
 require(bookdown)
+library(ggplot2)
 # cleanbib()
 # options("citation_format" = "pandoc")
 bib <- read.bibtex("bibliography.bib")

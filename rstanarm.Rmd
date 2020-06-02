@@ -84,7 +84,7 @@ You can use your own data set, ready-made R example data sets, or load the follo
 
 ```{r data, warning=FALSE, message=FALSE, eval=FALSE}
 # Install the example data set used in rstanarm tutorials
-install.packages("HSAUR3")
+#install.packages("HSAUR3")
 
 # Load example data
 library(microbiome)
@@ -100,7 +100,10 @@ x <- baseline(dietswap)
 df <- meta(x)
 
 # Add microbiome diversity to the metadata
-df$diversity <- alpha(x, "shannon")$shannon
+df$diversity <- microbiome::alpha(x, 'shannon')$diversity_shannon
+library(knitr)
+kable(df)
+
 ```
 
 You can study the effects of the various parameters in this data.frame

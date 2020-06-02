@@ -11,7 +11,7 @@
 
 <meta name="author" content="Leo Lahti and Ville Laitinen | VIB / KU Leuven, Belgium - Feb 27, 2018" />
 
-<meta name="date" content="2020-03-31" />
+<meta name="date" content="2020-06-02" />
 
 <title>Linear models and probabilistic programming</title>
 
@@ -365,7 +365,7 @@ summary {
 
 <h1 class="title toc-ignore">Linear models and probabilistic programming</h1>
 <h4 class="author">Leo Lahti and Ville Laitinen | VIB / KU Leuven, Belgium - Feb 27, 2018</h4>
-<h4 class="date">2020-03-31</h4>
+<h4 class="date">2020-06-02</h4>
 
 </div>
 
@@ -399,7 +399,7 @@ summary {
 <h1>Example data</h1>
 <p>You can use your own data set, ready-made R example data sets, or load the following example data. This data set from <a href="http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html">Lahti et al. Nat. Comm. 5:4344, 2014</a> includes microbiota profiles for 130 genus-like taxa across 1006 normal western adults from <a href="http://doi.org/10.5061/dryad.pk75d">Data Dryad</a>. Load the data in R:</p>
 <pre class="r"><code># Install the example data set used in rstanarm tutorials
-install.packages(&quot;HSAUR3&quot;)
+#install.packages(&quot;HSAUR3&quot;)
 
 # Load example data
 library(microbiome)
@@ -415,7 +415,9 @@ x &lt;- baseline(dietswap)
 df &lt;- meta(x)
 
 # Add microbiome diversity to the metadata
-df$diversity &lt;- alpha(x, &quot;shannon&quot;)$shannon</code></pre>
+df$diversity &lt;- microbiome::alpha(x, &#39;shannon&#39;)$diversity_shannon
+library(knitr)
+kable(df)</code></pre>
 <p>You can study the effects of the various parameters in this data.frame on microbiota diversity using ANOVA, linear models, mixed models, and generalized linear models in rstanarm.</p>
 <p>For further example data sets from microbial ecology, see <a href="http://microbiome.github.io/microbiome/rstanarm.html">microbiome tutorial</a>.</p>
 </div>

@@ -107,8 +107,7 @@ with the neatmap method:
 ```{r composition-example7, fig.width=10, fig.height=8, out.width="800px"}
 p <- plot_composition(microbiome::transform(pseq, "compositional"),
 	                plot.type = "heatmap",
-                        sample.sort = "neatmap",
-			otu.sort = "neatmap")
+                        sample.sort = "neatmap", otu.sort = "neatmap")
 print(p)
 ```
 

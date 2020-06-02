@@ -57,6 +57,8 @@ otu <- abundances(pseq)
 ```{r spieceasi, warning=FALSE, message=FALSE, fig.width=10, fig.height=10, eval=TRUE}
 # SPIEC-EASI network reconstruction
 # In practice, use more repetitions
+library(devtools)
+#install_github("zdk123/SpiecEasi")
 library(SpiecEasi) #install_github("zdk123/SpiecEasi")
 net <- spiec.easi(t(otu), method='mb', lambda.min.ratio=1e-2, nlambda=5, icov.select.params=list(rep.num=1))
 

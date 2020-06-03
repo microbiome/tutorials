@@ -48,6 +48,7 @@ pseq <- peerj32$phyloseq
 Divergence within subjects may increase following intervention.
 
 ```{r divergence2c, message=FALSE, warning=FALSE, out.width="300px"}
+library(tidyverse)
 betas <- list()
 groups <- as.character(unique(meta(pseq)$group))
 for (g in groups) {
@@ -165,8 +166,21 @@ b.lgg <- divergence(subset_samples(pseq, group == "LGG"),
 The group with larger values has a more heterogeneous community composition. 
 
 ```{r divergence-example2bbb, message=FALSE, out.width="300px"}
-boxplot(list(LGG = b.lgg, Placebo = b.pla))
+library(reshape)
+l<- list(b.pla, b.lgg)
+df<- melt(l)
+df$L1[df$L1 == '1']<- 'placebo'
+df$L1[df$L1 == '2']<- 'LGG'
+
+df$L1<- factor(df$L1, levels = c('placebo','LGG'))
+
+
+
+p<- ggplot(df, aes(x = L1, y = value)) + geom_boxplot()+ xlab('')
+
+plot(p)
 ```
+
 
 See [Community comparisons](Comparisons.html) for examples on group-level comparisons based on beta diversity.
 

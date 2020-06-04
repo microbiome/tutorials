@@ -28,7 +28,7 @@ output:
 
 Get example data - [HITChip Atlas of 130 genus-like taxa across 1006 healthy western adults](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html). A subset of 76 subjects have also short time series available for temporal stability analysis:
 
-```{r bistability, message=FALSE}
+```{r bistability, message=FALSE, warning=FALSE, error=FALSE}
 # Load the example data
 set.seed(134)
 library(microbiome)
@@ -60,7 +60,7 @@ abundances, and an instable intermediate abundance range. Instability
 at the intermediate abundance range is hence one indicator of
 bi-stability. [Lahti et al. 2014](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html) used straightforward correlation analysis to quantify how the distance from the intermediate abundance region (50% quantile) is associated with the observed shifts between consecutive time points. 
 
-```{r bistability2}
+```{r bistability2, warning=FALSE, error=FALSE, message=FALSE}
 intermediate.stability <- intermediate_stability(pseq, output = "scores")
 ```
 
@@ -113,7 +113,7 @@ print(p)
 Identify potential minima in cross-section population data as
 tipping point candidates. 
 
-```{r stability-tipping, message=FALSE, warning=FALSE}
+```{r stability-tipping, message=FALSE, warning=FALSE, eval=FALSE}
 # Log10 abundance for a selected taxonomic group
 # Pick the most bimodal taxa as an example
 tax  <- names(which.max(bimodality.score))
@@ -123,7 +123,9 @@ x <- abundances(microbiome::transform(pseq, "log10"))[tax,]
 
 # Bootstrapped potential analysis to identify potential minima
 # in practice, use more bootstrap iterations
-potential.minima <- potential_analysis(x, bs.iter = 10)$minima
+potential.minima <- potential_analysis(x, bs.iter = 10)
+
+$minima
 
 # Same with earlywarnings package (without bootstrap ie. less robust)
 # library(earlywarnings)

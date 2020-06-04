@@ -58,20 +58,20 @@ the taxa). Some of these are optional.
 
 Pick metadata as data.frame:
 
-```{r data21b}
+```{r data21b, message=FALSE, error=FALSE, warning=FALSE}
 meta <- meta(pseq)
 ```
 
 Taxonomy table:
 
-```{r data22}
+```{r data22, message=FALSE, error=FALSE, warning=FALSE}
 taxonomy <- tax_table(pseq)
 ```
 
 
 Abundances for taxonomic groups ('OTU table') as a TaxaxSamples matrix:
 
-```{r data23}
+```{r data23, message=FALSE, error=FALSE, warning=FALSE}
 # Absolute abundances
 otu.absolute <- abundances(pseq)
 
@@ -83,14 +83,14 @@ otu.relative <- abundances(pseq, "compositional")
 Total read counts:
 
 
-```{r reads}
+```{r reads, message=FALSE, error=FALSE, warning=FALSE}
 r <- readcount(pseq)
 ```
 
 
 Melting phyloseq data for easier plotting:
 
-```{r data25}
+```{r data25, message=FALSE, error=FALSE, warning=FALSE}
 df <- psmelt(pseq)
 kable(head(df))
 ```
@@ -101,7 +101,7 @@ kable(head(df))
 
 Sample names and variables
 
-```{r preprocess2b, warning=FALSE, message=FALSE}
+```{r preprocess2b, message=FALSE, error=FALSE, warning=FALSE}
 head(sample_names(pseq))
 ```
 
@@ -113,7 +113,7 @@ s <- sample_sums(pseq)
 
 Abundance of a given species in each sample
 
-```{r preprocess2d, warning=FALSE, message=FALSE}
+```{r preprocess2d, message=FALSE, error=FALSE, warning=FALSE}
 head(abundances(pseq)["Akkermansia",])
 ```
 
@@ -127,7 +127,7 @@ pseq.subset <- subset_samples(pseq, nationality == "AFR")
 
 Select a subset by providing sample names: 
 
-```{r data-subsetting2, eval=FALSE}
+```{r data-subsetting2, eval=FALSE, message=FALSE, error=FALSE, warning=FALSE}
 # Check sample names for African Females in this phyloseq object
 s <- rownames(subset(meta(pseq), nationality == "AFR" & sex == "Female"))
 
@@ -138,7 +138,7 @@ pseq.subset2 <- prune_samples(s, pseq)
 
 Pick samples at the baseline time points only:
 
-```{r baseline, message=FALSE, warning=FALSE}
+```{r baseline, message=FALSE, error=FALSE, warning=FALSE}
 pseq0 <- baseline(pseq)
 ```
 
@@ -151,20 +151,20 @@ The microbiome package provides a wrapper for standard sample/OTU transforms. Fo
 transformations. Relative abundances (note that the input data needs
 to be in absolute scale, not logarithmic!):
 
-```{r data10}
+```{r data10, message=FALSE, error=FALSE, warning=FALSE}
 pseq.compositional <- microbiome::transform(pseq, "compositional")
 ```
 
 The CLR ("clr") transformation is also available, and comes with a pseudocount to avoid zeroes. An alternative method is to impute the zero-inflated unobserved values. Sometimes a multiplicative Kaplan-Meier smoothing spline (KMSS) replacement, multiplicative lognormal replacement, or multiplicative simple replacement are used. These are available in the zCompositions R package (functions multKM, multLN, and multRepl, respectively). Use at least n.draws = 1000 in practice, here less used to speed up example.
 
-```{r data10b}
+```{r data10b, message=FALSE, error=FALSE, warning=FALSE}
 data(dietswap)
 x <- dietswap
 # Compositional data 
 x2 <- microbiome::transform(x, "compositional")
 ```
 
-```{r data10bb, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+```{r data10bb, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results="hide"}
 # library(zCompositions)
 # This would be recommended for compositional zero-inflated data:
 # KMSS replacement for zero-inflated compositional values
@@ -178,19 +178,19 @@ x2 <- microbiome::transform(x, "compositional")
 
 Sample variable names
 
-```{r preprocess4, warning=FALSE, message=FALSE}
+```{r preprocess4, message=FALSE, error=FALSE, warning=FALSE}
 sample_variables(pseq)
 ```
 
 Pick values for a given variable
 
-```{r preprocess4b, warning=FALSE, message=FALSE}
+```{r preprocess4b, message=FALSE, error=FALSE, warning=FALSE}
 head(get_variable(pseq, sample_variables(pseq)[1]))
 ```
 
 Assign new fields to metadata
 
-```{r preprocess4b2, warning=FALSE, message=FALSE}
+```{r preprocess4b2, message=FALSE, error=FALSE, warning=FALSE}
 # Calculate diversity for samples
 div <- microbiome::alpha(pseq, index = "shannon")
 
@@ -272,14 +272,14 @@ tax.abundances <- abundances(pseq)[, samplename]
 
 Aggregate taxa to higher taxonomic levels. This is particularly useful if the phylogenetic tree is missing. When it is available, see [merge_samples, merge_taxa and tax_glom](http://joey711.github.io/phyloseq/merge.html)).
 
-```{r data24b}
+```{r data24b, message=FALSE, error=FALSE, warning=FALSE}
 pseq2 <- aggregate_taxa(pseq, "Phylum") 
 ```
 
 
 Merge the desired taxa into "Other" category. Here, we merge all Bacteroides groups into a single group named Bacteroides.
 
-```{r merge2}
+```{r merge2, message=FALSE, error=FALSE, warning=FALSE}
 pseq2 <- merge_taxa2(pseq, pattern = "^Bacteroides", name = "Bacteroides") 
 ```
 
@@ -333,7 +333,7 @@ group_age(c(17, 41, 102), "decades")
 
 Add metadata to a phyloseq object. For reproducibility, we just use the existing metadata in this example, but this can be replaced by another data.frame (samples x fields). 
 
-```{r add_metadata, eval=TRUE}
+```{r add_metadata, eval=TRUE, message=FALSE, error=FALSE, warning=FALSE}
 # Example data
 data(dietswap)
 pseq <- dietswap

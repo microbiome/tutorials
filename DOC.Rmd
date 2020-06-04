@@ -25,8 +25,8 @@ output:
 -->
 
 ```{r setup, message = FALSE, warning = FALSE, results = 'hide'}
-library("devtools")
-install_github("microbiome/microbiome")
+#library("devtools")
+#install_github("microbiome/microbiome")
 ```
 
 # Dissimilarity-Overlap analysis
@@ -46,7 +46,7 @@ Estimate the overlap and dissimilarity quantities:
 
 ```{r doc_quantities, warning=FALSE, message=FALSE}
 # Dissimilarity
-d <- distance(transform(atlas1006), "jsd", parallel=TRUE)
+d <- phyloseq::distance(transform(atlas1006), "jsd", parallel=TRUE)
 
 # Overlap
 o <- overlap(atlas1006, detection = 0.2/100)

@@ -14,7 +14,9 @@ output:
     lightbox: true
     gallery: true
     use_bookdown: false
-    highlight: haddock ---
+    highlight: haddock 
+
+---
 <!--
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{microbiome tutorial - output}
@@ -23,14 +25,14 @@ output:
 -->
 
 
-### Writing diversity table into file
+## Writing diversity table into file
 
 ```{r diversity-example4, warning=FALSE, eval = FALSE}
 output.dir <- "./"
 write.table(div.table, file = "DiversityTable.tab", sep = "\t")
 ```
 
-### Save clustering image to a file
+## Save clustering image to a file
 
 Save in PDF:
 

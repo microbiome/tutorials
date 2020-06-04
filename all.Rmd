@@ -106,7 +106,7 @@ Now let us investigate the Gaussian assumption in more
 detail. Boxplots may not show deviations from Gaussian assumptions
 very clearly Let us try another visualization; the density plot.
 
-```{r univariate_densityplot, warning=FALSE, message=FALSE}
+```{r univariate_densityplot, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
 p <- ggplot(df, aes(fill = Group, x = Log10_Abundance)) +
        geom_density(alpha = 0.5)
 print(p)

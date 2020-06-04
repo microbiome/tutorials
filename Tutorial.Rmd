@@ -120,7 +120,7 @@ pseq.rel <- microbiome::transform(pseq, "compositional")
 pseq.core <- core(pseq.rel, detection = 0.1/100, prevalence = 50/100)
 ```
 
-Visualizing the core
+Visualizing the core. Using all data can give a visual of which taxa are core at various detection thresholds. The pseq.core object is filtered to have only core taxa based on the user provided values. We suggest using all data for plotting with plot_core and then changing settings for prevalence to limit which taxa you want to visualise.
 
 ```{r core-example3, fig.width=8, fig.heigth=18, fig.show='hold', warning=FALSE, out.width = '200px', warning=FALSE}
 # Core with compositionals:

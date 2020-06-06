@@ -37,9 +37,9 @@ data(dietswap)
 # Make sure we use functions from correct package
 transform <- microbiome::transform
 
-# Just use prevalent taxa to speed up examples
-# (not absolute counts used in this example)
-pseq <- core(dietswap, detection = 50, prevalence = 50/100)
+# Merge rare taxa to speed up examples
+pseq <- transform(dietswap, "compositional")
+pseq <- aggregate_rare(pseq, level = "Genus", detection = 1/100, prevalence = 50/100)
 
 # Pick sample subset
 library(phyloseq)
@@ -68,7 +68,8 @@ theme_set(theme_bw(21))
 p <- pseq3 %>%
     plot_composition(sample.sort = "Firmicutes", otu.sort = "abundance") +
          # Set custom colors
-          scale_fill_manual(values = default_colors("Phylum")[taxa(pseq3)]) 
+          scale_fill_manual(values = default_colors("Phylum")[taxa(pseq3)]) +
+	  scale_y_continuous(label = scales::percent)
 
 print(p)
 ```
@@ -126,10 +127,10 @@ data(atlas1006)
 p0 <- subset_samples(atlas1006, DNA_extraction_method == "r")
 
 # Define detection and prevalence thresholds to filter out rare taxa
-p0 <- core(p0, detection = 10, prevalence = 0)
+p0 <- core(p0, detection = 0.1/100, prevalence = 1/100)
 
 # For the available taxonomic levels
-plot_taxa_prevalence(p0, "Phylum", detection = 10)
+plot_taxa_prevalence(p0, "Phylum", detection = 0.1/100)
 ```
 
 

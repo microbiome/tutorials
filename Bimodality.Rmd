@@ -38,11 +38,11 @@ pseq <- atlas1006
 # Focus on specific DNA extraction method
 pseq <- pseq %>% subset_samples(DNA_extraction_method == "r")
 
-# Keep prevalent taxa (HITChip signal >3 in >20 percent of the samples)
-pseq <- core(pseq, detection = 10^3, prevalence = .2)
-
 # Use relative abundances
 pseq <- microbiome::transform(pseq, "compositional")
+
+# Merge rare taxa to speed up examples
+pseq <- aggregate_rare(pseq, level = "Genus", detection = .1/100, prevalence = 10/100)
 
 # For cross-sectional analysis, include
 # only the zero time point:
@@ -61,55 +61,29 @@ available.
 Multimodality score using [potential analysis with
 bootstrap](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html). Sarle's bimodality coefficient is available as well; and for classical test of unimodality, see the DIP test.
 
-```{r bimodality2, message=FALSE, warning=FALSE, eval=FALSE}
+```{r bimodality2, message=FALSE, warning=FALSE}
 # Bimodality is better estimated from log10 abundances
-pseq0.log10 <- microbiome::transform(pseq0, "log10")
-bimodality <- bimodality(pseq0.log10, method = "potential_analysis", bs.iter = 20)
+pseq0.clr <- microbiome::transform(pseq0, "clr")
+bimodality <- bimodality(pseq0.clr, method = "potential_analysis", bs.iter = 20)
 ```
 
 # Visualization   
 
 **Visualize population densities for unimodal and bimodal groups**
 
-```{r stability2, message=FALSE, warning=FALSE, eval=FALSE, fig.width=12, fig.height=5, out.width="500px"}
+```{r stability2, message=FALSE, warning=FALSE, fig.width=12, fig.height=5, out.width="500px"}
 # Pick the most and least bimodal taxa as examples
 unimodal  <- names(sort(bimodality))[[1]]
 bimodal  <- rev(names(sort(bimodality)))[[1]]
 
-# Visualize population frequencies
+# Visualize population frequencies at the baseline time point
 library(ggplot2)
 theme_set(theme_bw(20))
-p1 <- plot_density(pseq, variable = unimodal, log10 = TRUE) 
-p2 <- plot_density(pseq, variable = bimodal,  log10 = TRUE) 
+p1 <- plot_density(pseq0.clr, variable = unimodal) 
+p2 <- plot_density(pseq0.clr, variable = bimodal) 
 library(gridExtra)
 library(ggplot2)
 grid.arrange(p1, p2, nrow = 1)
-```
-
-
-# Tipping point detection
-
-Identify potential minima in cross-section population data as tipping
-point candidates (note that [longitudinal analysis](Stability.html)
-would be necessary to establish bistability).
-
-```{r stability-tipping, message=FALSE, warning=FALSE, eval=FALSE}
-# Log10 abundance for a selected taxonomic group
-tax <- bimodal
-
-# Detect tipping points detection at log10 abundances 
-x <- log10(abundances(pseq)[tax,])
-
-# Bootstrapped potential analysis to identify potential minima
-set.seed(3432)
-potential.minima <- potential_analysis(log10(abundances(pseq)[tax,]), bs.iter = 50)$minima
-# Same with earlywarnings package (without bootstrap ie. less robust)
-# library(earlywarnings)
-# res <- livpotential_ews(x)$min.points
-
-# Identify the potential minimum location as a tipping point candidate
-# and cast the tipping back to the original (non-log) space:
-tipping.point <- 10^potential.minima
 ```
 
 
@@ -117,9 +91,11 @@ tipping.point <- 10^potential.minima
 
 Pick subset of the [HITChip Atlas data set](http://doi.org/10.5061/dryad.pk75d) and plot the subject abundance variation lineplot (**Variation tip plot**) and **Bimodality hotplot** for a given taxon as in [Lahti et al. 2014](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html). The Dialister has bimodal population distribution and reduced temporal stability within subjects at intermediate abundances.
 
-```{r stability-variationplot, eval=FALSE, message=FALSE, warning=FALSE, fig.show='hold', out.width="430px"}
-# We set the tipping point manually in this example
+For examples on tipping point detection, see
+[Stability](Stability). We set the tipping point manually in the
+following example.
 
+```{r stability-variationplot, message=FALSE, warning=FALSE, fig.show='hold', out.width="430px"}
 # Bimodality hotplot:
 # Consider a unique sample from each subject: the baseline time point 
 p <- hotplot(pseq0, tax, tipping.point = 0.005)

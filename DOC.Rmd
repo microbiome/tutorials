@@ -46,7 +46,7 @@ Estimate the overlap and dissimilarity quantities:
 
 ```{r doc_quantities, warning=FALSE, message=FALSE}
 # Dissimilarity
-d <- phyloseq::distance(transform(atlas1006), "jsd", parallel=TRUE)
+d <- phyloseq::distance(microbiome::transform(atlas1006, "compositional"), "jsd", parallel=TRUE)
 
 # Overlap
 o <- overlap(atlas1006, detection = 0.2/100)

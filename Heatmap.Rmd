@@ -63,7 +63,9 @@ Visualize the Z-transformed abundance matrix
 ```{r hn122, fig.width=10, fig.height=5, message=FALSE, warning=FALSE}
 
 # Plot the abundances heatmap
-heat(melt(abundances(pseqz)), "Var1", "Var2", "value")
+dfm <- melt(abundances(pseqz))
+colnames(dfm) <- c("Taxa", "Sample", "value")
+heat(dfm, "Taxa", "Sample", "value")
 
 ```
 
@@ -76,7 +78,9 @@ Find visually appealing order for rows and columns with the Neatmap approach:
 xo <- neat(abundances(pseqz), method = "NMDS", distance = "euclidean") 
 
 # Heatmap visualization
-heat(melt(xo), "Var1", "Var2", "value")
+dfm <- melt(xo)
+colnames(dfm) <- c("Taxa", "Sample", "value")
+heat(dfm, "Taxa", "Sample", "value")
 
 # or use a shortcut to sorting rows (or columns) if just the order was needed 
 sorted.rows <- neatsort(abundances(pseqz), "rows", method = "NMDS", distance = "euclidean") 
@@ -117,14 +121,12 @@ kable(head(correlation.table))
 Rearrange the data and plot the heatmap and mark significant correlations with stars to reproduce microbiota-lipidome heatmap from [Lahti et al. PeerJ (2013)](https://peerj.com/articles/32/) (the ordering of rows and columns may be different): 
 
 ```{r heatmap-example-stars2, message=FALSE, warning=FALSE, fig.keep='none'}
-
 p <- heat(correlation.table, "X1", "X2", fill = "Correlation", star = "p.adj", p.adj.threshold = 0.05) 
 ```
 
 
 ```{r heatmap-example-stars3, fig.width=12, fig.height=10, message=FALSE, warning=FALSE}
 print(p)
-
 ```
 
 
@@ -183,9 +185,9 @@ p <- p + geom_text(aes(fill = df$Correlation, label = round(df$Correlation, 1)),
 p <- p + scale_fill_gradientn("Correlation", 
        	 		      breaks = seq(from = -1, to = 1,  by = 0.25), 
        	 		      colours = c("blue", "white", "red"), 
-			      limits = c(-1, 1))
-p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
-p <- p + xlab("") + ylab("")
+			      limits = c(-1, 1)) +
+		theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+		labs(x = "", y = "")
 print(p)
 
 ```

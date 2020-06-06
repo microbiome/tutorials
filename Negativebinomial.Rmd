@@ -30,7 +30,7 @@ output:
 
 Load example data:
 
-```{r boxplot-example, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, eval=FALSE}
+```{r boxplot-example, warning=FALSE, message=FALSE, fig.width=8, fig.height=5}
 # Load libraries
 library(microbiome)
 library(ggplot2)

@@ -121,7 +121,7 @@ df <- meta(pseq) %>% arrange(time)
 beta <- c() # Baseline similarity
 s0 <- subset(df, time == 0)$sample
 # Let us transform to relative abundance for Bray-Curtis calculations
-a <- abundances(transform(pseq, "compositional")) 
+a <-microbiome::abundances(microbiome::transform(pseq, "compositional")) 
 for (tp in df$time[-1]) {
   # Pick the samples for this subject
   # If the same time point has more than one sample,

@@ -95,7 +95,7 @@ For examples on tipping point detection, see
 [Stability](Stability). We set the tipping point manually in the
 following example.
 
-```{r stability-variationplot, message=FALSE, warning=FALSE, fig.show='hold', out.width="430px"}
+```{r stability-variationplot, message=FALSE, warning=FALSE, fig.show='hold', out.width="430px", eval=FALSE}
 # Bimodality hotplot:
 # Consider a unique sample from each subject: the baseline time point 
 p <- hotplot(pseq0, tax, tipping.point = 0.005)

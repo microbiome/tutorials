@@ -184,3 +184,7 @@ plot(p)
 
 See [Community comparisons](Comparisons.html) for examples on group-level comparisons based on beta diversity.
 
+#####
+
+For visualizing temporal trajectory in beta diversity [click here](TemporalMicrobiotaTrajectory.html)
+

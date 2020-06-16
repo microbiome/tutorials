@@ -1,0 +1,200 @@
+---
+title: "Temporal microbiota trajectory"
+author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+bibliography: 
+- bibliography.bib
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock    
+---
+  <!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - composition}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}  
+-->
+   
+   
+Nowadays, increasing number of microbiota researchers are incorporating temporal aspects in study designs. These may be either long-term evaluation of soil microbiota or intervention studies in human microbiome research. Here, we present some codes and visualition of longitudinal microbiota sampling. We hope to add some functionality in future releases of `microbiome` package.
+
+In this, tutorial we demonstrate how to plot trajactory of a microbiota through time
+We use the human microbiome time series data `moving_pictures` from [Caporaso et al., 2011 Genome Biol.](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50). These data as the reprocessed files as a part of the [Earth microbiome project](https://www.nature.com/articles/nature24621). This data is packaged in an R package [jeevanuDB](https://github.com/microsud/jeevanuDB) for using it in this tutorial.
+
+```{r lib-1, warning=FALSE, message=FALSE, eval=TRUE}
+#### To install this pkg ####
+# install.packages("devtools")
+# devtools::install_github("microsud/jeevanuDB")
+############################
+
+library(microbiome)
+library(jeevanuDB) # external database pkg for microbiome pkg with test data
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(knitr)
+```
+
+We use the `moving_pictures` dataset. 
+```{r data-eg, warning=FALSE, message=FALSE, eval=TRUE}
+# Example data
+data("moving_pictures")
+# Rename
+ps <- moving_pictures
+```
+
+Check data for which and how many samples are present each subject.
+```{r sam-data, warning=FALSE, message=FALSE, eval=TRUE}
+kable(table(meta(ps)$host_subject_id, meta(ps)$sample_type))
+```
+
+
+Use only the stool (gut) microbiota data.
+```{r get-dat, warning=FALSE, message=FALSE, eval=TRUE}
+
+ps.gut <- subset_samples(ps, sample_type == "stool")
+taxa_names(ps.gut) <- paste0("ASV-", seq(ntaxa(ps.gut))) # rename sequences to ids
+
+# remove asvs which are zero in all of these samples
+ps.gut <- prune_taxa(taxa_sums(ps.gut) > 0, ps.gut)
+
+# remove samples with less than 500 reads Note: this is user choice 
+# here we just show example
+ps.gut <- prune_samples(sample_sums(ps.gut) > 500, ps.gut)
+
+# Covnert to relative abundances
+ps.gut.rel <- microbiome::transform(ps.gut, "compositional")
+
+```
+
+Using `phyloseq` we do ordination analysis.
+```{r get-ordination, warning=FALSE, message=FALSE, eval=TRUE}
+# Ordination object
+ps.ord <- ordinate(ps.gut.rel, "PCoA")
+
+# Ordination object plus all metadata, note: we use justDF=T. This will not return a plot but a data.frame
+ordip <- plot_ordination(ps.gut.rel, ps.ord, justDF = T)
+```
+
+Now, let's start to make a custom visualization.
+```{r get-axis-var, warning=FALSE, message=FALSE, eval=TRUE}
+# Get axis 1 and 2 variation
+evals1 <- round(ps.ord$values$Eigenvalues[1] / sum(ps.ord$values$Eigenvalues) * 100, 2)
+evals2 <- round(ps.ord$values$Eigenvalues[2] / sum(ps.ord$values$Eigenvalues) * 100, 2)
+```
+
+Set some nice colors 
+
+```{r set-col, warning=FALSE, message=FALSE, eval=TRUE}
+# theme_set(theme_bw(14))
+# set colors
+subject_cols <- c(F4 = "#457b9d", M3 = "#e63946")
+```
+
+Add trajectory for the subject of interest. Here, we randomnly choose subject F4
+```{r subset-subject, warning=FALSE, message=FALSE, eval=TRUE}
+# choose data for subject F4
+dfs <- subset(ordip, host_subject_id == "F4")
+
+# arrange according to sampling time. Sort with increasing time
+dfs <- dfs %>%
+  arrange(days_since_experiment_start)
+
+```
+
+Initiate plotting
+
+```{r suject-plot, warning=FALSE, message=FALSE, eval=TRUE, fig.align='center', fig.width=6, fig.height=4}
+# use the ordip
+# first step get blank plot
+p <- ggplot(ordip, aes(x = Axis.1, y = Axis.2))
+
+# add path (lines) join only those samples that are from F4
+p2 <- p +
+  geom_path(
+    data = dfs, alpha = 0.7,
+    arrow = arrow(
+      angle = 15, length = unit(0.1, "inches"),
+      ends = "last", type = "closed"
+    )
+  ) +
+# now add a layer of points 
+  geom_point(aes(color = host_subject_id), alpha = 0.6, size = 3) +
+  scale_color_manual("Subject", values = subject_cols) +
+  xlab(paste("PCoA 1 (", evals1, "%)", sep = "")) +
+  ylab(paste("PCoA 2 (", evals2, "%)", sep = "")) +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+# coord_fixed(sqrt(evals[2] / evals[1]))
+
+# Print figure
+print(p2)
+```
+
+
+Alternatively we can just focus on one subject. 
+```{r suject-plot-a, warning=FALSE, message=FALSE, eval=TRUE}
+# subset data for only M3
+ps.gut.rel.m3 <- subset_samples(ps.gut.rel, host_subject_id == "M3")
+# remove asvs which are zero in all of these samples
+ps.gut.rel.m3 <- prune_taxa(taxa_sums(ps.gut.rel.m3) > 0, ps.gut.rel.m3)
+```
+
+
+```{r suject-plot-b, warning=FALSE, message=FALSE, eval=TRUE}
+ps.ord.m3 <- ordinate(ps.gut.rel.m3, "PCoA")
+
+ordip.m3 <- plot_ordination(ps.gut.rel.m3, ps.ord.m3, justDF = T)
+
+# Get axis 1 and 2 variation
+evals1 <- round(ordip.m3$values$Eigenvalues[1] / sum(ordip.m3$values$Eigenvalues) * 100, 2)
+evals2 <- round(ordip.m3$values$Eigenvalues[2] / sum(ordip.m3$values$Eigenvalues) * 100, 2)
+# arrange according to sampling time
+ordip.m3 <- ordip.m3 %>%
+  arrange(days_since_experiment_start) # important to arrange the time
+```
+
+Plot data
+```{r suject-plot-c, warning=FALSE, message=FALSE, eval=TRUE, fig.align='center', fig.width=6, fig.height=4}
+
+# Visualize
+# blank plot initiate
+p1 <- ggplot(ordip.m3, aes(x = Axis.1, y = Axis.2))
+# add layers
+p3 <- p1 +
+  # add arrows with geom_path
+  geom_path(alpha = 0.5, arrow = arrow(
+    angle = 30, length = unit(0.1, "inches"),
+    ends = "last", type = "closed"
+  )) +
+  # add points
+  geom_point(aes(color = days_since_experiment_start), size = 3) +
+  # add gradient colors
+  scale_color_viridis("Days from first sampling") +
+  # add x and y labels
+  xlab(paste("PCoA 1 (", evals1, "%)", sep = "")) +
+  ylab(paste("PCoA 2 (", evals2, "%)", sep = "")) +
+  theme_bw() +
+  # remove grids in the plot
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+print(p3)
+
+
+```
+
+

@@ -1,6 +1,6 @@
 ---
 title: "Dirichlet Multinomial Mixtures"
-author: "`r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -76,7 +76,7 @@ bic  <- sapply(fit, BIC) # AIC / BIC / Laplace
 
 Pick the optimal model
 
-```{r DMM3, fig.width=6, fig.height=5, warning=FALSE, message=FALSE,error=FALSE, eval=FALSE}
+```{r DMM3, fig.width=6, fig.height=5, warning=FALSE, message=FALSE,error=FALSE, eval=TRUE}
 best <- fit[[which.min(unlist(lplc))]]
 ```
 

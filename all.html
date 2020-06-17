@@ -11,7 +11,7 @@
 
 <meta name="author" content="Leo Lahti, Sudarshan Shetty et al." />
 
-<meta name="date" content="2020-06-12" />
+<meta name="date" content="2020-06-17" />
 
 <title>Differential abundance testing</title>
 
@@ -1913,7 +1913,7 @@ function toggle_visibility(id1) {
 
 <h1 class="title toc-ignore">Differential abundance testing</h1>
 <p class="author-name">Leo Lahti, Sudarshan Shetty et al.</p>
-<h4 class="date">12 June 2020</h4>
+<h4 class="date">17 June 2020</h4>
 
 </div>
 
@@ -2167,7 +2167,7 @@ deviate from symmetric, continuous, Gaussian assumptions in many ways.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">medians &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">abundances</span>(d),<span class="dv">1</span>,median)<span class="op">/</span><span class="fl">1e3</span></a>
 <a class="sourceLine" id="cb27-2" title="2"><span class="kw">library</span>(reshape2)</a>
 <a class="sourceLine" id="cb27-3" title="3">A &lt;-<span class="st"> </span><span class="kw">melt</span>(microbiome<span class="op">::</span><span class="kw">abundances</span>(d))</a>
-<a class="sourceLine" id="cb27-4" title="4">A<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(A<span class="op">$</span>X1, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">names</span>(<span class="kw">sort</span>(medians))))</a>
+<a class="sourceLine" id="cb27-4" title="4">A<span class="op">$</span>Var1 &lt;-<span class="st"> </span><span class="kw">factor</span>(A<span class="op">$</span>Var1, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">names</span>(<span class="kw">sort</span>(medians))))</a>
 <a class="sourceLine" id="cb27-5" title="5">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(A, <span class="kw">aes</span>(<span class="dt">x =</span> Var1, <span class="dt">y =</span> value)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-6" title="6"><span class="st">        </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-7" title="7"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Abundance (reads)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Taxonomic Group&quot;</span>) <span class="op">+</span></a>

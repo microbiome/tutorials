@@ -1,5 +1,6 @@
 ---
 title: "Microbiome composition"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:

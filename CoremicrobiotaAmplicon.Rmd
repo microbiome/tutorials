@@ -1,6 +1,6 @@
 ---
 title: "Core microbiome analysis for Amplicon data"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:

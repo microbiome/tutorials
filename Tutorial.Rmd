@@ -1,6 +1,6 @@
 ---
 title: "Tutorial on Microbiome Data Analysis"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:

@@ -95,7 +95,7 @@ Investigate degree distribution with the following:
 
 Visualize the network with [ggnet2](https://briatte.github.io/ggnet):
 
-```{r networks5, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = FALSE}
+```{r networks5, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = TRUE}
 library(GGally)
 #library(ggnet)
 library(network)
@@ -112,7 +112,7 @@ phyla <- map_levels(rownames(otu),
 ```
 
 
-```{r networks5_plot, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = FALSE}
+```{r networks5_plot, warning=FALSE, message=FALSE, fig.width=12, fig.height=7, eval = TRUE}
 print(p)
 ```
 

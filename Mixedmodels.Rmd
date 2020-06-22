@@ -7,7 +7,7 @@ output:
   BiocStyle::html_document:
     number_sections: no
     toc: yes
-    toc_depth: 4                                                                                                                                                                  1
+    toc_depth: 4
     toc_float: true
     self_contained: true
     thumbnails: true
@@ -29,7 +29,7 @@ output:
 
 Load example data:
 
-```{r boxplot-example, warning=FALSE, message=FALSE, fig.width=8, fig.height=5}
+```{r boxplot-example_w, warning=FALSE, message=FALSE, fig.width=8, fig.height=5}
 # Load libraries
 library(microbiome)
 library(ggplot2)
@@ -44,7 +44,7 @@ pseq <- peerj32$phyloseq # Rename the example data
 
 Abundance boxplot
 
-```{r boxplot2, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, out.width="300px"}
+```{r boxplot2_w, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, out.width="300px"}
 p <- boxplot_abundance(pseq, x = "time", y = "Akkermansia", line = "subject") +
     scale_y_log10()
 print(p)
@@ -55,7 +55,7 @@ print(p)
 
 Test individual taxonomic group
 
-```{r comparisons-lmer, message=FALSE, warning=FALSE}
+```{r comparisons-lmer_w, message=FALSE, warning=FALSE}
 # Get sample metadata
 dfs <- meta(pseq)
 

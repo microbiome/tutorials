@@ -63,7 +63,7 @@ ord <- ordinate(pseq, "MDS", "bray")
 
 ## Multidimensional scaling (MDS / PCoA)
 
-```{r ordination-ordinate23, warning=FALSE, message=FALSE, fig.width=10, fig.height=8, out.width="200px"}
+```{r ordination-ordinate23, warning=FALSE, message=FALSE, fig.width=8, fig.height=6, fig.show="hold", out.width="400px"}
 plot_ordination(pseq, ord, color = "nationality") +
                 geom_point(size = 5)
 ```

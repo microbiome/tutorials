@@ -32,7 +32,7 @@ groups.
 
 Load example data:
 
-```{r boxplot-example, warning=FALSE, message=FALSE, fig.width=8, fig.height=5}
+```{r boxplot-example, warning=FALSE, message=FALSE}
 # Load libraries
 library(microbiome)
 library(ggplot2)
@@ -53,7 +53,7 @@ meta <- meta(pseq.rel)
 
 Visualize the population density and highlight sample groups (probiotic treatment LGG  vs Placebo):
 
-```{r comparisons_permanova_visu, fig.width=10, fig.height=6,error=FALSE, message=FALSE, warnings=FALSE, out.width="300px"}
+```{r comparisons_permanova_visu, error=FALSE, message=FALSE, warnings=FALSE}
 p <- plot_landscape(pseq.rel, method = "NMDS", distance = "bray", col = "group", size = 3)
 print(p)
 ```
@@ -64,7 +64,7 @@ print(p)
 Now let us evaluate whether the group (probiotics vs. placebo) has a
 significant effect on overall gut microbiota composition. Perform PERMANOVA: 
 
-```{r comparisons_permanova_analyse, fig.width=5, fig.height=6, message=FALSE, warnings=FALSE}
+```{r comparisons_permanova_analyse, message=FALSE, warnings=FALSE}
 # samples x species as input
 library(vegan)
 permanova <- adonis(t(otu) ~ group,
@@ -80,7 +80,7 @@ print(as.data.frame(permanova$aov.tab)["group", "Pr(>F)"])
 Check that variance homogeneity assumptions hold (to ensure the reliability of the results):
 
 
-```{r comparisons-permanova2, fig.width=5, fig.height=6, message=FALSE, warnings=FALSE}
+```{r comparisons-permanova2, message=FALSE, warnings=FALSE}
 # Note the assumption of similar multivariate spread among the groups
 # ie. analogous to variance homogeneity
 # Here the groups have signif. different spreads and
@@ -93,7 +93,7 @@ anova(betadisper(dist, meta$group))
 
 Show coefficients for the top taxa separating the groups
 
-```{r permanova_top, fig.width=5, fig.height=5, message=FALSE, error=FALSE, warnings=FALSE, out.width="300px"}
+```{r permanova_top, fig.width=5, fig.height=5, message=FALSE, error=FALSE, warnings=FALSE}
 coef <- coefficients(permanova)["group1",]
 top.coef <- coef[rev(order(abs(coef)))[1:20]]
 par(mar = c(3, 14, 2, 1))

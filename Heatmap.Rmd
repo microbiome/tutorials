@@ -60,7 +60,7 @@ pseqz <- microbiome::transform(pseq2, "Z")
 
 Visualize the Z-transformed abundance matrix
 
-```{r hn122, fig.width=10, fig.height=5, message=FALSE, warning=FALSE}
+```{r hn122, message=FALSE, warning=FALSE}
 
 # Plot the abundances heatmap
 dfm <- melt(abundances(pseqz))
@@ -72,7 +72,7 @@ heat(dfm, "Taxa", "Sample", "value")
 
 Find visually appealing order for rows and columns with the Neatmap approach:
 
-```{r neatmap3, message=FALSE, warning=FALSE, fig.width=12, fig.height=5}
+```{r neatmap3, message=FALSE, warning=FALSE}
 
 # Sort the matrix rows and cols directly
 xo <- neat(abundances(pseqz), method = "NMDS", distance = "euclidean") 

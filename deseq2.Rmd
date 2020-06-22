@@ -90,7 +90,7 @@ print(p)
 ```
 
 
-```{r plot_for_ven, echo=F, message=F, error=F, eval=TRUE}
+```{r plot_for_ven, echo=TRUE, message=F, error=F, eval=TRUE}
 library(venn) # Check UpSet plot instead
 venn( list(ANOVA = taxa.anova,DESeq2 = taxa.deseq))
 ```

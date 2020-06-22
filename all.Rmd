@@ -34,6 +34,7 @@ bib <- read.bibtex("bibliography.bib")
 #opts_chunk$set(fig.width=4, fig.height=3, par=TRUE, out.width='2in', fig.pos='H')
 library(knitr)
 library(ggplot2)
+library(gridExtra)
 knitr::opts_chunk$set(fig.path = "figure/", dev="CairoPNG")
 theme_set(theme_bw(20))
 ```
@@ -75,16 +76,16 @@ problematic, log10(1+x) transformation (right).
 
 
 ```{r univariate_boxplot, warning=FALSE, message=FALSE}
-
+ 
 p1 <- ggplot(df, aes(x = Group, y = Abundance)) +
        geom_boxplot() +
-       labs(title = "Absolute abundances", y = "Abundance\n (read count)")
+       labs(title = "Absolute abundances", y = "Abundance\n (read count)")+ theme(plot.title = element_text(size=18))
 
 # Let us add the log10(1+x) version:
 df$Log10_Abundance <- log10(1 + df$Abundance)
 p2 <- ggplot(df, aes(x = Group, y = Log10_Abundance)) +
        geom_boxplot() +
-       labs(title = "Log10 abundances", y = "Abundance\n (log10(1+x) read count)")       
+       labs(title = "Log10 abundances", y = "Abundance\n (log10(1+x) read count)")+ theme(plot.title = element_text(size=18))    
 
 library(patchwork)
 print(p1 + p2)

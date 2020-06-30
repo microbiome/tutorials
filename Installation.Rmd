@@ -41,11 +41,7 @@ repository.
 
 ```{r installation, message=FALSE, warning=FALSE, eval=FALSE}
 library(BiocManager)
-#source("https://bioconductor.org/install")
-#useDevel()
-BiocManager::install(version='devel')
 BiocManager::install("microbiome")
-
 ```
 
 Alternatively, to install the bleeding edge (potentially unstable)

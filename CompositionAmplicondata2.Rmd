@@ -23,9 +23,9 @@ output:
   %\VignetteEncoding{UTF-8}  
 -->
   
-https://microbiome.github.io/tutorials/CoremicrobiotaAmplicon.html  
-  
 
+Also see [phyloseq barplot examples](http://joey711.github.io/phyloseq/plot_bar-examples.html).
+  
 Check the [core microbiome page](https://microbiome.github.io/tutorials/CoremicrobiotaAmplicon.html) which shows how to read the your files into R and make a phyloseq object.  
 
 ```{r composition-amplicon-example1, warning=FALSE, message=FALSE, eval=TRUE}

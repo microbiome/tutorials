@@ -1,6 +1,6 @@
 ---
 title: "Microbiome composition for Amplicon data"
-author: "Leo Lahti, Sudarshan Shetty et al."
+author: "Leo Lahti, Sudarshan Shetty et al. "
 bibliography: 
 - bibliography.bib
 output:
@@ -68,7 +68,7 @@ The compositon plots can be shown either as barplots or heatmaps. Both examples 
 Now we can improve the plot further.  
 Let's try at Family level. 
 
-```{r composition-amplicon-example3, fig.width=12, fig.height=5, out.width="400px", fig.show="hold", warning=FALSE, message=FALSE, eval=TRUE}
+```{r composition-amplicon-example3, warning=FALSE, message=FALSE, eval=TRUE}
 library(phyloseq)
 # merge at family level.
 
@@ -87,7 +87,7 @@ print(p.fam + theme(axis.text.x = element_text(angle = 90)))
 
 ## Plot relative abundance
 
-```{r composition-amplicon-example4, fig.width=12, fig.height=5, out.width="400px", fig.show="hold", warning=FALSE, message=FALSE, eval=TRUE}
+```{r composition-amplicon-example4, warning=FALSE, message=FALSE, eval=TRUE}
 
 pseq.famrel <- microbiome::transform(pseq.fam, "compositional")
 
@@ -117,7 +117,7 @@ print(p.famrel)
 
 Average by group
 
-```{r composition-amplicon-example5, fig.width=6, fig.height=5, out.width="400px", fig.show="hold", warning=FALSE, message=FALSE, eval=TRUE}
+```{r composition-amplicon-example5, warning=FALSE, message=FALSE, eval=TRUE}
 # Averaged by group
 p <- plot_composition(pseq.famrel,
                       average_by = "empo_3") + 
@@ -133,7 +133,7 @@ print(p + scale_fill_brewer("Family", palette = "Paired") + theme_bw())
 
 # Heatmap composition  
 
-```{r composition-amplicon-example6, fig.width=12, fig.height=5, out.width="400px", fig.show="hold", warning=FALSE, message=FALSE, eval=TRUE}
+```{r composition-amplicon-example6, warning=FALSE, message=FALSE, eval=TRUE}
 
 pseq.famlog <- microbiome::transform(pseq.fam, "log10")
 

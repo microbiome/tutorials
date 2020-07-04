@@ -1,9 +1,6 @@
 ---
 title: "Plot alpha diversity"
 author: "Leo Lahti, Sudarshan Shetty et al."
-bibliography: 
-- bibliography.bib
-csl: ieee.csl
 output:
   BiocStyle::html_document:
     number_sections: no

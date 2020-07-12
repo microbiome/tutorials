@@ -87,6 +87,8 @@ bmi.pairs <- combn(seq_along(bmi), 2, simplify = FALSE, FUN = function(i)bmi[i])
 print(bmi.pairs)
 ```
 
+Sometimes that variables can be stored as characters and sometime as factors. In such a senario `levels()` may return an empty vector. A work around for this can be found [here](https://github.com/microbiome/microbiome/issues/143).   
+
 
 ## Violin plot  
 

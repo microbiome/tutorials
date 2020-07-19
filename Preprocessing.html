@@ -439,19 +439,35 @@ otu.absolute &lt;- abundances(pseq)
 # Relative abundances
 otu.relative &lt;- abundances(pseq, &quot;compositional&quot;)</code></pre>
 <p>Total read counts:</p>
-<pre class="r"><code>r &lt;- readcount(pseq)</code></pre>
+<pre class="r"><code>reads_sample &lt;- readcount(pseq)
+# check for first 5 samples
+reads_sample[1:5]</code></pre>
+<pre><code>## Sample-1 Sample-2 Sample-3 Sample-4 Sample-5 
+##     7593    10148     7131    10855    12000</code></pre>
+<p>Add read per sample to phyloseq object metadata.</p>
+<pre class="r"><code>sample_data(pseq)$reads_sample &lt;- reads_sample
+
+# reads_sample is add to the last column in sample_data of pseq object.
+head(meta(pseq)[,c(&quot;sample&quot;, &quot;reads_sample&quot;)])</code></pre>
+<pre><code>##            sample reads_sample
+## Sample-1 Sample-1         7593
+## Sample-2 Sample-2        10148
+## Sample-3 Sample-3         7131
+## Sample-4 Sample-4        10855
+## Sample-5 Sample-5        12000
+## Sample-6 Sample-6         7914</code></pre>
 <p>Melting phyloseq data for easier plotting:</p>
 <pre class="r"><code>df &lt;- psmelt(pseq)
 kable(head(df))</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="3%"></col>
-<col width="15%"></col>
+<col width="2%"></col>
+<col width="14%"></col>
 <col width="4%"></col>
 <col width="4%"></col>
 <col width="1%"></col>
-<col width="3%"></col>
-<col width="6%"></col>
+<col width="2%"></col>
+<col width="5%"></col>
 <col width="9%"></col>
 <col width="3%"></col>
 <col width="4%"></col>
@@ -459,9 +475,10 @@ kable(head(df))</code></pre>
 <col width="3%"></col>
 <col width="2%"></col>
 <col width="4%"></col>
-<col width="6%"></col>
-<col width="6%"></col>
-<col width="15%"></col>
+<col width="5%"></col>
+<col width="5%"></col>
+<col width="5%"></col>
+<col width="14%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -479,6 +496,7 @@ kable(head(df))</code></pre>
 <th align="left">subject</th>
 <th align="right">time</th>
 <th align="left">sample</th>
+<th align="right">reads_sample</th>
 <th align="left">Phylum</th>
 <th align="left">Family</th>
 <th align="left">Genus</th>
@@ -500,6 +518,7 @@ kable(head(df))</code></pre>
 <td align="left">448</td>
 <td align="right">0</td>
 <td align="left">Sample-448</td>
+<td align="right">26546</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -519,6 +538,7 @@ kable(head(df))</code></pre>
 <td align="left">360</td>
 <td align="right">0</td>
 <td align="left">Sample-360</td>
+<td align="right">21086</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -538,6 +558,7 @@ kable(head(df))</code></pre>
 <td align="left">190</td>
 <td align="right">0</td>
 <td align="left">Sample-190</td>
+<td align="right">23954</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -557,6 +578,7 @@ kable(head(df))</code></pre>
 <td align="left">743</td>
 <td align="right">0</td>
 <td align="left">Sample-743</td>
+<td align="right">20632</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -576,6 +598,7 @@ kable(head(df))</code></pre>
 <td align="left">366</td>
 <td align="right">0</td>
 <td align="left">Sample-366</td>
+<td align="right">19651</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -595,6 +618,7 @@ kable(head(df))</code></pre>
 <td align="left">375</td>
 <td align="right">0</td>
 <td align="left">Sample-375</td>
+<td align="right">21408</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Bacteroidetes</td>
 <td align="left">Prevotella melaninogenica et rel.</td>
@@ -641,7 +665,7 @@ x2 &lt;- microbiome::transform(x, &quot;compositional&quot;)</code></pre>
 <pre><code>##  [1] &quot;age&quot;                   &quot;sex&quot;                   &quot;nationality&quot;          
 ##  [4] &quot;DNA_extraction_method&quot; &quot;project&quot;               &quot;diversity&quot;            
 ##  [7] &quot;bmi_group&quot;             &quot;subject&quot;               &quot;time&quot;                 
-## [10] &quot;sample&quot;</code></pre>
+## [10] &quot;sample&quot;                &quot;reads_sample&quot;</code></pre>
 <p>Pick values for a given variable</p>
 <pre class="r"><code>head(get_variable(pseq, sample_variables(pseq)[1]))</code></pre>
 <pre><code>## [1] 28 24 52 22 25 42</code></pre>
@@ -692,6 +716,36 @@ tax.abundances &lt;- abundances(pseq)[, samplename]</code></pre>
 <pre class="r"><code>pseq2 &lt;- merge_taxa2(pseq, pattern = &quot;^Bacteroides&quot;, name = &quot;Bacteroides&quot;) </code></pre>
 <p>Merging phyloseq objects with the phyloseq package:</p>
 <pre class="r"><code>merge_phyloseq(pseqA, pseqB)</code></pre>
+<p>Joining otu/asv table and taxonomy in one data frame</p>
+<pre class="r"><code>library(dplyr) 
+library(microbiome)
+data(&quot;atlas1006&quot;) # example data from microbiome pkg
+x &lt;-atlas1006
+
+asv_tab &lt;- as.data.frame(abundances(x)) # get asvs/otus
+asv_tab$asv_id &lt;- rownames(asv_tab) # add a new column for ids
+#tax_tab &lt;- as.data.frame(tax_table(x)) # get taxonomy note: can be slow
+tax_tab &lt;- as(x@tax_table,&quot;matrix&quot;) # get taxonomy note as matrix
+tax_tab &lt;- as.data.frame(tax_tab) # convert to data frame
+tax_tab$asv_id &lt;- rownames(tax_tab) # add a new column for ids
+asv_tax_tab &lt;- tax_tab %&gt;% 
+  left_join(asv_tab, by=&quot;asv_id&quot;) # join to get taxonomy and asv table
+
+head(asv_tax_tab)[,1:8]</code></pre>
+<pre><code>##            Phylum          Family                        Genus
+## 1  Actinobacteria  Actinobacteria             Actinomycetaceae
+## 2      Firmicutes         Bacilli                   Aerococcus
+## 3  Proteobacteria  Proteobacteria                    Aeromonas
+## 4 Verrucomicrobia Verrucomicrobia                  Akkermansia
+## 5  Proteobacteria  Proteobacteria Alcaligenes faecalis et rel.
+## 6   Bacteroidetes   Bacteroidetes           Allistipes et rel.
+##                         asv_id Sample-1 Sample-2 Sample-3 Sample-4
+## 1             Actinomycetaceae        0        0        0        0
+## 2                   Aerococcus        0        0        0        0
+## 3                    Aeromonas        0        0        0        0
+## 4                  Akkermansia       21       36      475       61
+## 5 Alcaligenes faecalis et rel.        1        1        1        2
+## 6           Allistipes et rel.       72      127       34      344</code></pre>
 </div>
 <div id="rarefaction" class="section level2">
 <h2>Rarefaction</h2>

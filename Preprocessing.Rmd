@@ -84,7 +84,18 @@ Total read counts:
 
 
 ```{r reads, message=FALSE, error=FALSE, warning=FALSE}
-r <- readcount(pseq)
+reads_sample <- readcount(pseq)
+# check for first 5 samples
+reads_sample[1:5]
+
+```
+Add read per sample to phyloseq object metadata.  
+
+```{r reads2, message=FALSE, error=FALSE, warning=FALSE}
+sample_data(pseq)$reads_sample <- reads_sample
+
+# reads_sample is add to the last column in sample_data of pseq object.
+head(meta(pseq)[,c("sample", "reads_sample")])
 ```
 
 
@@ -141,7 +152,6 @@ Pick samples at the baseline time points only:
 ```{r baseline, message=FALSE, error=FALSE, warning=FALSE}
 pseq0 <- baseline(pseq)
 ```
-
 
 
 ## Data transformations
@@ -290,6 +300,25 @@ Merging phyloseq objects with the phyloseq package:
 merge_phyloseq(pseqA, pseqB)
 ```
 
+Joining otu/asv table and taxonomy in one data frame
+
+```{r taxa-abund-full-taxonomy, message=FALSE, error=FALSE, warning=FALSE}
+library(dplyr) 
+library(microbiome)
+data("atlas1006") # example data from microbiome pkg
+x <-atlas1006
+
+asv_tab <- as.data.frame(abundances(x)) # get asvs/otus
+asv_tab$asv_id <- rownames(asv_tab) # add a new column for ids
+#tax_tab <- as.data.frame(tax_table(x)) # get taxonomy note: can be slow
+tax_tab <- as(x@tax_table,"matrix") # get taxonomy note as matrix
+tax_tab <- as.data.frame(tax_tab) # convert to data frame
+tax_tab$asv_id <- rownames(tax_tab) # add a new column for ids
+asv_tax_tab <- tax_tab %>% 
+  left_join(asv_tab, by="asv_id") # join to get taxonomy and asv table
+
+head(asv_tax_tab)[,1:8]
+```
 
 ## Rarefaction
 

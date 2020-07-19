@@ -267,7 +267,7 @@ taxa_names(ps.m3.rel)[1:3]
 
 We can change it to ASVIDs 
 
-```{r dna-seq-extraction, message=FALSE, eval=FALSE}
+```{r dna-seq-extraction, message=FALSE, eval=TRUE}
 library(Biostrings)
 dna <- Biostrings::DNAStringSet(taxa_names(ps.m3.rel))
 names(dna) <- taxa_names(ps.m3.rel)
@@ -281,7 +281,8 @@ taxa_names(ps.m3.rel)[1:3]
 
 If you only need the names of the core taxa, do as follows. This returns the taxa that exceed the given prevalence and detection thresholds. 
 
-```{r core-members2, message=FALSE, warning=FALSE, eval = FALSE}
+
+```{r core-members2, message=FALSE, warning=FALSE, eval = TRUE}
 core.taxa.standard <- core_members(ps.m3.rel, detection = 0.0001, prevalence = 50/100)
 
 core.taxa.standard

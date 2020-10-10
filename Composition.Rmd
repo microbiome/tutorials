@@ -196,7 +196,7 @@ library(phyloseq)
 
 ps1.saliva <- subset_samples(ps1, env_material == "saliva")
 
-total_samples <- nsamples(ps1.saliva)
+total_samples <- phyloseq::nsamples(ps1.saliva)
 ps1.saliva.pruned <- prune_taxa(taxa_sums(ps1.saliva) >0, ps1.saliva)
 # merge all taxa that are detected rare
 pseq.fam <- aggregate_rare(ps1.saliva.pruned, level="Family", detection = 50, prevalence = 25/total_samples)

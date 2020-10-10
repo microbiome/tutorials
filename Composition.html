@@ -504,7 +504,7 @@ Let’s try at Family level.</p>
 
 ps1.saliva &lt;- subset_samples(ps1, env_material == &quot;saliva&quot;)
 
-total_samples &lt;- nsamples(ps1.saliva)
+total_samples &lt;- phyloseq::nsamples(ps1.saliva)
 ps1.saliva.pruned &lt;- prune_taxa(taxa_sums(ps1.saliva) &gt;0, ps1.saliva)
 # merge all taxa that are detected rare
 pseq.fam &lt;- aggregate_rare(ps1.saliva.pruned, level=&quot;Family&quot;, detection = 50, prevalence = 25/total_samples)

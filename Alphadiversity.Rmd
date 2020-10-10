@@ -1,5 +1,5 @@
 ---
-title: "Diversity"
+title: "Alpha diversity"
 author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
@@ -25,6 +25,10 @@ output:
 
 
 ## Global Ecosystem State Variables 
+
+This page provides examples for analysing alpha diversity. See a separate page for [beta diversity](https://microbiome.github.io/tutorials/Betadiversity.html).
+
+
 
 Load example data:
 
@@ -134,3 +138,22 @@ kable(head(tab))
 ```
 
 For tutorial on plotting the output of alpha diversity please check [PlotDiversity](PlotDiversity.html)
+
+
+
+## Testing differences in alpha diversity
+
+We recommend the non-parametric [Kolmogorov-Smirnov test](https://www.rdocumentation.org/packages/dgof/versions/1.2/topics/ks.test) for two-group comparisons when there are no relevant covariates.
+
+```{r kstest, warning=FALSE, message=FALSE}
+# Construct the data
+d <- meta(pseq)
+d$diversity <- diversities(pseq, "shannon")$diversity_shannon
+# Split the values by group
+spl <- split(d$diversity, d$sex)
+# Kolmogorov-Smironv test
+pv <- ks.test(spl$female, spl$male)$p.value
+# Adjust the p-value
+padj <- p.adjust(pv)
+```
+

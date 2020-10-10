@@ -406,14 +406,14 @@ count &lt;- as.matrix(t(dat))</code></pre>
 ##   Expectation Maximization
 ##   Hessian
 ##   Soft kmeans
-##     iteration 10 change 0.000033
+##     iteration 10 change 0.000029
 ##   Expectation Maximization setup
 ##   Expectation Maximization
 ##     iteration 10 change 0.000000
 ##   Hessian
 ##   Soft kmeans
-##     iteration 10 change 0.000927
-##     iteration 20 change 0.000001
+##     iteration 10 change 0.030731
+##     iteration 20 change 0.000110
 ##   Expectation Maximization setup
 ##   Expectation Maximization
 ##     iteration 10 change 0.000063
@@ -430,9 +430,9 @@ bic  &lt;- sapply(fit, BIC) # AIC / BIC / Laplace
 <p>Mixture parameters pi and theta</p>
 <pre class="r"><code>mixturewt(best)</code></pre>
 <pre><code>##          pi     theta
-## 1 0.3738027 159.10535
-## 2 0.3188890  81.91318
-## 3 0.3073083  64.24750</code></pre>
+## 1 0.3738027 159.10473
+## 2 0.3188891  81.91265
+## 3 0.3073082  64.24696</code></pre>
 <p>Sample-component assignments</p>
 <pre class="r"><code>ass &lt;- apply(mixture(best), 1, which.max)</code></pre>
 <p>Contribution of each taxonomic group to each component</p>

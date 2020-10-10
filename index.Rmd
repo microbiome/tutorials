@@ -67,7 +67,7 @@ Tools for microbiome analysis; with multiple example data sets from published st
 
 # Microbiome analysis
 
-* [Alpha diversity](Diversity.html)
+* [Alpha diversity](Alphadiversity.html)
 * [Beta diversity / Community heterogeneity](Betadiversity.html)
 * [Community composition](Composition.html)
 * [Core microbiota](Core.html)

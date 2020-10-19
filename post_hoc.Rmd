@@ -1,5 +1,5 @@
 ---
-title: "post_hoc"
+title: "Post-hoc tests for non-parametric comparison"
 author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
@@ -51,6 +51,7 @@ print(p)
 
 ### Test statistical significance by Kruskal-Wallis
 
+* [kruskal wallis test](http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r#what-is-kruskal-wallis-test)
 
 ```{r kruskal, message=FALSE, error=FALSE, warning=FALSE}
 
@@ -65,8 +66,7 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 
 attach(meta(pseq))
 res<- pairwise.wilcox.test(signal, group, p.adjust.method = 'BH')
-resK<- kruskal.test(signal, group) # source: http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r#what-is-kruskal-wallis-test
-# Show the results
+resK<- kruskal.test(signal, group)
 print(resK)
 ```
 
@@ -77,6 +77,8 @@ From the output of the Kruskal-Wallis test, if there is a significant difference
 #### Test statistical significance with common post hoc as follows:
 
 ##### 1. Pairwise Wilcoxon tests with multiple testing correction, p.adjust.method is Benjamini-Hochberg
+
+* [Pairwise Wilcoxon tests](https://bookdown.org/thomas_pernet/Tuto/non-parametric-tests.html#wilcoxon-whitney-wilcoxon-test)
 
 ```{r post_hoc_Pairwise_Wilcoxon_tests, message=FALSE, error=FALSE, warning=FALSE}
 
@@ -103,6 +105,8 @@ print(res)
 
 #### 2. Dunn's test, p.adjust.method is Benjamini-Hochberg
 
+* [Dunn test](https://cran.r-project.org/web/packages/dunn.test/dunn.test.pdf)
+
 ```{r post_hoc_dunn.test, message=FALSE, error=FALSE, warning=FALSE}
 
 library(dunn.test)
@@ -115,7 +119,7 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 
 
 attach(meta(pseq))
-res<- dunn.test::dunn.test(signal, group, method = 'bh') # source:https://cran.r-project.org/web/packages/dunn.test/dunn.test.pdf
+res<- dunn.test::dunn.test(signal, group, method = 'bh')  
 
 
 ```
@@ -124,6 +128,8 @@ res<- dunn.test::dunn.test(signal, group, method = 'bh') # source:https://cran.r
 
 
 #### 3. Pairwise Multiple Comparison of Mean Ranks (PMCMR)
+
+* [PMCMR](https://cran.r-project.org/web/packages/PMCMR/vignettes/PMCMR.pdf)
 
 ```{r post_hoc_PMCMR, message=FALSE, error=FALSE, warning=FALSE}
 
@@ -137,7 +143,7 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 
 
 attach(meta(pseq))
-res<- PMCMR::posthoc.kruskal.nemenyi.test(signal, group,dist='Chisq',p.adjust.methods=  'BH') # source:https://cran.r-project.org/web/packages/PMCMR/vignettes/PMCMR.pdf
+res<- PMCMR::posthoc.kruskal.nemenyi.test(signal, group,dist='Chisq',p.adjust.methods=  'BH')  
 
 # Show the results
 print(res)
@@ -146,6 +152,8 @@ print(res)
 
 
 #### 4. Conover-Iman Test of Multiple Comparisons Using Rank Sums, p.adjust.method is Benjamini-Hochberg
+
+* [Conover-Iman Test](https://cran.r-project.org/web/packages/conover.test/conover.test.pdf)
 
 ```{r post_hoc_Conover-Iman, message=FALSE, error=FALSE, warning=FALSE}
 
@@ -157,7 +165,6 @@ tax <- "Akkermansia"
 # Pick the signal (abundance) for this tax
 sample_data(pseq)$signal <- get_sample(pseq, tax)
 
-# source:https://cran.r-project.org/web/packages/conover.test/conover.test.pdf
 
 attach(meta(pseq))
 res<- conover.test::conover.test(signal, group, method = 'bh')

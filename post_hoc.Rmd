@@ -117,7 +117,6 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 attach(meta(pseq))
 res<- dunn.test::dunn.test(signal, group, method = 'bh') # source:https://cran.r-project.org/web/packages/dunn.test/dunn.test.pdf
 
-print(res)
 
 ```
 

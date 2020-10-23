@@ -62,10 +62,13 @@ Visualize the Z-transformed abundance matrix
 
 ```{r hn122, message=FALSE, warning=FALSE}
 
-# Plot the abundances heatmap
-dfm <- melt(abundances(pseqz))
+# Plot the abundances heatmap, round values to 2 decimals
+dfm <- melt(round(abundances(pseqz), 1))
+
 colnames(dfm) <- c("Taxa", "Sample", "value")
-heat(dfm, "Taxa", "Sample", "value")
+
+heat(dfm, "Taxa", "Sample", "value") +
+  theme(text=element_text(size=9), axis.text.x = element_text(angle = 90), legend.key.size = unit(1.3, "cm"))
 
 ```
 
@@ -75,14 +78,17 @@ Find visually appealing order for rows and columns with the Neatmap approach:
 ```{r neatmap3, message=FALSE, warning=FALSE}
 
 # Sort the matrix rows and cols directly
-xo <- neat(abundances(pseqz), method = "NMDS", distance = "euclidean") 
+xo <- neat(abundances(pseqz), method = "NMDS", distance = "euclidean")
 
-# Heatmap visualization
-dfm <- melt(xo)
+# Heatmap visualization, round to two decimals
+dfm <- melt(round(xo, 1))
+
 colnames(dfm) <- c("Taxa", "Sample", "value")
-heat(dfm, "Taxa", "Sample", "value")
 
-# or use a shortcut to sorting rows (or columns) if just the order was needed 
+heat(dfm, "Taxa", "Sample", "value") +
+  theme(text=element_text(size=9), axis.text.x = element_text(angle = 90), legend.key.size = unit(1.3, "cm"))
+
+# or use a shortcut to sorting rows (or columns) if just the order was needed
 sorted.rows <- neatsort(abundances(pseqz), "rows", method = "NMDS", distance = "euclidean") 
 
 ```

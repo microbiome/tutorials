@@ -124,14 +124,19 @@ pseq.core <- core(pseq.rel, detection = 0.1/100, prevalence = 50/100)
 Visualizing the core. Using all data can give a visual of which taxa are core at various detection thresholds. The pseq.core object is filtered to have only core taxa based on the user provided values. We suggest using all data for plotting with plot_core and then changing settings for prevalence to limit which taxa you want to visualise.
 
 ```{r core-example3,fig.width=12, fig.height=8, warning=FALSE}
+
 # Core with compositionals:
 prevalences <- seq(.05, 1, .05)
-detections <- 10^seq(log10(1e-3), log10(.2), length = 10)
+
+detections <- round(10^seq(log10(5e-3), log10(.2), length = 10), 3)
 
 p <- plot_core(pseq.rel, plot.type = "heatmap",
-    prevalences = prevalences, detections = detections) +
-    xlab("Detection Threshold (Relative Abundance)")
-print(p)    
+  prevalences = prevalences, detections = detections, min.prevalence = 0.5) +
+  xlab("Detection Threshold (Relative Abundance)") +
+  theme(axis.text.x = element_text(size = 9))
+
+print(p)
+```
 ```
 
 

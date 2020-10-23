@@ -66,11 +66,12 @@ library(gcookbook)
 library(tidyverse)
 theme_set(theme_bw(21))
 p <- pseq3 %>%
-    plot_composition(sample.sort = "Firmicutes", otu.sort = "abundance") +
-         # Set custom colors
-          scale_fill_manual(values = default_colors("Phylum")[taxa(pseq3)]) +
-	  scale_y_continuous(label = scales::percent)
-
+plot_composition(sample.sort = "Firmicutes", otu.sort = "abundance") +
+  # Set custom colors
+  scale_fill_manual(values = default_colors("Phylum")[taxa(pseq3)]) +
+  scale_y_continuous(label = scales::percent) +
+  # Removes sample names and ticks
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
 print(p)
 ```
 
@@ -107,8 +108,10 @@ with the neatmap method:
   
 ```{r composition-example7, fig.width=10, fig.height=8, out.width="800px"}
 p <- plot_composition(microbiome::transform(pseq, "compositional"),
-	                plot.type = "heatmap",
-                        sample.sort = "neatmap", otu.sort = "neatmap")
+  plot.type = "heatmap",
+  sample.sort = "neatmap", otu.sort = "neatmap") +
+  theme(axis.text.y=element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(size = 9), legend.key.size = unit(1.5, "cm")) +
+  ylab("Samples")
 print(p)
 ```
 
@@ -191,53 +194,61 @@ Let's try at Family level.
 library(phyloseq)
 # merge at family level.
 # check how many samples are there
-
-# Use only saliva samples 
-
+# Use only saliva samples
 ps1.saliva <- subset_samples(ps1, env_material == "saliva")
-
 total_samples <- phyloseq::nsamples(ps1.saliva)
+
 ps1.saliva.pruned <- prune_taxa(taxa_sums(ps1.saliva) >0, ps1.saliva)
+
 # merge all taxa that are detected rare
 pseq.fam <- aggregate_rare(ps1.saliva.pruned, level="Family", detection = 50, prevalence = 25/total_samples)
 
-p.fam <- plot_composition(pseq.fam, sample.sort = NULL, 
-                          otu.sort = NULL,
-                          x.label = "empo_3", # sample type
-                          plot.type = "barplot", 
-                          verbose = FALSE) + 
+p.fam <- plot_composition(pseq.fam, sample.sort = NULL,
+  otu.sort = NULL,
+  plot.type = "barplot",
+  verbose = FALSE) +
+  xlab("Animal secretion samples") +
   theme_bw() + scale_fill_brewer("Family", palette = "Paired")
-# we can rotate x axis labels 
-print(p.fam + theme(axis.text.x = element_text(angle = 90)))
 
+# Deletes x-axis's labels
+print(p.fam + theme(axis.text.x = element_blank()))
 ```
 
 ## Plot relative abundance
 
 ```{r composition-amplicon-example4, warning=FALSE, message=FALSE, eval=TRUE}
-
 pseq.famrel <- microbiome::transform(pseq.fam, "compositional")
 
 p.famrel <- plot_composition(pseq.famrel, sample.sort = NULL, otu.sort = NULL,
-  x.label = "empo_3", plot.type = "barplot", verbose = FALSE)
+  x.label = "empo_3", plot.type = "barplot", verbose = FALSE) +
+  # Removes sample names and ticks, and adjusts the size of legend texts
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), legend.text=element_text(size=8),
+  legend.title =element_text(size=14)) +
+  xlab("Animal secretion samples")
 
 print(p.famrel)
 
-# further improvements can be done as follows  
-
-p.famrel <- plot_composition(pseq.famrel, 
-                             sample.sort = NULL, 
-                             otu.sort = NULL, 
-                             x.label = "empo_3", 
-                             plot.type = "barplot", 
-                             verbose = FALSE) + 
-  guides(fill = guide_legend(ncol = 1)) + 
-  labs(x = "Samples", 
-       y = "Relative abundance",
-       title = "Relative abundance data", 
-       subtitle = "Subtitle",
-       caption = "Caption text.") + 
-     scale_fill_brewer("Family", palette = "Paired")
+# further improvements can be done as follows
+p.famrel <- plot_composition(pseq.famrel,
+  sample.sort = NULL,
+  otu.sort = NULL,
+  x.label = "empo_3",
+  plot.type = "barplot",
+  verbose = FALSE) +
+  guides(fill = guide_legend(ncol = 1)) +
+  labs(x = "Animal secretion samples",
+  y = "Relative abundance",
+  title = "Relative abundance data",
+  subtitle = "Subtitle can be added here",
+  caption = "Caption text can be added here.") +
+  scale_fill_brewer("Family", palette = "Paired") +
+  
+  #Removes sample names and ticks
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  
+  #Adjusts size of subtitle, caption, legend text and legend title
+  theme(plot.subtitle=element_text(size=8), plot.caption=element_text(size=8), legend.text=element_text(size=8),
+  legend.title =element_text(size=14))
 
 print(p.famrel)
 ```
@@ -267,19 +278,29 @@ print(p + scale_fill_brewer("Family", palette = "Paired") + theme_bw())
 
 # Heatmap composition  
 
-```{r composition-amplicon-example6, warning=FALSE, message=FALSE, eval=TRUE}
-# Use all samples 
+```{r composition-amplicon-example6, warning=FALSE, message=FALSE, eval=TRUE, fig.width=15}
+
+# Use all samples
 ps1 <- emp_human
+
 ps1.rel <-aggregate_rare(ps1, level = "Family", detection = 10, prevalence = 0.5)
 
 pseq.famlog <- microbiome::transform(ps1.rel, "log10")
 
-p.famrel.heatmap <- plot_composition(pseq.famlog, 
-                             sample.sort = NULL, 
-                             otu.sort = NULL, 
-                             x.label = "empo_3", 
-                             plot.type = "heatmap", 
-                             verbose = FALSE)
+p.famrel.heatmap <- plot_composition(pseq.famlog,
+  sample.sort = NULL,
+  otu.sort = NULL,
+  x.label = "empo_3",
+  plot.type = "heatmap",
+  verbose = FALSE) +
+  
+  #Adjusts the legend. Lowest values are white and highest red.
+  #Breaks are distributed evenly from lowest values to highest with increment of 0.5.
+  scale_fill_gradient(low = "white", high = "red", breaks = seq(min(pseq.famlog@otu_table),max(pseq.famlog@otu_table),0.5)) +
+  
+  #Deletes y-axis labels and ticks. Adjusts legend key size and deletes legend title. Adjusts x axis labels.
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), legend.key.height = unit(3, "cm"), legend.key.width = unit(1, "cm"),
+  legend.title = element_blank(), axis.text.x = element_text(angle = 45, vjust = 0.85, hjust = 1))
 
 print(p.famrel.heatmap)
 ```

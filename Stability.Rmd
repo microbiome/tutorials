@@ -95,17 +95,23 @@ bimodality.score <- bimodality(pseq0.clr, method = "potential_analysis",
 The analysis suggests that bimodal population distribution across individuals is often associated with instable intermediate abundances within individuals. The specific bi-stable groups in the upper left corner were suggested to constitute bistable tipping elements of the human intestinal microbiota in [Lahti et al. Nat. Comm. 5:4344, 2014](http://www.nature.com/ncomms/2014/140708/ncomms5344/full/ncomms5344.html):
 
 ```{r bimodalitybistability, message=FALSE, warning=FALSE}
+
 taxa <- taxa(pseq0)
 df <- data.frame(group = taxa,
-                 intermediate.stability = intermediate.stability[taxa],
-		 bimodality = bimodality.score[taxa])
-
+intermediate.stability = intermediate.stability[taxa],
+bimodality = bimodality.score[taxa])
 theme_set(theme_bw(20))
+
 library(ggrepel)
+
 p <- ggplot(df,
-       aes(x = intermediate.stability, y = bimodality, label = group)) +
-       geom_text_repel() +
-       geom_point() 
+  aes(x = intermediate.stability, y = bimodality, label = '')) + #Doesn't add labels to points
+  geom_text_repel() +
+  geom_point()
+
+#Labels only those that have bimodality > 0.4 and intermediate stability < 0, adjusts the placement of labels
+p <- p + geom_text(aes(label = ifelse(df$bimodality > 0.6 | df$intermediate.stability < -0.25, group, '')), vjust = "inward", hjust = "inward")
+
 print(p)
 ```
 

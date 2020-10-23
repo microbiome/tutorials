@@ -1,0 +1,266 @@
+---
+title: "Cleaning taxonomy table"
+author: "Sudarshan Shetty, Leo Lahti, et al."
+bibliography: 
+- bibliography.bib
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock
+---
+<!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - atlas}
+  %\usepackage[utf8]{inputenc}
+-->
+
+
+Once you have sequenced 16S rRNA gene libraries and processed the raw sequences with your choice of  tool, [Deblur](https://msystems.asm.org/content/2/2/e00191-16), [DADA2](https://www.nature.com/articles/nmeth.3869), [NG-Tax](https://www.frontiersin.org/articles/10.3389/fgene.2019.01366/full), etc. You will get a table of taxa abundances and taxonomic classification of taxa. This can be merged with metadata and used for downstream analysis.   
+
+Data can be in [*.biom](http://biom-format.org/) format or tables.   
+
+Let's get started!  
+
+Here, we will focus on cleaning taxonomy table sotred in `tax_table` slot using phyloseq and microbiome. 
+
+Check the `read_phyloseq` function from microbiome package for importing and converting you data into phyloseq format.   
+
+An introduction to helper functions in microbiome and phyloseq packages can be found here [documentation](https://microbiome.github.io/tutorials/Preprocessing.html). Unfortunately, many users do not go through this. So we suggested checking basic introductory documentation of software tools!   
+
+First install the packages of interest.  
+```{r eval=FALSE}
+# From cran  
+install.packages("devtools")
+
+# From Bioconductor
+if (!requireNamespace("BiocManager", quietly = TRUE)) # Install BiocManager if not already installed. 
+    install.packages("BiocManager")
+
+BiocManager::install("microbiome")
+
+# From GitHub
+devtools::install_github("microsud/microbiomeutilities")
+
+```
+
+Note: When possible we will try to call the functions together with package name for the purpose of clarity of packages providing the function. E.g. `microbiome::transform()`  
+
+## Load R package     
+
+```{r message=FALSE, warning=FALSE}
+# Load a library  
+library(microbiomeutilities)
+```
+
+## Load example data     
+We use the data stored in `microbiomeutilties` R package.  
+```{r message=FALSE, warning=FALSE}
+data("zackular2014") # access the test data
+# assign to an aboject with shorter name.
+ps <- zackular2014
+
+```
+
+
+## Get to know your data  
+
+### Check  
+Firstly, check and understand some basic information about your data.   
+```{r}
+microbiome::summarize_phyloseq(ps)
+```
+
+**Questions you need to ask regarding your data:**  
+How many taxa are present in the data  ?  
+Do you expect these number of taxa in your ecosystem of interest?  
+Have you successfully imported all your samples ?  
+Are all the taxonomic ranks included in your taxonomy ?  
+What is the Minimum and Maximum number of reads in your samples?  
+Are there singletons?    
+Is your data zero-inflated `Sparsity`?  
+
+### Access parts   
+```{r}
+# OTU table  
+
+otu_tab <- microbiome::abundances(ps)
+
+# check 
+
+otu_tab[1:5,1:5] # for my table show me [1 to 5 rows, 1 to 5 columns]
+
+```
+
+
+```{r}
+# Taxonomy table
+tax_tab <- phyloseq::tax_table(ps)
+# check 
+tax_tab[1:5,1:5] # for my table show me [1 to 5 otu ids, 1 to 5 first five ranks]
+
+```
+Notice something, very common to see patterns like "k__" prefixes and OTU id "d__denovo" or sequences as row names.   
+
+
+## Clean taxonomy table     
+Cleaning of taxonomy tables is useful to do at the beginning of the analysis. It is time-consuming but also useful to understanding taxonomic information of your taxa.  
+
+Let us use two functions to change OTU ids. `gsub` from base R and `taxa_names` from phyloseq.  
+
+```{r}
+# accessing the OTUids 
+taxa_names(ps)[1:5] # print first 5 ids
+
+# find and substitute
+taxa_names(ps) <- gsub(taxa_names(ps), pattern = "d__", replacement = "")  
+
+# Check again Taxonomy table
+phyloseq::tax_table(ps)[1:3,1:3] # check for my table show me [1 to 3 otu ids, 1 to 3 first three ranks]. 
+```
+
+What happened here? We first accessed the names of taxa (OTUids) with `taxa_names(ps)` which contains the names of OTUids. 
+
+```{r}
+taxa_names(ps)[1:5] # print first 5 names
+```
+For each of these, we ask `gsub` to find a pattern "d__" and substitute it with "" (nothing).  
+By providing "taxa_names(ps) <-" we straight away substitute these names.  
+
+We can substitute "denovo" with just "OTU-"  
+```{r}
+# find and substitute
+taxa_names(ps) <- gsub(taxa_names(ps), pattern = "denovo", replacement = "OTU-")  
+```
+
+
+Next, cleaning the "k__" and similar values.  
+```{r}
+
+# extending gsub to entire table 
+tax_table(ps)[, colnames(tax_table(ps))] <- gsub(tax_table(ps)[, colnames(tax_table(ps))],     pattern = "[a-z]__", replacement = "")
+
+```
+
+What happened here? By using `colnames(tax_table(ps)) ` we are specifying names of the columns in `tax_table(ps)`. 
+
+```{r}
+colnames(tax_table(ps))
+```
+For columns in `tax_table(ps)` we used `gsub` to check all the columns for patterns ranging from `[a-z]` joined by `__` like this `[a-z]__` and substitute it with "" i.e. nothing.  
+
+```{r}
+
+phyloseq::tax_table(ps)[1:3,1:3] # check for my table show me [1 to 3 otu ids, 1 to 3 first three ranks].
+
+```
+
+There are several other special characters and labels that you should check for in your data. This is an important step, especially when aggregating/collapsing at higher taxonomic ranks.   
+
+Some examples are below. These are not detected in the test data used here. However, we have come across these in our research.  
+
+```{r eval=FALSE}
+# Replace sequence IDs with ATACAACTATACG with ASV1 and so on...
+taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
+
+```
+
+Replace special characters. 
+
+```{r eval=FALSE}
+
+tax_table(ps)[,colnames(tax_table(ps))] <- gsub(tax_table(ps)[,colnames(tax_table(ps))],pattern="=*",replacement="")
+
+# remove asterisk
+tax_table(ps)[,colnames(tax_table(ps))] <- gsub(tax_table(ps)[,colnames(tax_table(ps))],pattern="[*]",replacement="") # notice here the square brackets. These are required when special characters such as * and ~ below are used as they have functional role in R base programming. 
+
+# remove ~
+tax_table(ps)[,colnames(tax_table(ps))] <- gsub(tax_table(ps)[,colnames(tax_table(ps))],pattern="[~]",replacement="")
+
+```
+
+Other than `gsub`, we can also go through one column at a time in the taxonomy table to specifically substitute ambiguous markings. 
+
+```{r eval=FALSE}
+# For each column separately we attempt to replace "k__<empty>" with "" for consistency.
+tax_table(ps)[tax_table(ps) == "k__<empty>"] <- ""
+tax_table(ps)[tax_table(ps) == "p__<empty>"] <- ""
+tax_table(ps)[tax_table(ps) == "c__<empty>"] <- ""
+tax_table(ps)[tax_table(ps) == "o__<empty>"] <- ""
+tax_table(ps)[tax_table(ps) == "f__<empty>"] <- ""
+tax_table(ps)[tax_table(ps) == "g__<empty>"] <- ""
+# some more ambiguities 
+tax_table(ps)[tax_table(ps) == "o__Unknown_Order"] <- ""
+tax_table(ps)[tax_table(ps) == "c__Unknown_Class"] <- ""
+tax_table(ps)[tax_table(ps) == "f__Unknown_Family"] <- ""
+```
+
+What happened here? We asked for any pattern matching "k__<empty>" in the table and replace it with "" nothing.  
+
+Aggregate at genus level.  
+
+```{r}
+ps.gen <- phyloseq::tax_glom(ps, "Genus", NArm = TRUE)
+```
+
+Notice the `NArm = TRUE` parameter. This will remove anything that is unclassified at genus level. This choice will depend on your research goals.   
+Check the names.  
+
+```{r}
+taxa_names(ps.gen)[1:5]
+```
+
+Substitute these IDs with names of genus.  
+
+```{r}
+taxa_names(ps.gen) <- tax_table(ps.gen)[,"Genus"]
+```
+
+Check if the `gsub` above worked. 
+```{r}
+taxa_names(ps.gen)[1:5]
+```
+
+What happened here? Similar to our first instance of `gsub` operation to replace "d__", we asked R to substitute `taxa_names(ps.gen)` which are ids with corresponding genus identity accessed by this  `tax_table(ps.gen)[,"Genus"]`
+
+```{r}
+tax_table(ps.gen)[,"Genus"][1:5] # [1:5] is first five to print. 
+```
+
+Print all genus names. We use the unique() function to print each name only once.   
+```{r}
+# 
+unique(tax_table(ps.gen)[,"Genus"] )
+
+```
+
+
+There can also be spaces between names e.g `Prevotella 1` which can be changed to `Prevotella_1`  
+```{r eval=FALSE}
+taxa_names(ps) <- gsub(" ", ".", taxa_names(ps))
+```
+
+There can also be spaces between names e.g `[Prevotella] copri` which can be changed to `Prevotella copri`  
+```{r eval=FALSE}
+taxa_names(ps) <- gsub("\\[|\\]", "", taxa_names(ps))
+```
+
+There can also be spaces between names e.g `Prevotella-copri` which can be changed to `Prevotella.copri`  
+```{r eval=FALSE}
+taxa_names(ps) <- gsub("-", ".", taxa_names(ps))
+```
+
+Also check the `format_to_besthit` in `microbiomeutilities` R package [here](https://microsud.github.io/microbiomeutilities/reference/format_to_besthit.html).  
+
+These are just the common examples we observe in our research. There can be may other challenges with taxonomic labeling. However, we hope this has given a general impression of how we can do cleaning of  data in R with just `gsub` and `phyloseq` functions to access information from within a `phyloseq` object.    
+For more information of `gsub` and related `grepl` check the base R [Pattern Matching and Replacement](https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html)  
+
+
+

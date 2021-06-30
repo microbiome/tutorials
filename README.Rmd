@@ -48,15 +48,15 @@ See the package [tutorial](http://microbiome.github.io/tutorials/).
 
 Contributions are very welcome:
 
-  * [Issue Tracker](https://github.com/microbiome/microbiome/issues) 
-  * [Pull requests](https://github.com/microbiome/microbiome/)
+  * [Issue Tracker](https://github.io/microbiome/microbiome/issues) 
+  * [Pull requests](https://github.io/microbiome/microbiome/)
   * Subscribe to the [mailing list](https://groups.google.com/forum/#!forum/microbiome-devel) (microbiome-devel@googlegroups.com)
   * [Star us on the Github page](https://github.com/microbiome/microbiome)
 
 
 ### Publications using the microbiome package
 
-**Kindly cite this work** as follows: "Leo Lahti [et al.](https://github.com/microbiome/microbiome/graphs/contributors) (2017). Tools for microbiome analysis in R. Microbiome package version `r sessionInfo()$otherPkgs$microbiome$Version`. URL: [http://microbiome.github.com/microbiome](https://microbiome.github.io/tutorials), and the relevant references listed in the manual page of each function. The list of publications is not exhaustive. Let us know if you know of further publications using the microbiome package; we are collecting these on the website.
+**Kindly cite this work** as follows: "Leo Lahti [et al.](https://github.com/microbiome/microbiome/graphs/contributors) (2017). Tools for microbiome analysis in R. Microbiome package version `r sessionInfo()$otherPkgs$microbiome$Version`. URL: [http://microbiome.github.io/tutorials](https://microbiome.github.io/tutorials), and the relevant references listed in the manual page of each function. The list of publications is not exhaustive. Let us know if you know of further publications using the microbiome package; we are collecting these on the website.
 
 [Intestinal microbiome landscaping: Insight in community assemblage and implications for microbial modulation strategies](https://academic.oup.com/femsre/article/doi/10.1093/femsre/fuw045/2979411/Intestinal-microbiome-landscaping-insight-in#58802539). Shetty S, Hugenholtz F, Lahti L, Smidt H, de Vos WM, Danchin A. _FEMS Microbiology Reviews_ fuw045, 2017.
 
@@ -75,7 +75,7 @@ Contributions are very welcome:
 
 Main developer: [Leo Lahti](https://github.com/antagomir/)
 
-Co-authors: Jarkko Salojärvi, Sudarshan Shetty. 
+Co-authors: Sudarshan Shetty. 
 
 Contributors: Tineka Blake and [other contributors to microbiome R package](https://github.com/microbiome/microbiome/graphs/contributors) [& microbiome tutorial](https://github.com/microbiome/tutorials/graphs/contributors).
 

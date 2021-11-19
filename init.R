@@ -7,7 +7,7 @@ library(BiocManager)
                     'splitstackshape', 'rmarkdown', 'tidyverse', 'readxl', 'vegan','knitcitations', 'reshape', 'reshape2', 
                     'magrittr', 'vegan', 'glue','stringr','devtools','captioner', 'rstan','rstanarm',
                     'hrbrthemes', 'gcookbook','GGally', 'rvg','ggiraph','network', 'gplots',
-                    'intergraph', 'rmdformats', 'FD', 'hrbrthemes', 'GGally', 'lattice')
+                    'intergraph', 'rmdformats', 'FD', 'hrbrthemes', 'GGally', 'lattice', 'venn', 'PMCMRplus')
 
 .bioc_packages <- c("dada2", "phyloseq",'SummarizedExperiment','Biobase', 
                    "DECIPHER",'IRanges','BiocGenerics', "phangorn",

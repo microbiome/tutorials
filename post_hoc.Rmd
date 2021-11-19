@@ -129,11 +129,12 @@ res<- dunn.test::dunn.test(signal, group, method = 'bh')
 
 #### 3. Pairwise Multiple Comparison of Mean Ranks (PMCMR)
 
-* [PMCMR](https://cran.r-project.org/web/packages/PMCMR/vignettes/PMCMR.pdf)
+* [PMCMR](https://cran.r-project.org/web/packages/PMCMR/vignettes/PMCMR.pdf)  
+* [PMCMRplus](https://cran.r-project.org/web/packages/PMCMRplus/PMCMRplus.pdf)
 
 ```{r post_hoc_PMCMR, message=FALSE, error=FALSE, warning=FALSE}
 
-library(PMCMR)
+library(PMCMRplus)
 
 # Analyse specific taxa
 tax <- "Akkermansia"
@@ -143,7 +144,7 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 
 
 attach(meta(pseq))
-res<- PMCMR::posthoc.kruskal.nemenyi.test(signal, group,dist='Chisq',p.adjust.methods=  'BH')  
+res<- PMCMRplus::kwAllPairsNemenyiTest(signal, group,dist='Chisq',p.adjust.methods=  'BH')  
 
 # Show the results
 print(res)
@@ -169,7 +170,5 @@ sample_data(pseq)$signal <- get_sample(pseq, tax)
 attach(meta(pseq))
 res<- conover.test::conover.test(signal, group, method = 'bh')
   
-
-
 
 ```

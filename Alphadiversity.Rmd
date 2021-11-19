@@ -137,9 +137,6 @@ tab <- evenness(pseq, "all")
 kable(head(tab))
 ```
 
-For tutorial on plotting the output of alpha diversity please check [PlotDiversity](PlotDiversity.html)
-
-
 
 ## Testing differences in alpha diversity
 
@@ -148,7 +145,7 @@ We recommend the non-parametric [Kolmogorov-Smirnov test](https://www.rdocumenta
 ```{r kstest, warning=FALSE, message=FALSE}
 # Construct the data
 d <- meta(pseq)
-d$diversity <- diversities(pseq, "shannon")$diversity_shannon
+d$diversity <- microbiome::diversity(pseq, "shannon")$shannon
 # Split the values by group
 spl <- split(d$diversity, d$sex)
 # Kolmogorov-Smironv test
@@ -156,4 +153,7 @@ pv <- ks.test(spl$female, spl$male)$p.value
 # Adjust the p-value
 padj <- p.adjust(pv)
 ```
+
+For tutorial on plotting the output of alpha diversity please check [PlotDiversity](PlotDiversity.html)
+
 

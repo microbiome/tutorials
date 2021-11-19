@@ -63,7 +63,6 @@ for (g in groups) {
     if (nrow(dfs) == 2) {
       s <- as.character(dfs$sample)
       # Here with just two samples we can calculate the
-      # beta diversity directly
       beta[[subj]] <- divergence(abundances(pseq)[, s[[1]]],abundances(pseq)[, s[[2]]],method = "bray")
     }
   }

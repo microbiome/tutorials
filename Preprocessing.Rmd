@@ -277,6 +277,53 @@ samplename <- sample_names(pseq)[[1]]
 tax.abundances <- abundances(pseq)[, samplename]
 ```
 
+## Get 
+
+```{r}
+library(jeevanuDB)
+```
+
+```{r}
+# Example data
+data("moving_pictures")
+# Rename
+ps <- moving_pictures
+taxa_names(ps)[1:2]
+```
+
+The taxa names are unique sequences. This common when using `dada2` for denoising and identifying amplicon sequence variants. 
+```{r}
+print(ps) 
+```
+
+It would be useful to store these inside the `refseq()` slot of phyloseq. For this we can use `microbiome::add_refseq`   
+
+```{r}
+ps <- add_refseq(ps, tag = "ASV")
+# check again
+taxa_names(ps)[1:2]
+```
+
+```{r}
+print(ps)
+```
+
+As can be seen, the sequence ids are converted to ASV ids and sequences stored within the `refseq()` slot.  
+
+## Labelling ASVs with best taxonomy  
+
+Converting or amending the ASV ids with their best/lowest taxonomic classification can be very handy. This can be achieved with `microbiome::add_besthit()`
+
+```{r}
+ps <- add_besthit(ps)
+taxa_names(ps)[1:2]
+```
+
+If required, the names can be cleaned as follows.   
+```{r}
+taxa_names(ps) <- gsub("[a-x]__", "",taxa_names(ps))
+taxa_names(ps)[1:2]
+```
 
 ## Merging operations
 
@@ -306,18 +353,31 @@ Joining otu/asv table and taxonomy in one data frame
 library(dplyr) 
 library(microbiome)
 data("atlas1006") # example data from microbiome pkg
-x <-atlas1006
+otu.tax.tibble <- combine_otu_tax(atlas1006, column.id = "ASVID")
+# view first fist rows and columns
+otu.tax.tibble[1:5,1:5]
+```
 
-asv_tab <- as.data.frame(abundances(x)) # get asvs/otus
-asv_tab$asv_id <- rownames(asv_tab) # add a new column for ids
-#tax_tab <- as.data.frame(tax_table(x)) # get taxonomy note: can be slow
-tax_tab <- as(x@tax_table,"matrix") # get taxonomy note as matrix
-tax_tab <- as.data.frame(tax_tab) # convert to data frame
-tax_tab$asv_id <- rownames(tax_tab) # add a new column for ids
-asv_tax_tab <- tax_tab %>% 
-  left_join(asv_tab, by="asv_id") # join to get taxonomy and asv table
+## Get tibbles  
 
-head(asv_tax_tab)[,1:8]
+In many cases, user may want to extract slots from phyloseq as tibbles for custom data processing.  
+This can be achieved with following functions.  
+
+```{r}
+otu.tib <- otu_tibble(atlas1006, column.id = "FeatureID")
+
+tax.tib <- tax_tibble(atlas1006, column.id = "FeatureID")
+
+sample.tib <- sample_tibble(atlas1006, column.id = "SampleID")
+```
+
+## Convert to tidy long format   
+
+As an alternative to `phyloseq::psmelt`, we provide `psmelt2` which returns a tibble in long format. 
+
+```{r}
+ps.long.tib <- psmelt2(pseq)
+head(ps.long.tib)
 ```
 
 ## Rarefaction
@@ -374,3 +434,7 @@ df <- meta(pseq)
 # Merge the metadata back in the phyloseq object
 pseq2 <- merge_phyloseq(pseq, sample_data(df))
 ```
+
+
+
+

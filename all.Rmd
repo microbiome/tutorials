@@ -329,12 +329,14 @@ Long tails of rare taxa:
 ```{r tail, warning=FALSE, message=print}
 medians <- apply(abundances(d),1,median)/1e3
 library(reshape2)
-A <- melt(microbiome::abundances(d))
-A$Var1 <- factor(A$X1, levels = rev(names(sort(medians))))
-p <- ggplot(A, aes(x = Var1, y = value)) +
+A <- melt(otu_tibble(d))
+A$FeatureID <- factor(A$FeatureID, levels = rev(names(sort(medians))))
+p <- ggplot(A, aes(x = FeatureID, y = value)) +
         geom_boxplot() +
 	labs(y = "Abundance (reads)", x = "Taxonomic Group") +
-	scale_y_log10()
+	scale_y_log10() +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90, size=6))
 	
 print(p)
 ```
@@ -348,7 +350,7 @@ variances <- apply(abundances(d),1,var)
 # Calculate mean and variance over samples for each taxon
 library(reshape2)
 library(dplyr)
-df <- melt(abundances(d))
+df <- melt(otu_tibble(d))
 names(df) <- c("Taxon", "Sample", "Reads")
 df <- df %>% group_by(Taxon) %>%
              summarise(mean = mean(Reads),
@@ -430,7 +432,16 @@ plot(deseq.results$log2FoldChange, foldchange,
 abline(0,1)
 ```
 
+## Visualizing DESEQ2 results   
 
+```{r fig.height=6, fig.width=8}
+deseq.results %>% 
+    tibble::rownames_to_column("Taxon") %>% 
+    filter(padj <= 0.05 & abs(log2FoldChange) >= 1.5) %>% 
+    ggplot(aes(log2FoldChange, reorder(Taxon, log2FoldChange))) +
+    geom_col() +
+    labs(x="log2FoldChange", y="Taxon")
+```
 
 
 

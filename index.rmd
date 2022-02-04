@@ -150,4 +150,3 @@ The package utilizes tools from a number of other R extensions, including dplyr 
 ```{r, echo=FALSE, message=FALSE, results='asis'}
 # bibliography(style="html")
 ```
-

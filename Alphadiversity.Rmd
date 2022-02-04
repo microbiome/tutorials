@@ -137,6 +137,25 @@ tab <- evenness(pseq, "all")
 kable(head(tab))
 ```
 
+## Visualization  
+
+To visualize diversity measures, the package provides a simple wrapper around ggplot2. Currently onnly one measure can be visualized at a time.    
+
+```{r fig.height=4, fig.width=6}
+p.shannon <- boxplot_alpha(pseq, 
+                           index = "shannon",
+                           x_var = "sex",
+                           fill.colors = c(female="cyan4", male="deeppink4"))
+
+p.shannon <- p.shannon + theme_minimal() + 
+  labs(x="Sex", y="Shannon diversity") +
+  theme(axis.text = element_text(size=12),
+        axis.title = element_text(size=16),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=16))
+p.shannon
+```
+
 
 ## Testing differences in alpha diversity
 

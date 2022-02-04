@@ -297,10 +297,7 @@ We can change it to ASVIDs
 
 ```{r dna-seq-extraction, message=FALSE, eval=TRUE}
 
-# using microbiomeutilities
-library(microbiomeutilities)
-
-ps.m3.rel <- microbiomeutilities::add_refseq(ps.m3.rel)
+ps.m3.rel <- microbiome::add_refseq(ps.m3.rel)
 # Check if ref_seq slot is added to phyloseq object
 print(ps.m3.rel)
 # now check taxa names are ASVids
@@ -319,8 +316,10 @@ core.taxa.standard <- core_members(ps.m3.rel, detection = 0.0001, prevalence = 5
 core.taxa.standard
 ```
 
-We notice that ASV ids by themselves are not informative in this case. 
+We notice that ASV ids by themselves are not informative in this case. In this phyloseq object, the unclassified taxonomic values have a pattern like `k__``to represent kingdom level and so on. We need to change these to NAs.
+This can be variable depending on your data.   
 ```{r}
+
 # first combine genus and species names. 
 tax_table(ps.m3.rel)[tax_table(ps.m3.rel) == "k__"] <- NA
 tax_table(ps.m3.rel)[tax_table(ps.m3.rel) == "p__"] <- NA
@@ -332,22 +331,17 @@ tax_table(ps.m3.rel)[tax_table(ps.m3.rel) == "s__"] <- NA
 
 tax_table(ps.m3.rel)[, colnames(tax_table(ps.m3.rel))] <- gsub(tax_table(ps.m3.rel)[, colnames(tax_table(ps.m3.rel))],  pattern = "[a-z]__", replacement = "")
 
-tax_f <- tax_table(ps.m3.rel) %>% 
-  as.matrix() %>% 
-  as.data.frame() %>% 
-  dplyr::mutate(Genus.Species = ifelse(!is.na(Species), paste0(Genus, ".", Species), Species)) %>% 
-  dplyr::select(-Species)
-colnames(tax_f)[7] <- "Species"
+# Use the microbiome function add_besthit to get taxonomic identities of ASVs.
+ps.m3.rel.f <- microbiome::add_besthit(ps.m3.rel)
 
-tax_f <- as.matrix(tax_f)
-
-tax_table(ps.m3.rel) <- tax_table(tax_f)
+# Check 
+taxa_names(ps.m3.rel.f)[1:10]
 
 ```
 
 Now we add the best taxonomic classification available.  
 ```{r}
-ps.m3.rel.f <- microbiomeutilities::format_to_besthit(ps.m3.rel)
+
 core.taxa.standard <- core_members(ps.m3.rel.f, detection = 0.0001, prevalence = 50/100)
 
 core.taxa.standard
@@ -361,7 +355,7 @@ pseq.core <- core(ps.m3.rel.f, detection = 0.0001, prevalence = .5)
 ```
 
 
-Retrieving the associated taxa names from the phyloseq object:
+Retrieving the associated taxonomy from the phyloseq object:
 
 ```{r core-taxa2, message=FALSE, warning=FALSE, eval=TRUE}
 core.taxa <- taxa(pseq.core)

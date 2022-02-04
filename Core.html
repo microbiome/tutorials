@@ -248,22 +248,9 @@ plot_core(pseq.rel,
 <p>Note that you can order the taxa on the heatmap with the taxa.order argument.</p>
 <pre class="r"><code># Core with compositionals:
 library(RColorBrewer)
-library(reshape)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;reshape&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:S4Vectors&#39;:
-## 
-##     expand, rename</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     rename</code></pre>
-<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
-## 
-##     expand, smiths</code></pre>
-<pre><code>## The following objects are masked from &#39;package:reshape2&#39;:
-## 
-##     colsplit, melt, recast</code></pre>
-<pre class="r"><code>prevalences &lt;- seq(.05, 1, .05)
+library(reshape)
+
+prevalences &lt;- seq(.05, 1, .05)
 
 detections &lt;- round(10^seq(log10(0.01), log10(.2), length = 9), 3)
 
@@ -420,10 +407,10 @@ taxa_names(ps.m3.rel)[1:3]</code></pre>
 <pre class="r"><code>core.taxa.standard &lt;- core_members(ps.m3.rel, detection = 0.0001, prevalence = 50/100)
 
 core.taxa.standard</code></pre>
-<pre><code>##  [1] &quot;ASV20&quot;  &quot;ASV34&quot;  &quot;ASV35&quot;  &quot;ASV55&quot;  &quot;ASV66&quot;  &quot;ASV88&quot;  &quot;ASV107&quot; &quot;ASV119&quot; &quot;ASV141&quot; &quot;ASV148&quot; &quot;ASV167&quot; &quot;ASV174&quot; &quot;ASV197&quot;
-## [14] &quot;ASV225&quot; &quot;ASV226&quot; &quot;ASV233&quot; &quot;ASV260&quot; &quot;ASV279&quot; &quot;ASV293&quot; &quot;ASV303&quot; &quot;ASV317&quot; &quot;ASV326&quot; &quot;ASV329&quot; &quot;ASV330&quot; &quot;ASV341&quot; &quot;ASV352&quot;
-## [27] &quot;ASV358&quot; &quot;ASV361&quot; &quot;ASV380&quot; &quot;ASV387&quot; &quot;ASV395&quot; &quot;ASV399&quot; &quot;ASV400&quot; &quot;ASV402&quot; &quot;ASV428&quot; &quot;ASV439&quot; &quot;ASV476&quot; &quot;ASV486&quot; &quot;ASV494&quot;
-## [40] &quot;ASV568&quot; &quot;ASV579&quot; &quot;ASV580&quot; &quot;ASV588&quot; &quot;ASV605&quot;</code></pre>
+<pre><code>##  [1] &quot;ASV20&quot;  &quot;ASV34&quot;  &quot;ASV35&quot;  &quot;ASV55&quot;  &quot;ASV66&quot;  &quot;ASV88&quot;  &quot;ASV107&quot; &quot;ASV119&quot; &quot;ASV141&quot; &quot;ASV148&quot; &quot;ASV167&quot; &quot;ASV174&quot; &quot;ASV197&quot; &quot;ASV225&quot;
+## [15] &quot;ASV226&quot; &quot;ASV233&quot; &quot;ASV260&quot; &quot;ASV279&quot; &quot;ASV293&quot; &quot;ASV303&quot; &quot;ASV317&quot; &quot;ASV326&quot; &quot;ASV329&quot; &quot;ASV330&quot; &quot;ASV341&quot; &quot;ASV352&quot; &quot;ASV358&quot; &quot;ASV361&quot;
+## [29] &quot;ASV380&quot; &quot;ASV387&quot; &quot;ASV395&quot; &quot;ASV399&quot; &quot;ASV400&quot; &quot;ASV402&quot; &quot;ASV428&quot; &quot;ASV439&quot; &quot;ASV476&quot; &quot;ASV486&quot; &quot;ASV494&quot; &quot;ASV568&quot; &quot;ASV579&quot; &quot;ASV580&quot;
+## [43] &quot;ASV588&quot; &quot;ASV605&quot;</code></pre>
 <p>We notice that ASV ids by themselves are not informative in this case. In this phyloseq object, the unclassified taxonomic values have a pattern like `k__``to represent kingdom level and so on. We need to change these to NAs. This can be variable depending on your data.</p>
 <pre class="r"><code># first combine genus and species names. 
 tax_table(ps.m3.rel)[tax_table(ps.m3.rel) == &quot;k__&quot;] &lt;- NA

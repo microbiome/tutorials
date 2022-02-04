@@ -1,6 +1,5 @@
 ---
 title: "Differential abundance testing"
-author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -17,10 +16,14 @@ output:
     highlight: haddock    
 ---
 <!--
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{microbiome tutorial - atlas}
-  %\usepackage[utf8]{inputenc}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{microbiome tutorial - univariate}
+%\usepackage[utf8]{inputenc}
+%\VignetteEncoding{UTF-8}
+%\setkeys{Gin}{width=\linewidth,height=\textheight,keepaspectratio}
 -->
+
+
 
 
 

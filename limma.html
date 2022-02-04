@@ -196,16 +196,9 @@ meta &lt;- meta(pseq)</code></pre>
 <h2>Linear models with limma</h2>
 <p>Identify most significantly different taxa between males and females using the limma method. See <a href="http://bioinf.wehi.edu.au/limma/">limma homepage</a> and <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf">limma User’s guide</a> for details. For discussion on why limma is preferred over t-test, see <a href="http://www.plosone.org/article/info:doi/10.1371/journal.pone.0012336">this article</a>.</p>
 <pre class="r"><code># Compare the two groups with limma
-library(limma)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;limma&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:DESeq2&#39;:
-## 
-##     plotMA</code></pre>
-<pre><code>## The following object is masked from &#39;package:BiocGenerics&#39;:
-## 
-##     plotMA</code></pre>
-<pre class="r"><code># Prepare the design matrix which states the groups for each sample
+library(limma)
+
+# Prepare the design matrix which states the groups for each sample
 # in the otu
 design &lt;- cbind(intercept = 1, Grp2vs1 = meta[[&quot;sex&quot;]])
 rownames(design) &lt;- rownames(meta)

@@ -1,6 +1,6 @@
 ---
 title: "DESeq2"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -67,7 +67,7 @@ print(head(kable((df))))
 
 ## Validating DESeq2 results
 
-```{r deseq2-validate, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, eval=FALSE}
+```{r deseq2-validate, warning=FALSE, message=FALSE, fig.width=8, fig.height=5, eval=TRUE}
 # Identify top taxa based on standard ANOVA
 source(system.file("extdata/check_anova.R", package = "microbiome"))
 ano <- check_anova(pseq, "nationality");
@@ -90,7 +90,7 @@ print(p)
 ```
 
 
-```{r plot_for_ven, echo=F, message=F, error=F, eval=FALSE}
+```{r plot_for_ven, echo=TRUE, message=F, error=F, eval=TRUE}
 library(venn) # Check UpSet plot instead
 venn( list(ANOVA = taxa.anova,DESeq2 = taxa.deseq))
 ```

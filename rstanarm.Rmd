@@ -1,7 +1,6 @@
 ---
 title: "Linear models and probabilistic programming"
 author: "Leo Lahti and Ville Laitinen | VIB / KU Leuven, Belgium - Feb 27, 2018"
-date: "`r Sys.Date()`"
 output:
   BiocStyle::html_document:
     number_sections: no

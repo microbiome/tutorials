@@ -1,6 +1,6 @@
 ---
 title: "Microbiome data processing"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -84,7 +84,18 @@ Total read counts:
 
 
 ```{r reads, message=FALSE, error=FALSE, warning=FALSE}
-r <- readcount(pseq)
+reads_sample <- readcount(pseq)
+# check for first 5 samples
+reads_sample[1:5]
+
+```
+Add read per sample to phyloseq object metadata.  
+
+```{r reads2, message=FALSE, error=FALSE, warning=FALSE}
+sample_data(pseq)$reads_sample <- reads_sample
+
+# reads_sample is add to the last column in sample_data of pseq object.
+head(meta(pseq)[,c("sample", "reads_sample")])
 ```
 
 
@@ -141,7 +152,6 @@ Pick samples at the baseline time points only:
 ```{r baseline, message=FALSE, error=FALSE, warning=FALSE}
 pseq0 <- baseline(pseq)
 ```
-
 
 
 ## Data transformations
@@ -267,6 +277,53 @@ samplename <- sample_names(pseq)[[1]]
 tax.abundances <- abundances(pseq)[, samplename]
 ```
 
+## Get 
+
+```{r}
+library(jeevanuDB)
+```
+
+```{r}
+# Example data
+data("moving_pictures")
+# Rename
+ps <- moving_pictures
+taxa_names(ps)[1:2]
+```
+
+The taxa names are unique sequences. This common when using `dada2` for denoising and identifying amplicon sequence variants. 
+```{r}
+print(ps) 
+```
+
+It would be useful to store these inside the `refseq()` slot of phyloseq. For this we can use `microbiome::add_refseq`   
+
+```{r}
+ps <- add_refseq(ps, tag = "ASV")
+# check again
+taxa_names(ps)[1:2]
+```
+
+```{r}
+print(ps)
+```
+
+As can be seen, the sequence ids are converted to ASV ids and sequences stored within the `refseq()` slot.  
+
+## Labelling ASVs with best taxonomy  
+
+Converting or amending the ASV ids with their best/lowest taxonomic classification can be very handy. This can be achieved with `microbiome::add_besthit()`
+
+```{r}
+ps <- add_besthit(ps)
+taxa_names(ps)[1:2]
+```
+
+If required, the names can be cleaned as follows.   
+```{r}
+taxa_names(ps) <- gsub("[a-x]__", "",taxa_names(ps))
+taxa_names(ps)[1:2]
+```
 
 ## Merging operations
 
@@ -290,6 +347,38 @@ Merging phyloseq objects with the phyloseq package:
 merge_phyloseq(pseqA, pseqB)
 ```
 
+Joining otu/asv table and taxonomy in one data frame
+
+```{r taxa-abund-full-taxonomy, message=FALSE, error=FALSE, warning=FALSE}
+library(dplyr) 
+library(microbiome)
+data("atlas1006") # example data from microbiome pkg
+otu.tax.tibble <- combine_otu_tax(atlas1006, column.id = "ASVID")
+# view first fist rows and columns
+otu.tax.tibble[1:5,1:5]
+```
+
+## Get tibbles  
+
+In many cases, user may want to extract slots from phyloseq as tibbles for custom data processing.  
+This can be achieved with following functions.  
+
+```{r}
+otu.tib <- otu_tibble(atlas1006, column.id = "FeatureID")
+
+tax.tib <- tax_tibble(atlas1006, column.id = "FeatureID")
+
+sample.tib <- sample_tibble(atlas1006, column.id = "SampleID")
+```
+
+## Convert to tidy long format   
+
+As an alternative to `phyloseq::psmelt`, we provide `psmelt2` which returns a tibble in long format. 
+
+```{r}
+ps.long.tib <- psmelt2(pseq)
+head(ps.long.tib)
+```
 
 ## Rarefaction
 
@@ -345,3 +434,7 @@ df <- meta(pseq)
 # Merge the metadata back in the phyloseq object
 pseq2 <- merge_phyloseq(pseq, sample_data(df))
 ```
+
+
+
+

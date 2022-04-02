@@ -1,0 +1,159 @@
+---
+title: "Shared core with venn diagram"
+author: "Sudarshan Shetty, Leo Lahti, et al."
+bibliography: 
+- bibliography.bib
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock
+---
+<!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - atlas}
+  %\usepackage[utf8]{inputenc}
+-->
+
+
+In may instances one would wish to compare core taxa that are shared between multiple groups. Here, we demonstrate how this can be achieved by `microbiome` and [eulerr](https://cran.r-project.org/web/packages/eulerr/vignettes/introduction.html). The test data is stored in the [microbiomeutilities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html) R package and the original source of data is [Zackular et al., 2014: The Gut Microbiome Modulates Colon Tumorigenesis](http://mbio.asm.org/content/4/6/e00692-13).   
+
+Load packages. 
+```{r pkg}
+#install.packages("eulerr") # If not installed
+library(eulerr)
+library(microbiome)
+#devtools::install_github('microsud/microbiomeutilities')
+library(microbiomeutilities)
+```
+
+
+Get data  
+```{r data1, warning=FALSE, message=FALSE}
+data("zackular2014")
+pseq <- zackular2014
+```
+
+
+We will aim to identify shared core taxa between nationalities.  
+```{r check-var}
+# simple way to count number of samples in each group
+table(meta(pseq)$DiseaseState, useNA = "always")
+```
+There are 30 CRC and Healthy samples while 28 CRC samples.  
+
+```{r fix-pseq}
+
+# convert to relative abundances
+pseq.rel <- microbiome::transform(pseq, "compositional")
+
+```
+
+Make a list of DiseaseStates.    
+
+```{r get-grps}
+
+disease_states <- unique(as.character(meta(pseq.rel)$DiseaseState))
+print(disease_states)
+
+```
+
+Write a `for loop` to go through each of the `disease_states` one by one and combine identified core taxa into a list.  
+```{r get-core}
+
+list_core <- c() # an empty object to store information
+
+for (n in disease_states){ # for each variable n in DiseaseState
+    #print(paste0("Identifying Core Taxa for ", n))
+    
+    ps.sub <- subset_samples(pseq.rel, DiseaseState == n) # Choose sample from DiseaseState by n
+    
+    core_m <- core_members(ps.sub, # ps.sub is phyloseq selected with only samples from g 
+                           detection = 0.001, # 0.001 in atleast 90% samples 
+                           prevalence = 0.75)
+    print(paste0("No. of core taxa in ", n, " : ", length(core_m))) # print core taxa identified in each DiseaseState.
+    list_core[[n]] <- core_m # add to a list core taxa for each group.
+    #print(list_core)
+}
+
+```
+
+```{r printlist, eval=FALSE}
+
+print(list_core)
+
+```
+
+
+```{r plot-venn, fig.width=6, fig.height=6, fig.align='center'}
+# Specify colors and plot venn
+# supplying colors in the order they appear in list_core
+mycols <- c(nonCRC="#d6e2e9", CRC="#cbf3f0", H="#fcf5c7") 
+plot(venn(list_core),
+     fills = mycols)
+
+```
+
+```{r printlist-2, eval=TRUE}
+
+print(list_core)
+
+```
+Here, we see that the ids are only names without taxonomic information. This is because the rownames of `otu_table` and `tax_table` are usually IDs or sequences.  
+The `format_to_besthit()` function in `microbiomeutilites` can be useful which add best taxonomic information that is available as demonstrated below. 
+
+
+```{r}
+
+# use the pseq.rel object created at the begening of this tutorial. 
+taxa_names(pseq.rel)[1:5]
+
+```
+The taxa names are ids.  
+
+```{r}
+
+# first remove "d__"
+taxa_names(pseq.rel) <- gsub( "d__","", taxa_names(pseq.rel))
+taxa_names(pseq.rel)[1:5]
+# format names
+pseq.rel.f <- format_to_besthit(pseq.rel)
+# check names
+taxa_names(pseq.rel.f)[1:5]
+```
+
+Run the `for loop` to go through each of the `disease_states` one by one and combine identified core taxa into a list.  
+
+```{r get-core-2}
+
+list_core <- c() # an empty object to store information
+
+for (n in disease_states){ # for each variable n in DiseaseState
+    #print(paste0("Identifying Core Taxa for ", n))
+    
+    ps.sub <- subset_samples(pseq.rel.f, DiseaseState == n) # Choose sample from DiseaseState by n
+    
+    core_m <- core_members(ps.sub, # ps.sub is phyloseq selected with only samples from g 
+                           detection = 0.001, # 0.001 in atleast 90% samples 
+                           prevalence = 0.75)
+    print(paste0("No. of core taxa in ", n, " : ", length(core_m))) # print core taxa identified in each DiseaseState.
+    list_core[[n]] <- core_m # add to a list core taxa for each group.
+    #print(list_core)
+}
+
+```
+This is more useful information.  
+```{r}
+print(list_core)
+```
+Note: There are limitations to the number of groups that can be plotted with the `eulerr::venn()`. Check [eulerr](https://cran.r-project.org/web/packages/eulerr/vignettes/introduction.html) documentation for more detailed information.  
+
+
+

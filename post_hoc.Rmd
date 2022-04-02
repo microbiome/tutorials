@@ -1,0 +1,174 @@
+---
+title: "Post-hoc tests for non-parametric comparison"
+author: "Leo Lahti, Sudarshan Shetty et al."
+bibliography: 
+- bibliography.bib
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock
+---
+<!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - comparisons}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}  
+-->
+
+
+## Multiple pairwise-comparison between groups 
+
+
+
+Load example data:
+
+```{r post_hoc_libraries, warning=FALSE, message=FALSE}
+# Load libraries
+library(microbiome)
+library(ggplot2)
+library(dplyr)
+
+data("dietswap")
+pseq <- dietswap # Rename the example data
+```
+
+
+Visually compare Akkermansia abundance between "DI", "ED" and "HE"
+
+```{r post_hoc_boxplot_kruskal, warning=FALSE, message=FALSE}
+p <- boxplot_abundance(pseq, x = "group", y = "Akkermansia") + scale_y_log10()
+print(p)
+```
+
+
+### Test statistical significance by Kruskal-Wallis
+
+* [kruskal wallis test](http://www.sthda.com/english/wiki/kruskal-wallis-test-in-r#what-is-kruskal-wallis-test)
+
+```{r kruskal, message=FALSE, error=FALSE, warning=FALSE}
+
+library(tidyr)
+
+# Analyse specific taxa
+tax <- "Akkermansia"
+
+# Pick the signal (abundance) for this tax
+sample_data(pseq)$signal <- get_sample(pseq, tax)
+
+
+attach(meta(pseq))
+res<- pairwise.wilcox.test(signal, group, p.adjust.method = 'BH')
+resK<- kruskal.test(signal, group)
+print(resK)
+```
+
+
+From the output of the Kruskal-Wallis test, if there is a significant difference between groups, but we don’t know which pairs of groups are different, then we shall move to:
+
+
+#### Test statistical significance with common post hoc as follows:
+
+##### 1. Pairwise Wilcoxon tests with multiple testing correction, p.adjust.method is Benjamini-Hochberg
+
+* [Pairwise Wilcoxon tests](https://bookdown.org/thomas_pernet/Tuto/non-parametric-tests.html#wilcoxon-whitney-wilcoxon-test)
+
+```{r post_hoc_Pairwise_Wilcoxon_tests, message=FALSE, error=FALSE, warning=FALSE}
+
+library(tidyr)
+
+# Analyse specific taxa
+tax <- "Akkermansia"
+
+# Pick the signal (abundance) for this tax
+sample_data(pseq)$signal <- get_sample(pseq, tax)
+
+
+attach(meta(pseq))
+res<- pairwise.wilcox.test(signal, group, p.adjust.method = 'BH')
+
+# Show the results
+print(res)
+```
+
+
+
+
+
+
+#### 2. Dunn's test, p.adjust.method is Benjamini-Hochberg
+
+* [Dunn test](https://cran.r-project.org/web/packages/dunn.test/dunn.test.pdf)
+
+```{r post_hoc_dunn.test, message=FALSE, error=FALSE, warning=FALSE}
+
+library(dunn.test)
+
+# Analyse specific taxa
+tax <- "Akkermansia"
+
+# Pick the signal (abundance) for this tax
+sample_data(pseq)$signal <- get_sample(pseq, tax)
+
+
+attach(meta(pseq))
+res<- dunn.test::dunn.test(signal, group, method = 'bh')  
+
+
+```
+
+
+
+
+#### 3. Pairwise Multiple Comparison of Mean Ranks (PMCMR)
+
+* [PMCMR](https://cran.r-project.org/web/packages/PMCMR/vignettes/PMCMR.pdf)  
+* [PMCMRplus](https://cran.r-project.org/web/packages/PMCMRplus/PMCMRplus.pdf)
+
+```{r post_hoc_PMCMR, message=FALSE, error=FALSE, warning=FALSE}
+
+library(PMCMRplus)
+
+# Analyse specific taxa
+tax <- "Akkermansia"
+
+# Pick the signal (abundance) for this tax
+sample_data(pseq)$signal <- get_sample(pseq, tax)
+
+
+attach(meta(pseq))
+res<- PMCMRplus::kwAllPairsNemenyiTest(signal, group,dist='Chisq',p.adjust.methods=  'BH')  
+
+# Show the results
+print(res)
+
+```
+
+
+#### 4. Conover-Iman Test of Multiple Comparisons Using Rank Sums, p.adjust.method is Benjamini-Hochberg
+
+* [Conover-Iman Test](https://cran.r-project.org/web/packages/conover.test/conover.test.pdf)
+
+```{r post_hoc_Conover-Iman, message=FALSE, error=FALSE, warning=FALSE}
+
+library(conover.test)
+
+# Analyse specific taxa
+tax <- "Akkermansia"
+
+# Pick the signal (abundance) for this tax
+sample_data(pseq)$signal <- get_sample(pseq, tax)
+
+
+attach(meta(pseq))
+res<- conover.test::conover.test(signal, group, method = 'bh')
+  
+
+```

@@ -1,6 +1,6 @@
 ---
 title: "Community comparisons"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -34,6 +34,8 @@ For individual taxa, diversity indicators etc.
 
  * [Linear mixed effect models](Mixedmodels.html) 
  * [Negative binomial test](Negativebinomial.html)
+ * [post-hoc testing For Kruskal-Wallis](post_hoc.html)
+
 
 Other methods, not implemented here (see [Weiss et al. (2017)](http://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-017-0237-y) for a recent survey):
 

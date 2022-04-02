@@ -1,6 +1,5 @@
 ---
 title: "Differential abundance testing"
-author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -17,10 +16,14 @@ output:
     highlight: haddock    
 ---
 <!--
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{microbiome tutorial - atlas}
-  %\usepackage[utf8]{inputenc}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{microbiome tutorial - univariate}
+%\usepackage[utf8]{inputenc}
+%\VignetteEncoding{UTF-8}
+%\setkeys{Gin}{width=\linewidth,height=\textheight,keepaspectratio}
 -->
+
+
 
 
 
@@ -34,6 +37,7 @@ bib <- read.bibtex("bibliography.bib")
 #opts_chunk$set(fig.width=4, fig.height=3, par=TRUE, out.width='2in', fig.pos='H')
 library(knitr)
 library(ggplot2)
+library(gridExtra)
 knitr::opts_chunk$set(fig.path = "figure/", dev="CairoPNG")
 theme_set(theme_bw(20))
 ```
@@ -74,19 +78,20 @@ values. Hence we choose the commonly used, although somewhat
 problematic, log10(1+x) transformation (right).
 
 
-```{r univariate_boxplot, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
+```{r univariate_boxplot, warning=FALSE, message=FALSE}
+ 
 p1 <- ggplot(df, aes(x = Group, y = Abundance)) +
        geom_boxplot() +
-       labs(title = "Absolute abundances", y = "Abundance (read count)")
+       labs(title = "Absolute abundances", y = "Abundance\n (read count)")+ theme(plot.title = element_text(size=18))
 
 # Let us add the log10(1+x) version:
 df$Log10_Abundance <- log10(1 + df$Abundance)
 p2 <- ggplot(df, aes(x = Group, y = Log10_Abundance)) +
        geom_boxplot() +
-       labs(title = "Log10 abundances", y = "Abundance (log10(1+x) read count)")       
+       labs(title = "Log10 abundances", y = "Abundance\n (log10(1+x) read count)")+ theme(plot.title = element_text(size=18))    
 
 library(patchwork)
-p1 + p2
+print(p1 + p2)
 ```
 
 
@@ -106,7 +111,7 @@ Now let us investigate the Gaussian assumption in more
 detail. Boxplots may not show deviations from Gaussian assumptions
 very clearly Let us try another visualization; the density plot.
 
-```{r univariate_densityplot, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
+```{r univariate_densityplot, warning=FALSE, message=FALSE}
 p <- ggplot(df, aes(fill = Group, x = Log10_Abundance)) +
        geom_density(alpha = 0.5)
 print(p)
@@ -176,7 +181,7 @@ pvalues$pvalue.wilcoxon.adjusted <- p.adjust(pvalue.wilcoxon)
 
 Compare the p-value histograms between raw and adjusteed p-values.
 
-```{r univariate5, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
+```{r univariate5, warning=FALSE, message=FALSE}
 library(reshape2)
 library(tidyverse)
 pvalues$pvalue.wilcoxon<- as.numeric(pvalue.wilcoxon)
@@ -196,7 +201,7 @@ print(p1 + p2)
 Now compare these adjusted p-values between t-test and Wilcoxon test. Let us
 also highlight the p = 0.05 intervals.
 
-```{r univariate6, warning=FALSE, message=FALSE, fig.width=8, fig.height=8, out.width="200px"}
+```{r univariate6, warning=FALSE, message=FALSE}
 p <- ggplot(data = pvalues,
          aes(x = pvalue.ttest.adjusted,
 	     y = pvalue.wilcoxon.adjusted)) +
@@ -317,36 +322,38 @@ print(abundances(d)[1:5,1:3])
 
 The data is sparse:
 
-```{r pooled3, warning=FALSE, message=print, fig.width=8, fig.height=8}
+```{r pooled3, warning=FALSE, message=print}
 hist(log10(1 + abundances(d)), 100)
 ```
 
 
 Long tails of rare taxa:
 
-```{r tail, warning=FALSE, message=print, fig.width=16, fig.height=8, out.width="200px"}
+```{r tail, warning=FALSE, message=print}
 medians <- apply(abundances(d),1,median)/1e3
 library(reshape2)
-A <- melt(microbiome::abundances(d))
-A$Var1 <- factor(A$X1, levels = rev(names(sort(medians))))
-p <- ggplot(A, aes(x = Var1, y = value)) +
+A <- melt(otu_tibble(d))
+A$FeatureID <- factor(A$FeatureID, levels = rev(names(sort(medians))))
+p <- ggplot(A, aes(x = FeatureID, y = value)) +
         geom_boxplot() +
 	labs(y = "Abundance (reads)", x = "Taxonomic Group") +
-	scale_y_log10()
+	scale_y_log10() +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90, size=6))
 	
 print(p)
 ```
 
 Overdispersion (variance exceeds the mean):
 
-```{r pooled_overdispersion, warning=FALSE, message=FALSE, fig.width=8, fig.height=8, out.width="200px"}
+```{r pooled_overdispersion, warning=FALSE, message=FALSE}
 means <- apply(abundances(d),1,mean)
 variances <- apply(abundances(d),1,var)
 
 # Calculate mean and variance over samples for each taxon
 library(reshape2)
 library(dplyr)
-df <- melt(abundances(d))
+df <- melt(otu_tibble(d))
 names(df) <- c("Taxon", "Sample", "Reads")
 df <- df %>% group_by(Taxon) %>%
              summarise(mean = mean(Reads),
@@ -394,7 +401,7 @@ kable(df, digits = 5)
 
 For comparison purposes, assess significances and effect sizes based on Wilcoxon test.
 
-```{r pooled_topw, warning=FALSE, message=FALSE, fig.width=10, fig.height=5, out.width="200px"}
+```{r pooled_topw, warning=FALSE, message=FALSE}
 test.taxa <- taxa(d)
 pvalue.wilcoxon <- c()
 foldchange <- c()
@@ -413,7 +420,7 @@ pvalue.wilcoxon.adjusted <- p.adjust(pvalue.wilcoxon)
 
 
 
-```{r pooled_pcomp, warning=FALSE, message=FALSE, fig.width=10, fig.height=5}
+```{r pooled_pcomp, warning=FALSE, message=FALSE}
 par(mfrow = c(1,2))
 plot(deseq.results$padj, pvalue.wilcoxon.adjusted,
   xlab = "DESeq2 adjusted p-value",
@@ -428,7 +435,16 @@ plot(deseq.results$log2FoldChange, foldchange,
 abline(0,1)
 ```
 
+## Visualizing DESEQ2 results   
 
+```{r fig.height=6, fig.width=8}
+deseq.results %>% 
+    tibble::rownames_to_column("Taxon") %>% 
+    filter(padj <= 0.05 & abs(log2FoldChange) >= 1.5) %>% 
+    ggplot(aes(log2FoldChange, reorder(Taxon, log2FoldChange))) +
+    geom_col() +
+    labs(x="log2FoldChange", y="Taxon")
+```
 
 
 

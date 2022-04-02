@@ -1,9 +1,8 @@
 ---
 title: "Plot alpha diversity"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
-csl: ieee.csl
 output:
   BiocStyle::html_document:
     number_sections: no
@@ -87,6 +86,8 @@ bmi.pairs <- combn(seq_along(bmi), 2, simplify = FALSE, FUN = function(i)bmi[i])
 print(bmi.pairs)
 ```
 
+Sometimes that variables can be stored as characters and sometime as factors. In such a senario `levels()` may return an empty vector. A work around for this can be found [here](https://github.com/microbiome/microbiome/issues/143).   
+
 
 ## Violin plot  
 
@@ -112,8 +113,4 @@ print(p1)
 
 
 For more information and useful tips and suggestions check the [Statistical tools for high-throughput data analysis](http://www.sthda.com/english/rpkgs/ggpubr/).  
-
-
-
-
 

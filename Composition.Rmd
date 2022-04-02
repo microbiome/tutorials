@@ -1,6 +1,6 @@
 ---
 title: "Microbiome composition"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -16,18 +16,18 @@ output:
     use_bookdown: false
     highlight: haddock    
 ---
-  <!--
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{microbiome tutorial - composition}
-  %\usepackage[utf8]{inputenc}
-  %\VignetteEncoding{UTF-8}
-  %\setkeys{Gin}{width=\linewidth,height=\textheight,keepaspectratio}
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{microbiome tutorial - composition}
+%\usepackage[utf8]{inputenc}
+%\VignetteEncoding{UTF-8}
+%\setkeys{Gin}{width=\linewidth,height=\textheight,keepaspectratio}
 -->
-  
-  
-  
+
+
+
 Read example data from a [diet swap study](http://dx.doi.org/10.1038/ncomms7342):
-  
+
 ```{r composition-example1, warning=FALSE, message=FALSE}
 # Example data
 library(microbiome)
@@ -48,52 +48,60 @@ pseq2 <- subset_samples(pseq, group == "DI" & nationality == "AFR" & timepoint.w
 # Normal western adults
 data(atlas1006)
 pseq3 <- atlas1006 %>%
-          subset_samples(DNA_extraction_method == "r") %>%
-          aggregate_taxa(level = "Phylum") %>%	
-          microbiome::transform(transform = "compositional")
+  subset_samples(DNA_extraction_method == "r") %>%
+  aggregate_taxa(level = "Phylum") %>%	
+  microbiome::transform(transform = "compositional")
 
 ```
 
 ## Composition barplots
 
 Same with compositional (relative) abundances; for each sample (left), or averafged by group (right).
-  
-```{r composition-example4b, fig.width=10, fig.height=6, out.width="80%", fig.show="hold", warning=FALSE, message=FALSE}
+
+```{r composition-example4b, warning=FALSE, message=FALSE, fig.width=8}
 # Try another theme
 # from https://github.com/hrbrmstr/hrbrthemes
 library(hrbrthemes)
 library(gcookbook)
 library(tidyverse)
-theme_set(theme_bw(21))
+#theme_set(theme_bw(21))
 p <- pseq3 %>%
-    plot_composition(sample.sort = "Firmicutes", otu.sort = "abundance") +
-         # Set custom colors
-          scale_fill_manual(values = default_colors("Phylum")[taxa(pseq3)]) +
-	  scale_y_continuous(label = scales::percent)
-
+  plot_composition(sample.sort = "Firmicutes", otu.sort = "abundance") +
+  # Set custom colors
+  scale_fill_manual("Phylum",values = default_colors("Phylum")[taxa(pseq3)]) +
+  scale_y_continuous(label = scales::percent) + 
+  theme_ipsum(grid="Y") +
+  # Removes sample names and ticks
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
 print(p)
 ```
 
 
-```{r composition-example4c, fig.width=10, fig.height=8, out.width="50%", fig.show="hold", warning=FALSE, message=FALSE}
+```{r composition-example4c, fig.height= 5, fig.width=8, warning=FALSE, message=FALSE}
 # Limit the analysis on core taxa and specific sample group
 p <- plot_composition(pseq2,
-		      taxonomic.level = "Genus",
+                      taxonomic.level = "Genus",
                       sample.sort = "nationality",
                       x.label = "nationality") +
-     guides(fill = guide_legend(ncol = 1)) +
-     scale_y_percent() +
-     labs(x = "Samples", y = "Relative abundance (%)",
-                                   title = "Relative abundance data",
-                                   subtitle = "Subtitle",
-                                   caption = "Caption text.") + 
-     theme_ipsum(grid="Y")
+  scale_fill_brewer("Genera", palette = "Paired") +
+  guides(fill = guide_legend(ncol = 1)) +
+  scale_y_percent() +
+  labs(x = "Samples", y = "Relative abundance (%)",
+       title = "Relative abundance data") + 
+  theme_ipsum(grid="Y") +
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        legend.text = element_text(face = "italic"))
 print(p)  
 
 
 # Averaged by group
 p <- plot_composition(pseq2,
-                      average_by = "bmi_group", transform = "compositional")
+                      average_by = "bmi_group", 
+                      transform = "compositional") +
+  scale_fill_brewer("Genera", palette = "Paired") +
+  theme_ipsum(grid="Y") +
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        legend.text = element_text(face = "italic"))
 print(p)
 p <- NULL
 ```
@@ -104,11 +112,17 @@ p <- NULL
 
 Heatmap for CLR-transformed abundances, with samples and OTUs sorted
 with the neatmap method:
-  
-```{r composition-example7, fig.width=10, fig.height=8, out.width="800px"}
-p <- plot_composition(microbiome::transform(pseq, "compositional"),
-	                plot.type = "heatmap",
-                        sample.sort = "neatmap", otu.sort = "neatmap")
+
+```{r composition-example7, fig.width=6, fig.height=6}
+p <- microbiome::transform(pseq, "compositional") %>% 
+  plot_composition(plot.type = "heatmap",
+                   sample.sort = "neatmap", 
+                   otu.sort = "neatmap") +
+  theme(axis.text.y=element_blank(), 
+        axis.ticks.y = element_blank(), 
+        axis.text.x = element_text(size = 9, hjust=1),
+        legend.text = element_text(size = 8)) +
+  ylab("Samples")
 print(p)
 ```
 
@@ -137,12 +151,12 @@ plot_taxa_prevalence(p0, "Phylum", detection = 0.1/100)
 ## Amplicon data
 
 Also see [phyloseq barplot examples](http://joey711.github.io/phyloseq/plot_bar-examples.html).
-  
+
+Here the data from [Thompson, Luke R., et al. "A communal catalogue reveals Earth’s multiscale microbial diversity." Nature 551.7681 (2017): 457-463.](https://www.nature.com/articles/nature24621/) will be used which is stored as example in [jeevanuDB](https://github.com/microsud/jeevanuDB)   
+
+
 Check the [core microbiome page](http://microbiome.github.io/tutorials/CoremicrobiotaAmplicon.html) which shows how to read the your files into R and make a phyloseq object.  
 
-Here, an example data is used which is not available in the package currently due to size limitations. We will directly strat from a ready phyloseq object. Please test your own data and give your feedback on the [issues page](https://github.com/microbiome/microbiome/issues). 
-
-  
 ```{r composition-amplicon-example1, warning=FALSE, message=FALSE}
 # Example data
 library(microbiome)
@@ -150,55 +164,233 @@ library(microbiome)
 # from https://github.com/hrbrmstr/hrbrthemes
 # you can install these if you don't have it already.
 # devtools::install_github("hrbrmstr/hrbrthemes")
-#library(devtools)
-# install_github("microsud/microbiomeutilities")
-
 library(hrbrthemes)
-library(microbiomeutilities)
 library(gcookbook)
 library(tidyverse)
 library(dplyr)
+library(jeevanuDB)
+```
 
-data("zackular2014") 
-#data("DynamicsIBD") #This data is currently unavialable due to size limitations
-ps1 <- zackular2014
+```{r}
+ps1 <- emp_human
 colnames(tax_table(ps1))
 ```
 
-As you can see the taxonomic classification is just lablled as "Rank1" ... "Rank7". We need to change this to proper designation and also do some formatting of the data. This can be a useful example for understanding simple file processing in R.  
+In case you see the taxonomic classification is just labelled as "Rank1" ... "Rank7" we can change it as follows  
 
-```{r, composition-amplicon-example1a}
-# First change the column names of the taxonomy table in phyloseq to following:
-colnames(tax_table(ps1)) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species" )
+```{r, composition-amplicon-example1a, eval=TRUE}
 
-tax_table(ps1)[tax_table(ps1)[,"Kingdom"]== "NA", "Kingdom" ] <- "Unidentified_Kingdom"
+tax_table(ps1)[tax_table(ps1)[,"Domain"]== "NA", "Domain" ] <- "Unidentified_Domain"
 
-tax_table(ps1)[tax_table(ps1)[,"Phylum"]== "p__", "Phylum" ] <- "p__Unidentified_Phylum"
-
-# make a dataframe for taxonomy information.
-
-taxic <- as.data.frame(ps1@tax_table) 
-otu.df <- abundances(ps1)
-
-# make a dataframe for OTU information.
-otu.df <- as.data.frame(otu.df)
-
-# check the rows and columns
-# head(otu.df) 
-
-# Add the OTU ids from OTU table into the taxa table at the end.
-taxic$OTU <- row.names.data.frame(otu.df) 
-
-# You can see that we now have extra taxonomy levels.
-colnames(taxic)
-
-# convert it into a matrix.
-taxmat <- as.matrix(taxic)
-
-# convert into phyloseq compaitble file.
-new.tax <- tax_table(taxmat)  
-
-# incroporate into phyloseq Object
-tax_table(ps1) <- new.tax 
 ```
+
+# Composition barplots
+
+The composition plots can be shown either as barplots or heatmaps. Both examples are show below.  
+
+## Plot counts abundance  
+
+Now we can improve the plot further.  
+Let's try at Family level. 
+
+```{r composition-amplicon-example3, warning=FALSE, message=FALSE, eval=TRUE, fig.width=8}
+library(phyloseq)
+# merge at family level.
+# check how many samples are there
+# Use only saliva samples
+ps1.saliva <- subset_samples(ps1, env_material == "saliva")
+total_samples <- phyloseq::nsamples(ps1.saliva)
+
+ps1.saliva.pruned <- prune_taxa(taxa_sums(ps1.saliva) >0, ps1.saliva)
+
+# merge all taxa that are detected rare
+pseq.fam <- aggregate_rare(ps1.saliva.pruned, level="Family", detection = 50, prevalence = 25/total_samples)
+
+# Remove the "f__" before the family names
+taxa_names(pseq.fam) <- gsub("f__", "", taxa_names(pseq.fam) )
+
+p.fam <- plot_composition(pseq.fam, sample.sort = NULL,
+                          otu.sort = NULL,
+                          plot.type = "barplot",
+                          verbose = FALSE) +
+  xlab("Animal secretion samples") +
+  theme_bw() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_fill_brewer("Family", palette = "Paired")
+
+p.fam
+```
+
+## Plot relative abundance
+
+```{r composition-amplicon-example4, warning=FALSE, message=FALSE, eval=TRUE, fig.width=8}
+
+pseq.famrel <- microbiome::transform(pseq.fam, "compositional")
+
+p.famrel <- plot_composition(pseq.famrel, 
+                             sample.sort = NULL, 
+                             otu.sort = NULL,
+                             x.label = "empo_3",
+                             plot.type = "barplot", 
+                             verbose = FALSE) +
+  # Removes sample names and ticks, and adjusts the size of legend texts
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank(), 
+        legend.text=element_text(size=8),
+        legend.title =element_text(size=14)) +
+  xlab("Animal secretion samples")
+
+print(p.famrel)
+
+# further improvements can be done as follows
+p.famrel <- plot_composition(pseq.famrel,
+                             sample.sort = NULL,
+                             otu.sort = NULL,
+                             x.label = "empo_3",
+                             plot.type = "barplot",
+                             verbose = FALSE) +
+  theme_minimal() +
+  guides(fill = guide_legend(ncol = 1)) +
+  labs(x = "Animal secretion samples",
+       y = "Relative abundance",
+       title = "Relative abundance data",
+       subtitle = "Subtitle can be added here",
+       caption = "Caption text can be added here.") +
+  scale_fill_brewer("Family", palette = "Paired") +
+  
+  #Removes sample names and ticks
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank()) +
+  #Adjusts size of subtitle, caption, legend text and legend title
+  theme(plot.subtitle=element_text(size=8), 
+        plot.caption=element_text(size=8), 
+        legend.text=element_text(size=8),
+        legend.title =element_text(size=10))
+
+print(p.famrel)
+```
+
+Average by group
+
+```{r composition-amplicon-example5, warning=FALSE, message=FALSE, eval=TRUE}
+# Averaged by group
+
+# Use all samples 
+ps1 <- emp_human
+# get relative abudance
+ps1.rel <- microbiome::transform(ps1, "compositional")
+ps1.fam.rel <-aggregate_rare(ps1.rel, level = "Family", detection = 0.005, prevalence = 0.5)
+
+p <- plot_composition(ps1.fam.rel,
+                      average_by = "empo_3") + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(x = "Samples", 
+       y = "Relative abundance",
+       title = "Relative abundance data", 
+       subtitle = "Subtitle",
+       caption = "Caption text.") 
+print(p + scale_fill_brewer("Family", palette = "Paired") + theme_bw())
+
+```
+
+# Heatmap composition  
+
+```{r composition-amplicon-example6, warning=FALSE, message=FALSE, eval=TRUE, fig.width=15}
+
+# Use all samples
+ps1 <- emp_human
+
+ps1.rel <-aggregate_rare(ps1, level = "Family", detection = 10, prevalence = 0.5)
+
+pseq.famlog <- microbiome::transform(ps1.rel, "log10")
+# Remove the "f__" before the family names
+taxa_names(pseq.famlog) <- gsub("f__", "", taxa_names(pseq.famlog) )
+p.famrel.heatmap <- plot_composition(pseq.famlog,
+                                     sample.sort = NULL,
+                                     otu.sort = NULL,
+                                     x.label = "empo_3",
+                                     plot.type = "heatmap",
+                                     verbose = FALSE) +
+  
+  #Adjusts the legend. Lowest values are white and highest red.
+  #Breaks are distributed evenly from lowest values to highest with increment of 0.5.
+  scale_fill_gradient(low = "white", high = "red", breaks = seq(min(pseq.famlog@otu_table),max(pseq.famlog@otu_table),0.5)) +
+  
+  #Deletes y-axis labels and ticks. Adjusts legend key size and deletes legend title. Adjusts x axis labels.
+  theme(axis.text.y = element_blank(), 
+        axis.ticks.y = element_blank(), 
+        legend.key.height = unit(3, "cm"), 
+        legend.key.width = unit(1, "cm"),
+        legend.title = element_blank(), 
+        axis.text.x = element_text(angle = 45, 
+                                   vjust = 0.85, 
+                                   hjust = 1))
+
+
+print(p.famrel.heatmap)
+```
+
+
+## Plot core taxa time trajectory  
+
+```{r composition-amplicon-example7, warning=FALSE, message=FALSE, eval=TRUE}
+library(dplyr)
+# select core
+ps <- moving_pictures
+table(meta(ps)$sample_type, meta(ps)$host_subject_id)
+taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
+# Filter the data to include only gut samples from M3 subject
+ps.m3 <- subset_samples(ps, sample_type == "stool" & host_subject_id == "M3") 
+#print(ps.m3)
+
+ps.m3.rel <- microbiome::transform(ps.m3, "compositional")
+pseq.core <- core(ps.m3.rel, detection = 0.001, prevalence = .95)
+
+ps.stool.df <- psmelt(pseq.core)
+#head(ps.stool.df)
+
+# add genus name to ASVid
+ps.stool.df <- ps.stool.df %>% 
+  mutate(asv_gen= paste0(OTU, "-",Genus))
+
+ps.stool.rel.plot <- ggplot(ps.stool.df) + 
+  geom_line(aes(days_since_experiment_start, 
+                Abundance, color = asv_gen)) +
+  theme_bw() + 
+  theme(legend.position="top") + 
+  xlab("Days since experiment start") + 
+  ylab("Relative abundance") + 
+  scale_color_brewer("Core ASVs",palette = "Paired") +
+  guides(col = guide_legend(ncol = 3, nrow = 3))
+
+ps.stool.rel.plot 
+```
+
+Highlight only one ASVs of interest.  
+
+```{r composition-amplicon-example7a, warning=FALSE, message=FALSE, eval=TRUE}
+
+ps.highlight.plot <- ggplot(ps.stool.df) + 
+  geom_line(aes(days_since_experiment_start, 
+                Abundance), color="grey80") 
+# pick only data for ASV996-g__Faecalibacterium
+
+asv996 <- subset(ps.stool.df, asv_gen =="ASV996-g__Faecalibacterium")
+
+ps.highlight.plot <- ps.highlight.plot + 
+  geom_line(data= asv996,aes(x=days_since_experiment_start, 
+                             y=Abundance, color=asv_gen)) +
+  theme_bw() + 
+  theme(legend.position="top") + 
+  xlab("Days since experiment start") + 
+  ylab("Relative abundance") + 
+  scale_color_manual("Core ASVs",values="brown3") +
+  guides(col = guide_legend(ncol = 3, nrow = 3))
+
+ps.highlight.plot 
+```
+
+More options for highlighting specific aspects of ggplot can be done with [gghighlight](https://cran.r-project.org/web/packages/gghighlight/vignettes/gghighlight.html).  
+
 

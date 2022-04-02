@@ -1,6 +1,6 @@
 ---
 title: "Dissimilarity-Overlap analysis"
-author: "Leo Lahti `r Sys.Date()`"
+author: "Leo Lahti "
 bibliography: 
 - bibliography.bib
 output:

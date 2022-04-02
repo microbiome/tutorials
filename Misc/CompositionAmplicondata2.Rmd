@@ -1,0 +1,181 @@
+---
+title: "Microbiome composition for Amplicon data"
+author: "Leo Lahti, Sudarshan Shetty et al. "
+bibliography: 
+- bibliography.bib
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    use_bookdown: false
+    highlight: haddock    
+---
+  <!--
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{microbiome tutorial - composition}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}  
+-->
+  
+
+Also see [phyloseq barplot examples](http://joey711.github.io/phyloseq/plot_bar-examples.html).
+  
+Check the [core microbiome page](https://microbiome.github.io/tutorials/CoremicrobiotaAmplicon.html) which shows how to read the your files into R and make a phyloseq object.  
+
+```{r composition-amplicon-example1, warning=FALSE, message=FALSE, eval=TRUE}
+# Example data
+library(microbiome)
+# Try another theme
+# from https://github.com/hrbrmstr/hrbrthemes
+# you can install these if you don't have it already.
+# devtools::install_github("hrbrmstr/hrbrthemes")
+library(hrbrthemes)
+library(gcookbook)
+library(tidyverse)
+library(dplyr)
+library(jeevanuDB)
+
+ps1 <- emp_human
+colnames(tax_table(ps1))
+```
+
+In case you see the taxonomic classification is just lablled as "Rank1" ... "Rank7" we can change it as follows  
+
+```{r, composition-amplicon-example1a, eval=TRUE}
+# First change the column names of the taxonomy table in phyloseq to following:
+
+colnames(tax_table(ps1)) <- c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species" )
+
+tax_table(ps1)[tax_table(ps1)[,"Domain"]== "NA", "Domain" ] <- "Unidentified_Domain"
+
+tax_table(ps1)[tax_table(ps1)[,"Phylum"]== "p__", "Phylum" ] <- "p__Unidentified_Phylum"
+
+```
+
+# Composition barplots
+
+The compositon plots can be shown either as barplots or heatmaps. Both examples are show below.  
+
+## Plot counts abundance  
+
+Now we can improve the plot further.  
+Let's try at Family level. 
+
+```{r composition-amplicon-example3, warning=FALSE, message=FALSE, eval=TRUE}
+library(phyloseq)
+# merge at family level.
+
+pseq.fam <- aggregate_top_taxa(ps1, top=10,"Family")
+
+p.fam <- plot_composition(pseq.fam, sample.sort = NULL, 
+                          otu.sort = NULL,
+                          x.label = "empo_3", # sample type
+                          plot.type = "barplot", 
+                          verbose = FALSE) + 
+  theme_bw() + scale_fill_brewer("Family", palette = "Paired")
+# we can rotate x axis labels 
+print(p.fam + theme(axis.text.x = element_text(angle = 90)))
+
+```
+
+## Plot relative abundance
+
+```{r composition-amplicon-example4, warning=FALSE, message=FALSE, eval=TRUE}
+
+pseq.famrel <- microbiome::transform(pseq.fam, "compositional")
+
+p.famrel <- plot_composition(pseq.famrel, sample.sort = NULL, otu.sort = NULL,
+  x.label = "empo_3", plot.type = "barplot", verbose = FALSE)
+
+print(p.famrel)
+
+# further improvements can be done as follows  
+
+p.famrel <- plot_composition(pseq.famrel, 
+                             sample.sort = NULL, 
+                             otu.sort = NULL, 
+                             x.label = "empo_3", 
+                             plot.type = "barplot", 
+                             verbose = FALSE) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(x = "Samples", 
+       y = "Relative abundance",
+       title = "Relative abundance data", 
+       subtitle = "Subtitle",
+       caption = "Caption text.") + 
+     scale_fill_brewer("Family", palette = "Paired")
+
+print(p.famrel)
+```
+
+Average by group
+
+```{r composition-amplicon-example5, warning=FALSE, message=FALSE, eval=TRUE}
+# Averaged by group
+p <- plot_composition(pseq.famrel,
+                      average_by = "empo_3") + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(x = "Samples", 
+       y = "Relative abundance",
+       title = "Relative abundance data", 
+       subtitle = "Subtitle",
+       caption = "Caption text.") 
+print(p + scale_fill_brewer("Family", palette = "Paired") + theme_bw())
+
+```
+
+# Heatmap composition  
+
+```{r composition-amplicon-example6, warning=FALSE, message=FALSE, eval=TRUE}
+
+pseq.famlog <- microbiome::transform(pseq.fam, "log10")
+
+p.famrel.heatmap <- plot_composition(pseq.famlog, 
+                             sample.sort = NULL, 
+                             otu.sort = NULL, 
+                             x.label = "empo_3", 
+                             plot.type = "heatmap", 
+                             verbose = FALSE)
+
+print(p.famrel.heatmap)
+```
+
+## Plot core taxa time trajectory
+```{r}
+library(dplyr)
+# select core
+ps <- moving_pictures
+table(meta(ps)$sample_type, meta(ps)$host_subject_id)
+taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
+# Filter the data to include only gut samples from M3 subject
+ps.m3 <- subset_samples(ps, sample_type == "stool" & host_subject_id == "M3") 
+#print(ps.m3)
+
+ps.m3.rel <- microbiome::transform(ps.m3, "compositional")
+pseq.core <- core(ps.m3.rel, detection = 0.001, prevalence = .95)
+
+ps.stool.df <- psmelt(pseq.core)
+#head(ps.stool.df)
+
+# add genus name to ASVid
+ps.stool.df <- ps.stool.df %>% 
+  mutate(asv_gen= paste0(OTU, "-",Genus))
+
+ps.stool.rel.plot <- ggplot(ps.stool.df) + 
+  geom_line(aes(days_since_experiment_start, 
+                Abundance, color = asv_gen)) +
+  theme_bw() + 
+  theme(legend.position="top") + 
+  xlab("Days since experiment start") + 
+  scale_color_brewer(palette = "Paired") +
+  guides(col = guide_legend(ncol = 6, nrow = 6))
+
+ps.stool.rel.plot
+```
+

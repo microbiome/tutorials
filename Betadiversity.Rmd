@@ -1,6 +1,6 @@
 ---
 title: "Beta diversity and microbiome divergence"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -47,7 +47,7 @@ pseq <- peerj32$phyloseq
 
 Divergence within subjects may increase following intervention.
 
-```{r divergence2c, message=FALSE, warning=FALSE, out.width="300px"}
+```{r divergence2c, message=FALSE, warning=FALSE}
 library(tidyverse)
 betas <- list()
 groups <- as.character(unique(meta(pseq)$group))
@@ -63,7 +63,6 @@ for (g in groups) {
     if (nrow(dfs) == 2) {
       s <- as.character(dfs$sample)
       # Here with just two samples we can calculate the
-      # beta diversity directly
       beta[[subj]] <- divergence(abundances(pseq)[, s[[1]]],abundances(pseq)[, s[[2]]],method = "bray")
     }
   }
@@ -88,7 +87,7 @@ plot(p)
 
 Community divergence within individual often tends to increase over time with respect to the baseline sample.
 
-```{r homogeneity-example2d, message=FALSE, warning=FALSE, out.width="300px"}
+```{r homogeneity-example2d, message=FALSE, warning=FALSE}
 library(MicrobeDS)
 library(microbiome)
 library(dplyr)
@@ -165,7 +164,7 @@ b.lgg <- divergence(subset_samples(pseq, group == "LGG"),
 
 The group with larger values has a more heterogeneous community composition. 
 
-```{r divergence-example2bbb, message=FALSE, out.width="300px"}
+```{r divergence-example2bbb, message=FALSE}
 library(reshape)
 l<- list(b.pla, b.lgg)
 df<- melt(l)
@@ -183,4 +182,8 @@ plot(p)
 
 
 See [Community comparisons](Comparisons.html) for examples on group-level comparisons based on beta diversity.
+
+#####
+
+For visualizing temporal trajectory in beta diversity [click here](TemporalMicrobiotaTrajectory.html)
 

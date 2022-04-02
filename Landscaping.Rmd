@@ -1,6 +1,6 @@
 ---
 title: "Microbiome Landscapes"
-author: "Leo Lahti, Sudarshan Shetty et al. `r Sys.Date()`"
+author: "Leo Lahti, Sudarshan Shetty et al."
 bibliography: 
 - bibliography.bib
 output:
@@ -129,7 +129,7 @@ print(p)
 
 Population densities for Dialister:
 
-```{r hist, fig.width=6, fig.heigth=3, fig.show="hold", out.width="280px"}
+```{r hist, fig.width=6, fig.width=8, fig.height=6, fig.show="hold", out.width="400px"}
 # Load libraries
 library(microbiome)
 library(phyloseq)
